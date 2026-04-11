@@ -1076,6 +1076,52 @@
       .episodes { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* =============================================
+       SUBSCRIBE
+    ============================================= */
+    .subscribe-card {
+      background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, rgba(15,15,15,0) 70%);
+      border: 1px solid var(--border-blue);
+      border-radius: 12px;
+      padding: 36px;
+      max-width: 560px;
+    }
+
+    .subscribe-desc {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .subscribe-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .subscribe-input {
+      flex: 1;
+      min-width: 220px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .subscribe-input::placeholder { color: var(--text-muted); }
+    .subscribe-input:focus { border-color: var(--blue); }
+
+    .subscribe-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+
     /* Autumn coming soon section */
     .autumn-placeholder {
       border: 1px dashed var(--border);
@@ -1106,6 +1152,7 @@
       <a href="#seasons">Seasons</a>
       <a href="#about">About</a>
       <a href="#follow">Follow</a>
+      <a href="#subscribe">Subscribe</a>
     </div>
     <div class="nav__social">
       <a href="https://tiktok.com/@latedxaudhdguy" target="_blank" rel="noopener">TikTok</a>
@@ -1131,8 +1178,8 @@
           Format
         </div>
         <div class="hero__meta-item">
-          <strong>Summer 2026</strong>
-          Season 1 Launch
+          <strong>Spring 2026</strong>
+          Season 1 -- Now Filming
         </div>
         <div class="hero__meta-item">
           <strong>Vancouver BC</strong>
@@ -1180,14 +1227,14 @@
     </div>
 
     <div class="launch-card fade-in">
-      <div class="launch-card__season">Season 1 &bull; Summer 2026</div>
-      <h3 class="launch-card__title">The first summer<br />after finding out.</h3>
+      <div class="launch-card__season">Season 1 &bull; Spring 2026</div>
+      <h3 class="launch-card__title">The first spring<br />after finding out.</h3>
       <p class="launch-card__desc">
-        There's a documented thing that happens when you unmask after a late AuDHD diagnosis: your symptoms get worse before they get better. Your nervous system stops suppressing. Forty-something years of compensation strategies stop working. Everything you built on top of a misunderstood brain gets stress-tested all at once. This season is that. Filmed in real time.
+        The diagnosis arrived. Everything that came before it had to be re-read. Every memory, every failure, every relationship -- all of it filtered through new information. This is what that looks like in real time. 10 episodes. One per week. Starting now.
       </p>
       <div class="launch-card__status">
         <span class="status-dot"></span>
-        Now filming -- Episodes drop Summer 2026
+        Now filming -- Episodes drop Spring 2026
       </div>
     </div>
 
@@ -1240,7 +1287,7 @@
         The subject is a guy in his late 40s in Vancouver, BC. Late-diagnosed AuDHD -- ADHD confirmed, autism self-identified. For decades, everything got explained away. The sensitivity, the overwhelm, the careers that didn't quite fit, the relationships that required more management than they should have. Then the diagnosis arrived and the whole architecture of a life had to be re-read.
       </p>
       <p class="identity__text">
-        <strong>AuDHD isn't one thing -- it's two separate operating systems running simultaneously.</strong> The ADHD wants novelty and chaos. The autism wants predictability and quiet. They argue. The man in the middle manages. Season 1 documents the first summer after diagnosis, when unmasking after 40+ years of compensation doesn't feel like freedom -- it feels like regression. The nervous system stops suppressing. Everything gets louder.
+        <strong>AuDHD isn't one thing -- it's two separate operating systems running simultaneously.</strong> The ADHD wants novelty and chaos. The autism wants predictability and quiet. They argue. The man in the middle manages. Season 1 documents the first spring after diagnosis -- the beginning of the unmasking. Everything that was suppressed starts to surface. Not all at once. Just enough to notice.
       </p>
       <p class="identity__text">
         No names. Real. Episodic. This is what it actually looks like.
@@ -1276,6 +1323,30 @@
           <div class="social-pill__handle">@latedxaudhdguy</div>
         </div>
       </a>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section class="section fade-in" id="subscribe">
+    <div class="section__header">
+      <h2 class="section__title">Get Episodes Early</h2>
+      <span class="section__badge badge--blue">Free</span>
+    </div>
+    <div class="subscribe-card">
+      <p class="subscribe-desc">
+        Episodes land on the website 24 hours before they go public on social. Subscribe and you get them first -- no algorithm, no feed, just the episode in your inbox.
+      </p>
+      <form
+        action="https://buttondown.email/api/emails/embed-subscribe/latedxaudhdguy"
+        method="post"
+        target="popupwindow"
+        onsubmit="window.open('https://buttondown.email/latedxaudhdguy', 'popupwindow')"
+        class="subscribe-form"
+      >
+        <input type="email" name="email" placeholder="Your email address" class="subscribe-input" required />
+        <button type="submit" class="btn btn--primary">Subscribe</button>
+      </form>
+      <p class="subscribe-note">No spam. Just episodes. Unsubscribe anytime.</p>
     </div>
   </section>
 
@@ -1355,35 +1426,35 @@
         id: 'S1E01',
         season: 'Season 1',
         ep: 'Episode 1',
-        title: 'The Diagnosis Loop',
-        meta: 'Summer 2026 -- ~2 min',
+        title: 'Spring',
+        meta: 'Spring 2026 -- ~2 min',
         platform: 'TikTok',
-        desc: 'The moment you get the diagnosis, you start retrofitting your entire life with it. Every memory gets re-examined. Every failure gets reinterpreted. It does not stop. This episode is about the loop -- what it actually feels like when your brain cannot let a new piece of information settle.',
-        gradient: 'linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%)',
-        color: '#3B82F6',
+        desc: 'Cherry blossoms in Vancouver. Everyone else sees renewal. The nervous system sees something it has not named yet. The season opener -- shot outside, observational, the show finding its feet. This is where it starts.',
+        gradient: 'linear-gradient(135deg, #1a0f2e 0%, #0f0a1a 100%)',
+        color: '#A78BFA',
         status: 'coming-soon'
       },
       {
         id: 'S1E02',
         season: 'Season 1',
         ep: 'Episode 2',
-        title: 'Heat',
-        meta: 'Summer 2026 -- ~2 min',
+        title: 'This Is What It Is',
+        meta: 'Spring 2026 -- ~2 min',
         platform: 'TikTok',
-        desc: 'AuDHD and sensory overload are already a full-time job. Add a Vancouver summer. Heat intolerance is real and it is specific -- this is not just "I do not like being hot." This is your nervous system having a disagreement with the atmosphere and losing.',
-        gradient: 'linear-gradient(135deg, #2e1a00 0%, #1a0f00 100%)',
-        color: '#F59E0B',
+        desc: '50 years old. Just got the diagnosis. The moment you put a name on the thing that has been running your entire life -- and then have to go back through every memory and re-read it with that new information.',
+        gradient: 'linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%)',
+        color: '#3B82F6',
         status: 'coming-soon'
       },
       {
         id: 'S1E03',
         season: 'Season 1',
         ep: 'Episode 3',
-        title: 'The Two Systems',
-        meta: 'Summer 2026 -- ~2 min',
+        title: 'The Stereotype',
+        meta: 'Spring 2026 -- ~2 min',
         platform: 'TikTok',
-        desc: 'ADHD wants novelty. Autism wants sameness. They live in the same body. This episode tries to explain what that negotiation actually feels like from the inside -- not as a concept, but as a daily lived experience that does not have a clean resolution.',
-        gradient: 'linear-gradient(135deg, #001a2e 0%, #000f1a 100%)',
+        desc: 'ADHD is not the kid bouncing off the walls. That was somebody else. This one was always quiet on the outside. The mind was never quiet. The gap between how it looks and what it costs -- that is the whole thing.',
+        gradient: 'linear-gradient(135deg, #0f1a2e 0%, #0a0f1a 100%)',
         color: '#60A5FA',
         status: 'coming-soon'
       },
@@ -1391,36 +1462,84 @@
         id: 'S1E04',
         season: 'Season 1',
         ep: 'Episode 4',
-        title: 'Being a Dad With This',
-        meta: 'Summer 2026 -- ~2 min',
+        title: 'The Record',
+        meta: 'Spring 2026 -- ~2 min',
         platform: 'TikTok',
-        desc: 'This is not a parenting show. It is about what it is like to be a dad when your own nervous system is recalibrating. The guilt, the hyperfocus, the shutdown, the repair. The specific texture of it -- not the inspirational version.',
-        gradient: 'linear-gradient(135deg, #1a2e1a 0%, #0f1a0f 100%)',
-        color: '#34D399',
+        desc: 'There is a track that plays in your head. Same song. Every day. Since you were a kid. Depression, anxiety, burnout -- none of those labels were wrong. None of them were the whole story.',
+        gradient: 'linear-gradient(135deg, #1a0a0a 0%, #0f0808 100%)',
+        color: '#F87171',
         status: 'coming-soon'
       },
       {
         id: 'S1E05',
         season: 'Season 1',
         ep: 'Episode 5',
-        title: 'AI as a Prosthetic',
-        meta: 'Summer 2026 -- ~2 min',
+        title: 'The ADHD Tax',
+        meta: 'Spring 2026 -- ~2 min',
         platform: 'TikTok',
-        desc: 'AI tools are not just productivity hacks for people with AuDHD -- they function more like prosthetics for the executive function and working memory deficits. This episode documents what that actually looks like in practice, not as a pitch.',
-        gradient: 'linear-gradient(135deg, #2e002e 0%, #1a001a 100%)',
-        color: '#A78BFA',
+        desc: 'Probably 200 domain names. Never used. That is not a joke -- that is just the most legible example. The ADHD tax is real: money, time, relationships, opportunities. You pay it whether you know about it or not.',
+        gradient: 'linear-gradient(135deg, #2e1a00 0%, #1a0f00 100%)',
+        color: '#F59E0B',
         status: 'coming-soon'
       },
       {
         id: 'S1E06',
         season: 'Season 1',
         ep: 'Episode 6',
-        title: 'The Unmasking Problem',
-        meta: 'Summer 2026 -- ~2 min',
+        title: 'Two Systems',
+        meta: 'Spring 2026 -- ~2 min',
         platform: 'TikTok',
-        desc: 'Unmasking is supposed to be the goal. Stop suppressing. Be more yourself. But when you have spent 40+ years building compensations, removing the mask does not reveal something underneath -- it reveals that the compensations were the self. This is that problem.',
-        gradient: 'linear-gradient(135deg, #2e1a1a 0%, #1a0f0f 100%)',
-        color: '#F87171',
+        desc: 'ADHD wants chaos. Autism wants sameness. They live in the same body and they argue constantly. The person in the middle manages the negotiation. This is what that actually feels like from the inside.',
+        gradient: 'linear-gradient(135deg, #001a2e 0%, #000f1a 100%)',
+        color: '#34D399',
+        status: 'coming-soon'
+      },
+      {
+        id: 'S1E07',
+        season: 'Season 1',
+        ep: 'Episode 7',
+        title: 'The Retrofit',
+        meta: 'Spring 2026 -- ~2 min',
+        platform: 'TikTok',
+        desc: 'The diagnosis does not change what happened. It changes what everything means. Every job. Every relationship. Every failure. Every time someone said you were not trying hard enough. All of it gets re-read.',
+        gradient: 'linear-gradient(135deg, #1a1a0a 0%, #0f0f08 100%)',
+        color: '#FCD34D',
+        status: 'coming-soon'
+      },
+      {
+        id: 'S1E08',
+        season: 'Season 1',
+        ep: 'Episode 8',
+        title: 'Telling People',
+        meta: 'Spring 2026 -- ~2 min',
+        platform: 'TikTok',
+        desc: 'Six months of not telling anyone. Not because of shame -- because there was no map for how to say it. How do you tell people that the version of you they have always known was running on incomplete information?',
+        gradient: 'linear-gradient(135deg, #1a0a1a 0%, #0f080f 100%)',
+        color: '#C084FC',
+        status: 'coming-soon'
+      },
+      {
+        id: 'S1E09',
+        season: 'Season 1',
+        ep: 'Episode 9',
+        title: 'The New Job',
+        meta: 'Spring 2026 -- ~2 min',
+        platform: 'TikTok',
+        desc: 'Got a new job while actively unmasking. Manager is also neurodivergent. Nobody planned that. What it is like to be professionally present when the internal architecture is being rebuilt at the same time.',
+        gradient: 'linear-gradient(135deg, #0a1a1a 0%, #080f0f 100%)',
+        color: '#2DD4BF',
+        status: 'coming-soon'
+      },
+      {
+        id: 'S1E10',
+        season: 'Season 1',
+        ep: 'Episode 10',
+        title: 'The Meds',
+        meta: 'Spring 2026 -- ~2 min',
+        platform: 'TikTok',
+        desc: 'They gave a stimulant for ADHD. I know how that sounds. Here is what actually happened -- not the version where everything got fixed, the version where one variable changed and everything else stayed complicated.',
+        gradient: 'linear-gradient(135deg, #1a2e1a 0%, #0f1a0f 100%)',
+        color: '#4ADE80',
         status: 'coming-soon'
       }
     ];
@@ -1429,26 +1548,50 @@
       {
         id: 's1',
         label: 'S1',
-        season: 'Season 1',
-        title: 'The first summer after finding out.',
-        desc: 'Unmasking, regression, heat, and real time. The documented chaos of a nervous system that stopped suppressing.',
-        gradient: 'linear-gradient(135deg, #0f1a2e 0%, #0f0f0f 100%)',
-        color: '#3B82F6',
+        season: 'Season 1 -- Spring 2026',
+        title: 'The first spring after finding out.',
+        desc: 'Cherry blossoms, fresh diagnosis, and the slow unravelling of 50 years of compensation strategies. 10 episodes. One per week.',
+        gradient: 'linear-gradient(135deg, #1a0f2e 0%, #0f0f0f 100%)',
+        color: '#A78BFA',
         status: 'In Production',
         statusClass: 'badge--blue',
-        episodes: 'TBA'
+        episodes: '10'
       },
       {
         id: 's2',
         label: 'S2',
-        season: 'Season 2',
-        title: 'Autumn 2026',
-        desc: 'The arc continues. After the summer comes the reckoning. Details TBA once Season 1 wraps.',
+        season: 'Season 2 -- Summer 2026',
+        title: 'The first summer after finding out.',
+        desc: 'Heat, regression, and the nervous system at capacity. Unmasking collides with the worst season for a sensory system that is already at its limit.',
         gradient: 'linear-gradient(135deg, #2e1a00 0%, #0f0f0f 100%)',
         color: '#F59E0B',
         status: 'Announced',
         statusClass: 'badge--amber',
-        episodes: 'TBA'
+        episodes: '13'
+      },
+      {
+        id: 's3',
+        label: 'S3',
+        season: 'Season 3 -- Autumn 2026',
+        title: 'After the heat breaks.',
+        desc: 'The reckoning. What changes, what does not, and what the nervous system looks like when the pressure finally drops.',
+        gradient: 'linear-gradient(135deg, #2e1500 0%, #0f0f0f 100%)',
+        color: '#FB923C',
+        status: 'Announced',
+        statusClass: 'badge--muted',
+        episodes: '13'
+      },
+      {
+        id: 's4',
+        label: 'S4',
+        season: 'Season 4 -- Winter 2026',
+        title: 'The quiet season.',
+        desc: 'Hibernation, reflection, the dark months. What a year of unmasking in public actually produced.',
+        gradient: 'linear-gradient(135deg, #0f1a2e 0%, #0f0f0f 100%)',
+        color: '#93C5FD',
+        status: 'Announced',
+        statusClass: 'badge--muted',
+        episodes: '13'
       }
     ];
 
