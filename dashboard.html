@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LDAG Production Pipeline</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #080808;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --border: #242424;
+  --text: #e0e0e0;
+  --text-dim: #666;
+  --text-faint: #333;
+  --green: #39FF14;
+  --yellow: #FFCC00;
+  --orange: #FF6B35;
+  --red: #D21E1E;
+  --blue: #4A9EFF;
+  --purple: #9B6DFF;
+  --white: #ffffff;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ---- LAYOUT ---- */
+.header {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header-left h1 {
+  font-size: 22px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--white);
+  font-weight: bold;
+}
+
+.header-left .sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-top: 3px;
+}
+
+.save-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.save-btn:hover { color: var(--text); border-color: var(--text-dim); }
+.save-btn.copied { color: var(--green); border-color: var(--green); }
+
+/* ---- PIPELINE BAR ---- */
+.pipeline-bar {
+  display: flex;
+  padding: 16px 32px;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.stage-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  color: var(--text-dim);
+}
+
+.stage-pill:hover { color: var(--text); }
+.stage-pill.active { border-color: var(--border); color: var(--text); background: var(--surface); }
+
+.stage-pill .count {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.stage-concept .count { color: var(--text-faint); }
+.stage-scripted .count { color: var(--yellow); }
+.stage-in-production .count { color: var(--orange); }
+.stage-done .count { color: var(--green); }
+.stage-published .count { color: var(--blue); }
+
+.stage-arrow {
+  color: var(--text-faint);
+  font-size: 12px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* ---- ACTION PANEL ---- */
+.action-panel {
+  margin: 24px 32px;
+  background: #0c0c14;
+  border: 1px solid #2a2a4a;
+  border-radius: 8px;
+  padding: 22px 24px;
+}
+
+.action-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #4a4a8a;
+  margin-bottom: 16px;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.action-card {
+  background: #0f0f1e;
+  border: 1px solid #2a2a3a;
+  border-radius: 6px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: block;
+}
+
+.action-card:hover { border-color: #4a4a8a; background: #111128; }
+
+.action-num {
+  font-size: 32px;
+  font-weight: bold;
+  color: #2a2a4a;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.action-title {
+  font-size: 14px;
+  color: var(--white);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.action-detail {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.6;
+}
+
+.action-trigger {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 11px;
+  color: #4a4a8a;
+  letter-spacing: 1px;
+}
+
+/* ---- MAIN CONTENT ---- */
+.main {
+  padding: 0 32px 48px;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 20px 0 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---- EPISODE CARDS ---- */
+.episode-list {
+  display: grid;
+  gap: 10px;
+}
+
+.episode-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+  transition: border-color 0.15s;
+}
+
+.episode-card[data-status="concept"] { border-left-color: var(--text-faint); }
+.episode-card[data-status="scripted"] { border-left-color: var(--yellow); }
+.episode-card[data-status="intro-tagged"] { border-left-color: var(--orange); }
+.episode-card[data-status="in-production"] { border-left-color: var(--purple); }
+.episode-card[data-status="done"] { border-left-color: var(--green); opacity: 0.7; }
+.episode-card[data-status="published"] { border-left-color: var(--blue); opacity: 0.6; }
+
+.episode-card.priority-next {
+  background: #120e08;
+  border-color: #3a2a1a;
+  border-left-color: var(--orange) !important;
+}
+
+.ep-info {}
+
+.ep-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.ep-status-badge {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.badge-concept { color: var(--text-faint); background: #1a1a1a; }
+.badge-scripted { color: var(--yellow); background: #1a1500; }
+.badge-intro-tagged { color: var(--orange); background: #1a0e00; }
+.badge-in-production { color: var(--purple); background: #150e1a; }
+.badge-done { color: var(--green); background: #061200; }
+.badge-published { color: var(--blue); background: #000e1a; }
+.badge-next { color: var(--orange); background: #1a0e00; }
+
+.ep-title {
+  font-size: 16px;
+  color: var(--white);
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.ep-logline {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.5;
+}
+
+.ep-tag {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 6px;
+}
+
+/* ---- STATUS CONTROLS ---- */
+.ep-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 110px;
+}
+
+.status-select {
+  appearance: none;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.status-select:focus { outline: 1px solid var(--text-dim); }
+
+.advance-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+
+.advance-btn:hover {
+  background: var(--surface2);
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+.advance-btn.advance-done { color: var(--green); border-color: #1a3a0a; }
+.advance-btn.advance-done:hover { background: #0a1a05; }
+
+/* ---- COUNTS ---- */
+.counts-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 12px 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.count-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.count-num {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.count-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.c-done .count-num { color: var(--green); }
+.c-scripted .count-num { color: var(--yellow); }
+.c-production .count-num { color: var(--orange); }
+.c-concept .count-num { color: var(--text-faint); }
+.c-moments .count-num { color: var(--text-dim); }
+
+/* ---- FILTER TABS ---- */
+.filter-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filter-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover { color: var(--text); }
+.filter-btn.active { background: var(--surface2); color: var(--text); border-color: var(--text-dim); }
+
+/* ---- HIDDEN ---- */
+.episode-card.hidden { display: none; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 600px) {
+  .header, .main, .action-panel { padding-left: 16px; padding-right: 16px; }
+  .pipeline-bar { padding: 12px 16px; }
+  .counts-row { padding: 12px 16px; }
+  .episode-card { grid-template-columns: 1fr; }
+  .ep-controls { flex-direction: row; }
+  .action-panel { margin: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>LDAG // Production Pipeline</h1>
+    <div class="sub">Late Diagnosed AuDHD Guy &mdash; Episode Tracker</div>
+  </div>
+  <button class="save-btn" onclick="copyStateUrl(this)">SAVE STATE URL</button>
+</div>
+
+<!-- PIPELINE COUNTS -->
+<div class="counts-row">
+  <div class="count-item c-done">
+    <span class="count-num" id="count-done">0</span>
+    <span class="count-label">Done</span>
+  </div>
+  <div class="count-item c-production">
+    <span class="count-num" id="count-in-production">0</span>
+    <span class="count-label">In Production</span>
+  </div>
+  <div class="count-item c-scripted">
+    <span class="count-num" id="count-scripted">0</span>
+    <span class="count-label">Scripted</span>
+  </div>
+  <div class="count-item c-concept">
+    <span class="count-num" id="count-concept">0</span>
+    <span class="count-label">Concept</span>
+  </div>
+  <div class="count-item c-moments">
+    <span class="count-num">69</span>
+    <span class="count-label">Moments in DB</span>
+  </div>
+</div>
+
+<!-- WHAT TO DO NOW -->
+<div class="action-panel" style="margin: 24px 32px;">
+  <div class="action-label">What to do right now</div>
+  <div class="action-grid">
+    <div class="action-card">
+      <div class="action-num">1</div>
+      <div class="action-title">New Brain Dump Recording?</div>
+      <div class="action-detail">Open a new Cowork chat. Use the TRANSCRIPT PROCESSING starter prompt. Paste the transcript. The ldag-transcript-intake skill processes it automatically -- extracts moments, tags themes, writes MOMENTS_DB entries.</div>
+      <div class="action-trigger">Starter prompt -- in HANDOFF_LDAG_2026-04-16.md</div>
+    </div>
+    <div class="action-card">
+      <div class="action-num">2</div>
+      <div class="action-title">Ready to Run Opus Agent?</div>
+      <div class="action-detail">Open Opus Agent. Find the next SCRIPTED episode below (orange border = start here). Copy the prompt from EPISODE_PIPELINE.md. Run ElevenLabs narration first, then feed that audio back into Opus with the papercraft assets.</div>
+      <div class="action-trigger">Prompts -- in latedxaudhd/production/EPISODE_PIPELINE.md</div>
+    </div>
+    <div class="action-card">
+      <div class="action-num">3</div>
+      <div class="action-title">Need a New Script?</div>
+      <div class="action-detail">Open a new Cowork chat. Use the EPISODE SCRIPTING starter prompt. Claude reads MOMENTS_DB and finds the strongest unused moments for the next episode. Output is a ready-to-paste Opus Agent prompt.</div>
+      <div class="action-trigger">Starter prompt -- in HANDOFF_LDAG_2026-04-16.md</div>
+    </div>
+  </div>
+</div>
+
+<!-- EPISODE LIST -->
+<div class="main">
+
+  <div class="section-label">
+    <span>All Episodes</span>
+    <span style="font-size:11px; color: var(--text-faint);">Click status to change &bull; Save State URL to bookmark</span>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterEpisodes('all', this)">ALL</button>
+    <button class="filter-btn" onclick="filterEpisodes('scripted', this)">SCRIPTED</button>
+    <button class="filter-btn" onclick="filterEpisodes('in-production', this)">IN PRODUCTION</button>
+    <button class="filter-btn" onclick="filterEpisodes('done', this)">DONE</button>
+    <button class="filter-btn" onclick="filterEpisodes('concept', this)">CONCEPT</button>
+    <button class="filter-btn" onclick="filterEpisodes('published', this)">PUBLISHED</button>
+  </div>
+
+  <div class="episode-list" id="episodeList"></div>
+
+</div>
+
+<script>
+// ---- EPISODE DATA ----
+const STAGES = ['concept', 'scripted', 'intro-tagged', 'in-production', 'done', 'scheduled', 'published'];
+const STAGE_LABELS = {
+  'concept': 'Concept',
+  'scripted': 'Scripted',
+  'intro-tagged': 'Intro Tagged',
+  'in-production': 'In Production',
+  'done': 'Done',
+  'scheduled': 'Scheduled',
+  'published': 'Published'
+};
+
+const BADGE_CLASSES = {
+  'concept': 'badge-concept',
+  'scripted': 'badge-scripted',
+  'intro-tagged': 'badge-intro-tagged',
+  'in-production': 'badge-in-production',
+  'done': 'badge-done',
+  'scheduled': 'badge-done',
+  'published': 'badge-published'
+};
+
+const episodes = [
+  {
+    id: 'E01',
+    title: 'S1E01 -- "THE QUIET STORM"',
+    logline: 'Grade 6, 1985. Every other student looks settled. Internal chaos invisible to everyone outside. The cost of just sitting there.',
+    status: 'done',
+    arc: 'Early arc -- establishes the visibility gap. Universal entry point.',
+    priority: false
+  },
+  {
+    id: 'E02',
+    title: 'S1E02 -- "THE RECORD"',
+    logline: '1980s bedroom. Cracked vinyl spinning. "There\'s something wrong with me." The internal narrator that never stops.',
+    status: 'done',
+    arc: 'Early arc -- introduces the internal narrator. No clinical language.',
+    priority: false
+  },
+  {
+    id: 'E03',
+    title: '"THE THREAT"',
+    logline: 'Suburban kitchen, 2025. Garbage cans in the alley. Thirty-second task becomes a towering threat. Part of what ended the marriage was this.',
+    status: 'scripted',
+    arc: 'Early arc -- PDA. No AuDHD knowledge needed. Universal procrastination entry.',
+    priority: true
+  },
+  {
+    id: 'E04',
+    title: '"THE WAVE"',
+    logline: 'Pacific ocean. Choppy water. Waits. One clean wave. Rides it to shore. The problem was never motivation.',
+    status: 'scripted',
+    arc: 'Mid arc -- surfing metaphor. Conditions vs effort. No clinical language.',
+    priority: false
+  },
+  {
+    id: 'E05',
+    title: '"THE CRASH"',
+    logline: 'Home office. Three meetings back to back. Face tightening. Shutdown. Brown leather couch. Weighted blanket. Reality TV. Judgment scrolling overhead.',
+    status: 'scripted',
+    arc: 'Early-mid arc -- first real-time crash documentation in the show.',
+    priority: false
+  },
+  {
+    id: 'E06',
+    title: '"THE FENCE"',
+    logline: '1983 little league. Boy gets hit by a throw. Dad clears the fence in one motion. 40 years later, same field, empty.',
+    status: 'scripted',
+    arc: 'Early-mid arc -- childhood memory. Universal. No AuDHD knowledge needed.',
+    priority: false
+  },
+  {
+    id: 'E07',
+    title: '"TOO MUCH"',
+    logline: 'Late 90s restaurant. He is talking, animated. Friends exchange glances he doesn\'t see. Decades later: parked car, rain, text from ex about Charlie.',
+    status: 'scripted',
+    arc: 'Early arc -- "Too much / not enough." The Charlie moment makes it concrete.',
+    priority: false
+  },
+  {
+    id: 'E08',
+    title: '"THE BREADWINNER"',
+    logline: 'Late 2000s apartment. Comes home, sits on the couch. Battery at 1%. Knows every task. Can\'t bridge the gap between knowing and doing.',
+    status: 'scripted',
+    arc: 'Mid arc -- co-parenting. The gap between knowing and doing.',
+    priority: false
+  },
+  {
+    id: 'E09',
+    title: '"THE COMFORT"',
+    logline: 'Dark room. Record player. Man taps along to the skip. Reaches for the needle. Pulls back. Then lifts it. Silence. Steps through the door anyway.',
+    status: 'scripted',
+    arc: 'Late arc -- requires viewer to know the record metaphor from E02.',
+    priority: false
+  },
+  {
+    id: 'E10',
+    title: '"260 RAYMUR"',
+    logline: 'Late 90s industrial loft. Trains outside. Performing for nobody. Backstage depletion. Every social connection made through alcohol. Three years sober. Two dates.',
+    status: 'scripted',
+    arc: 'Mid-late arc -- deepest biographical dive in the series.',
+    priority: false
+  },
+  {
+    id: 'E11',
+    title: '"THE RADAR DISH"',
+    logline: 'Coastal field at dawn. Organic radio telescope made of nerve endings. Receives everything at equal volume. He is not operating the dish. He IS the dish.',
+    status: 'scripted',
+    arc: 'Mid arc -- gains depth if viewer has seen E01 and E02.',
+    priority: false
+  },
+  {
+    id: 'E12',
+    title: '"THE BATTERY"',
+    logline: 'Executive dysfunction as battery drain. Full cycle: drain, mechanism, recovery. Three-act structure in one episode.',
+    status: 'concept',
+    arc: 'Mid arc -- could use papercraft battery assets at 1%/50%/100%.',
+    priority: false
+  },
+  {
+    id: 'E13',
+    title: '"THE ADHD TAX"',
+    logline: 'Trail of wreckage. Hundreds of domains. The graveyard of started things.',
+    status: 'concept',
+    arc: 'Strong visual metaphor -- ruins, half-built structures.',
+    priority: false
+  },
+  {
+    id: 'E14',
+    title: '"THE ALIEN"',
+    logline: 'Feeling like an alien to your own family. To your parents. The lifetime of not fitting.',
+    status: 'concept',
+    arc: 'Early arc -- "Alien" is universal. No AuDHD knowledge needed.',
+    priority: false
+  },
+  {
+    id: 'E15',
+    title: '"THE SENSORY MAP"',
+    logline: 'Sunglasses as regulation. The uniform (tags, texture). Fan dependency. Summer dread.',
+    status: 'concept',
+    arc: 'Mid arc -- fills the sensory overload gap.',
+    priority: false
+  },
+  {
+    id: 'E16',
+    title: '"ROCK BOTTOM"',
+    logline: '"There\'s no such thing as rock bottom. You just finally decide to stop digging." Every connection through alcohol. Three years sober.',
+    status: 'concept',
+    arc: 'Mid-late arc -- sobriety and clarity.',
+    priority: false
+  },
+  {
+    id: 'E17',
+    title: '"THE FOOD"',
+    logline: 'Processed food as sensory predictability. "Always the same. You know what you\'re gonna get." Not laziness -- the nervous system needing predictability.',
+    status: 'concept',
+    arc: 'Early arc -- universal. AuDHD layer comes late.',
+    priority: false
+  },
+  {
+    id: 'E18',
+    title: '"THE UNMASKING"',
+    logline: '"When you start to peel away the masks... you\'re so tired of performing." You run out of energy to keep masking -- it\'s not a choice, it\'s a collapse.',
+    status: 'concept',
+    arc: 'Mid arc -- benefits from viewer knowing what masking is.',
+    priority: false
+  },
+  {
+    id: 'E19',
+    title: '"THE LINE BACKWARDS"',
+    logline: '"I can see a line from where I am today... goes backwards." Late diagnosis as simultaneous liberation and loss.',
+    status: 'concept',
+    arc: 'Mid-late arc -- grace for parents + the grief of seeing the pattern all the way back.',
+    priority: false
+  },
+  {
+    id: 'E20',
+    title: '"THE BURNOUT LADDER"',
+    logline: 'Push through burnout = down for days. Push through weeks = down for months. Walking to work for 8 years because panic attacks prevented transit.',
+    status: 'concept',
+    arc: 'Mid arc -- the concrete math of burnout.',
+    priority: false
+  },
+  {
+    id: 'E21',
+    title: '"NOT THE STEREOTYPE"',
+    logline: 'Never the bouncing-off-walls kid. Mine was always the mind.',
+    status: 'concept',
+    arc: 'Early arc -- good for audience holding the ADHD stereotype.',
+    priority: false
+  },
+  {
+    id: 'E22',
+    title: '"THE INVISIBLE"',
+    logline: 'Physical tells of overwhelm nobody recognizes. Face tightening, eyes squinting. The body showing what words can\'t.',
+    status: 'concept',
+    arc: 'Could pair with masking material. The body tries to communicate.',
+    priority: false
+  }
+];
+
+// ---- STATE ----
+let state = {};
+
+function initState() {
+  // Load from URL hash if present
+  const hash = window.location.hash.slice(1);
+  if (hash) {
+    try {
+      const decoded = JSON.parse(decodeURIComponent(hash));
+      state = decoded;
+    } catch(e) {
+      state = {};
+    }
+  }
+  // Fill in defaults
+  episodes.forEach(ep => {
+    if (!state[ep.id]) state[ep.id] = ep.status;
+  });
+}
+
+function saveState() {
+  window.location.hash = encodeURIComponent(JSON.stringify(state));
+}
+
+function copyStateUrl(btn) {
+  saveState();
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = 'COPIED!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'SAVE STATE URL';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// ---- RENDER ----
+function getNextStage(current) {
+  const idx = STAGES.indexOf(current);
+  if (idx < 0 || idx >= STAGES.length - 1) return null;
+  return STAGES[idx + 1];
+}
+
+function renderEpisode(ep) {
+  const status = state[ep.id] || ep.status;
+  const next = getNextStage(status);
+  const badgeClass = BADGE_CLASSES[status] || 'badge-concept';
+  const isNext = ep.priority && (status === 'scripted' || status === 'intro-tagged');
+
+  const card = document.createElement('div');
+  card.className = 'episode-card' + (isNext ? ' priority-next' : '');
+  card.dataset.status = status;
+  card.dataset.id = ep.id;
+
+  card.innerHTML = `
+    <div class="ep-info">
+      <div class="ep-status-row">
+        <span class="ep-status-badge ${badgeClass}">${isNext ? 'RUN FIRST' : STAGE_LABELS[status]}</span>
+      </div>
+      <div class="ep-title">${ep.title}</div>
+      <div class="ep-logline">${ep.logline}</div>
+      <div class="ep-tag">${ep.arc}</div>
+    </div>
+    <div class="ep-controls">
+      <select class="status-select" onchange="changeStatus('${ep.id}', this.value)">
+        ${STAGES.map(s => `<option value="${s}"${s === status ? ' selected' : ''}>${STAGE_LABELS[s]}</option>`).join('')}
+      </select>
+      ${next ? `<button class="advance-btn ${next === 'done' || next === 'published' ? 'advance-done' : ''}" onclick="advanceStatus('${ep.id}')">ADVANCE --&gt;</button>` : '<button class="advance-btn" disabled style="opacity:0.3; cursor:default;">COMPLETE</button>'}
+    </div>
+  `;
+
+  return card;
+}
+
+function renderAll() {
+  const list = document.getElementById('episodeList');
+  list.innerHTML = '';
+  episodes.forEach(ep => {
+    const card = renderEpisode(ep);
+    list.appendChild(card);
+  });
+  updateCounts();
+  applyCurrentFilter();
+}
+
+function changeStatus(id, newStatus) {
+  state[id] = newStatus;
+  renderAll();
+}
+
+function advanceStatus(id) {
+  const current = state[id];
+  const next = getNextStage(current);
+  if (next) {
+    state[id] = next;
+    renderAll();
+  }
+}
+
+function updateCounts() {
+  const counts = {};
+  STAGES.forEach(s => counts[s] = 0);
+  episodes.forEach(ep => {
+    const s = state[ep.id] || ep.status;
+    counts[s] = (counts[s] || 0) + 1;
+  });
+  document.getElementById('count-done').textContent = (counts['done'] || 0) + (counts['scheduled'] || 0) + (counts['published'] || 0);
+  document.getElementById('count-in-production').textContent = counts['in-production'] || 0;
+  document.getElementById('count-scripted').textContent = (counts['scripted'] || 0) + (counts['intro-tagged'] || 0);
+  document.getElementById('count-concept').textContent = counts['concept'] || 0;
+}
+
+// ---- FILTER ----
+let currentFilter = 'all';
+
+function filterEpisodes(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyCurrentFilter();
+}
+
+function applyCurrentFilter() {
+  document.querySelectorAll('.episode-card').forEach(card => {
+    const status = card.dataset.status;
+    if (currentFilter === 'all') {
+      card.classList.remove('hidden');
+    } else if (currentFilter === 'scripted') {
+      card.classList.toggle('hidden', status !== 'scripted' && status !== 'intro-tagged');
+    } else if (currentFilter === 'done') {
+      card.classList.toggle('hidden', status !== 'done' && status !== 'scheduled' && status !== 'published');
+    } else {
+      card.classList.toggle('hidden', status !== currentFilter);
+    }
+  });
+}
+
+// ---- INIT ----
+initState();
+renderAll();
+</script>
+
+</body>
+</html>
