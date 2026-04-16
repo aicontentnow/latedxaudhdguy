@@ -12,44 +12,162 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 20px;
   line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+/* ---- LAYOUT ---- */
+.app { display: flex; flex: 1; min-height: 0; }
+
+/* ---- SIDEBAR ---- */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: #111111;
+  border-right: 2px solid #2a2a2a;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar-header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.sidebar-logo { font-size: 18px; font-weight: 900; color: #FFCC00; letter-spacing: -0.5px; }
+.sidebar-sub { font-size: 13px; color: #666; margin-top: 2px; }
+
+.sidebar-section { padding: 16px 20px 8px; }
+.sidebar-section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+.sidebar-nav-item:hover { background: #1a1a1a; color: #fff; }
+.sidebar-nav-item.active { background: #1a1400; color: #FFCC00; }
+.sidebar-nav-item.done-ep { opacity: 0.5; }
+
+.sidebar-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-done { background: #39FF14; }
+.dot-scripted { background: #FFCC00; }
+.dot-production { background: #FF6B35; }
+.dot-concept { background: #333; }
+.dot-next { background: #FFCC00; box-shadow: 0 0 6px #FFCC00; }
+
+.sidebar-ep-title { font-size: 15px; line-height: 1.3; flex: 1; }
+
+.sidebar-divider { height: 1px; background: #1e1e1e; margin: 12px 20px; }
+
+/* ---- MAIN CONTENT ---- */
+.main-content { flex: 1; overflow-y: auto; min-width: 0; }
 
 /* HEADER */
 .header {
-  padding: 36px 48px 28px;
+  padding: 28px 40px 22px;
   border-bottom: 2px solid #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
 }
-.header h1 { font-size: 34px; font-weight: 900; color: #fff; }
-.header .sub { font-size: 18px; color: #888; margin-top: 4px; }
+.header h1 { font-size: 28px; font-weight: 900; color: #fff; }
+.header .sub { font-size: 16px; color: #666; margin-top: 2px; }
+
+.hamburger {
+  display: none;
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+}
 
 /* COUNTS */
 .counts-bar {
   display: flex;
   border-bottom: 2px solid #2a2a2a;
-  background: #141414;
+  background: #111;
   overflow-x: auto;
 }
 .count-block {
   flex: 1;
-  min-width: 120px;
-  padding: 20px 16px;
+  min-width: 100px;
+  padding: 18px 12px;
   text-align: center;
   border-right: 1px solid #2a2a2a;
 }
 .count-block:last-child { border-right: none; }
-.count-num { font-size: 44px; font-weight: 900; line-height: 1; display: block; }
-.count-lbl { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-top: 4px; }
+.count-num { font-size: 40px; font-weight: 900; line-height: 1; display: block; }
+.count-lbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #555; margin-top: 4px; }
 .c-done .count-num { color: #39FF14; }
 .c-prod .count-num { color: #FF6B35; }
 .c-ready .count-num { color: #FFCC00; }
 .c-concept .count-num { color: #444; }
 .c-moments .count-num { color: #888; }
 
-/* ACTION SECTION */
-.section { padding: 36px 48px; border-bottom: 2px solid #2a2a2a; }
-.section-title { font-size: 13px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #666; margin-bottom: 22px; }
+/* TABS */
+.tab-bar {
+  display: flex;
+  border-bottom: 2px solid #2a2a2a;
+  background: #0d0d0d;
+  overflow-x: auto;
+}
+.tab {
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #555;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.tab:hover { color: #aaa; }
+.tab.active { color: #FFCC00; border-bottom-color: #FFCC00; }
 
-.action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+/* TAB PANELS */
+.tab-panel { display: none; padding: 32px 40px 60px; }
+.tab-panel.active { display: block; }
+
+/* ACTION SECTION */
+.section-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 40px; }
 
 .action-card {
   background: #181818;
@@ -61,466 +179,503 @@ body {
 }
 .action-card:hover { border-color: #444; }
 .action-card.open { border-color: #FFCC00; }
-
-.action-header { padding: 24px 26px; display: flex; align-items: flex-start; gap: 14px; }
-.action-num { font-size: 48px; font-weight: 900; color: #2a2a2a; line-height: 1; flex-shrink: 0; }
-.action-title { font-size: 21px; font-weight: 800; color: #fff; margin-bottom: 5px; }
-.action-desc { font-size: 16px; color: #999; line-height: 1.5; }
-.tap-label {
+.action-header { padding: 22px 24px; display: flex; align-items: flex-start; gap: 14px; }
+.action-num { font-size: 44px; font-weight: 900; color: #222; line-height: 1; flex-shrink: 0; }
+.action-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.action-desc { font-size: 16px; color: #888; line-height: 1.5; }
+.tap-cta {
   display: inline-block;
-  margin-top: 12px;
-  padding: 9px 18px;
+  margin-top: 10px;
+  padding: 8px 16px;
   background: #222;
-  border: 2px solid #3a3a3a;
+  border: 2px solid #333;
   border-radius: 8px;
   color: #FFCC00;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 1px;
-  transition: all 0.15s;
 }
-.action-card:hover .tap-label { border-color: #FFCC00; }
+.action-card.open .tap-cta { border-color: #FFCC00; }
 
-.prompt-reveal { display: none; padding: 0 26px 26px; }
+.prompt-reveal { display: none; padding: 0 24px 24px; }
 .action-card.open .prompt-reveal { display: block; }
 
-.step-label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+.step-lbl { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+.info-box { background: #141414; border-radius: 10px; padding: 16px 18px; font-size: 16px; color: #999; line-height: 1.6; margin-bottom: 12px; }
+.info-box strong { color: #fff; }
+.priority-flag { padding: 12px 18px; background: #1a1400; border: 2px solid #3a2e00; border-radius: 10px; font-size: 16px; color: #FFCC00; font-weight: 800; margin-bottom: 12px; }
 
-.prompt-box {
-  background: #0d0d0d;
-  border: 2px solid #2a2a2a;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 14px;
-}
-.prompt-text {
-  font-size: 17px;
-  color: #ddd;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
+.prompt-box { background: #0d0d0d; border: 2px solid #252525; border-radius: 10px; padding: 18px; margin-bottom: 12px; }
+.prompt-text { font-size: 16px; color: #ddd; line-height: 1.7; white-space: pre-wrap; word-break: break-word; font-family: inherit; }
 .copy-btn {
-  display: block;
-  width: 100%;
-  margin-top: 16px;
-  padding: 15px;
-  background: #FFCC00;
-  border: none;
-  border-radius: 8px;
-  color: #000;
-  font-size: 17px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
+  display: block; width: 100%; margin-top: 14px; padding: 14px;
+  background: #FFCC00; border: none; border-radius: 8px;
+  color: #000; font-size: 17px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
 }
 .copy-btn:hover { background: #ffd633; }
-.copy-btn.copied { background: #39FF14; color: #000; }
+.copy-btn.copied { background: #39FF14; }
 
-.info-box {
-  background: #141414;
-  border-radius: 10px;
-  padding: 18px 20px;
-  font-size: 17px;
-  color: #aaa;
-  line-height: 1.6;
-  margin-bottom: 14px;
+/* EPISODE LIST */
+.ep-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 20px;
 }
-.info-box strong { color: #fff; }
-
-.priority-flag {
-  padding: 14px 20px;
-  background: #1a1400;
-  border: 2px solid #3a2e00;
-  border-radius: 10px;
-  font-size: 17px;
-  color: #FFCC00;
-  font-weight: 800;
-  margin-bottom: 14px;
-}
-
-/* EPISODE SECTION */
-.ep-section { padding: 36px 48px 60px; }
-.ep-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 24px;
-}
-
-/* FILTER TABS */
 .filters { display: flex; gap: 8px; flex-wrap: wrap; }
 .filter-btn {
-  background: #1a1a1a;
-  border: 2px solid #2a2a2a;
-  color: #888;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 8px 18px;
-  border-radius: 24px;
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: inherit;
+  background: #1a1a1a; border: 2px solid #2a2a2a; color: #777;
+  font-size: 15px; font-weight: 700; padding: 7px 16px; border-radius: 24px;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
 }
 .filter-btn:hover { color: #fff; border-color: #555; }
 .filter-btn.active { background: #2a2a2a; color: #fff; border-color: #777; }
 
-/* EPISODE CARDS -- TODO STYLE */
 .ep-list { display: grid; gap: 10px; }
 
 .ep-card {
-  background: #181818;
-  border: 2px solid #2a2a2a;
-  border-radius: 12px;
-  padding: 20px 24px;
-  transition: opacity 0.2s, border-color 0.2s;
+  background: #181818; border: 2px solid #252525;
+  border-left: 6px solid #252525; border-radius: 12px;
+  padding: 18px 22px; transition: opacity 0.2s;
 }
-.ep-card.priority { background: #161200; border-color: #3a2e00; }
+.ep-card.priority { background: #141000; border-color: #2e2800; border-left-color: #FFCC00 !important; }
 .ep-card.done-state { opacity: 0.5; }
 .ep-card.hidden { display: none; }
+.ep-card[data-status="concept"]       { border-left-color: #333; }
+.ep-card[data-status="scripted"]      { border-left-color: #FFCC00; }
+.ep-card[data-status="intro-tagged"]  { border-left-color: #FF6B35; }
+.ep-card[data-status="in-production"] { border-left-color: #9B6DFF; }
+.ep-card[data-status="done"]          { border-left-color: #39FF14; }
+.ep-card[data-status="published"]     { border-left-color: #4A9EFF; }
 
-/* Stage progress row */
-.ep-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
-
-/* Big checkbox */
+.ep-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
 .ep-check {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 3px solid #444;
-  background: transparent;
-  cursor: pointer;
-  flex-shrink: 0;
-  margin-top: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-  font-size: 18px;
-  color: transparent;
+  width: 32px; height: 32px; border-radius: 50%; border: 3px solid #444;
+  background: transparent; cursor: pointer; flex-shrink: 0; margin-top: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: transparent; transition: all 0.15s;
 }
 .ep-check.checked { background: #39FF14; border-color: #39FF14; color: #000; }
 .ep-check:hover:not(.checked) { border-color: #888; }
 
 .ep-main { flex: 1; }
-.ep-title { font-size: 21px; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.3; }
-.ep-card.done-state .ep-title { text-decoration: line-through; color: #888; }
-.ep-logline { font-size: 16px; color: #888; line-height: 1.5; }
-.ep-card.priority .ep-logline { color: #aaa; }
-
-/* Stage pills */
-.stage-track {
-  display: flex;
-  gap: 0;
-  flex-wrap: wrap;
-  margin-top: 2px;
+.ep-badge-row { margin-bottom: 6px; }
+.ep-badge {
+  display: inline-block; font-size: 12px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 4px;
 }
-.stage-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  border: 2px solid transparent;
-  background: transparent;
-  color: #444;
-  transition: all 0.12s;
-  font-family: inherit;
-}
-.stage-pill .pill-check { font-size: 14px; }
-.stage-pill.completed { color: #39FF14; }
-.stage-pill.completed .pill-check { color: #39FF14; }
-.stage-pill.current { color: #FFCC00; border-color: #3a2e00; background: #1a1400; }
-.stage-pill:hover:not(.completed):not(.current) { color: #999; border-color: #333; }
-.stage-pill.pub-done { color: #4A9EFF; }
-.stage-pill.pub-done .pill-check { color: #4A9EFF; }
+.b-concept      { color: #666; background: #1e1e1e; }
+.b-scripted     { color: #000; background: #FFCC00; }
+.b-intro-tagged { color: #000; background: #FF6B35; }
+.b-in-production{ color: #fff; background: #7B4DFF; }
+.b-done         { color: #000; background: #39FF14; }
+.b-published    { color: #fff; background: #4A9EFF; }
+.b-next         { color: #000; background: #FFCC00; }
 
-.stage-arrow { color: #2a2a2a; font-size: 14px; align-self: center; padding: 0 2px; }
+.ep-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.3; }
+.ep-card.done-state .ep-title { text-decoration: line-through; color: #666; }
+.ep-logline { font-size: 15px; color: #777; line-height: 1.5; }
 
-/* UP NEXT badge */
-.up-next-badge {
-  display: inline-block;
-  padding: 3px 10px;
-  background: #FFCC00;
-  color: #000;
-  font-size: 12px;
-  font-weight: 900;
-  border-radius: 4px;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
+.stage-track { display: flex; flex-wrap: wrap; gap: 0; margin-top: 2px; }
+.s-pill {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 16px; font-size: 13px; font-weight: 700;
+  cursor: pointer; border: 2px solid transparent; background: transparent;
+  color: #333; transition: all 0.12s; font-family: inherit;
 }
+.s-pill.done-stage { color: #39FF14; }
+.s-pill.current-stage { color: #FFCC00; border-color: #2e2800; background: #141000; }
+.s-pill.pub-stage { color: #4A9EFF; }
+.s-pill:hover:not(.done-stage):not(.current-stage) { color: #888; border-color: #2a2a2a; }
+.s-arrow { color: #2a2a2a; font-size: 14px; align-self: center; padding: 0 2px; }
+
+/* ROADMAP */
+.roadmap-grid { display: grid; gap: 14px; }
+.roadmap-card {
+  background: #181818; border: 2px solid #252525; border-radius: 12px; padding: 22px 24px;
+}
+.roadmap-card.phase-soon { border-left: 6px solid #FFCC00; }
+.roadmap-card.phase-later { border-left: 6px solid #555; }
+.roadmap-card.phase-done { border-left: 6px solid #39FF14; opacity: 0.6; }
+
+.roadmap-phase {
+  font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.phase-soon .roadmap-phase { color: #FFCC00; }
+.phase-later .roadmap-phase { color: #555; }
+.phase-done .roadmap-phase { color: #39FF14; }
+
+.roadmap-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.roadmap-card.phase-done .roadmap-title { text-decoration: line-through; color: #888; }
+.roadmap-desc { font-size: 16px; color: #888; line-height: 1.5; }
+.roadmap-tag { display: inline-block; margin-top: 10px; padding: 4px 10px; background: #1e1e1e; border-radius: 4px; font-size: 13px; color: #555; }
 
 /* BOTTOM */
 .bottom-bar {
-  padding: 22px 48px;
+  padding: 18px 40px;
   border-top: 2px solid #2a2a2a;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   background: #0d0d0d;
 }
-.bottom-note { font-size: 15px; color: #444; }
+.bottom-note { font-size: 14px; color: #444; }
 .state-btn {
-  background: #1a1a1a;
-  border: 2px solid #333;
-  color: #888;
-  font-size: 16px;
-  font-weight: 700;
-  font-family: inherit;
-  padding: 10px 22px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.15s;
+  background: #1a1a1a; border: 2px solid #333; color: #777;
+  font-size: 16px; font-weight: 700; font-family: inherit;
+  padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.15s;
 }
 .state-btn:hover { color: #fff; border-color: #666; }
 .state-btn.copied { color: #39FF14; border-color: #39FF14; }
 
-@media (max-width: 700px) {
-  .header, .section, .ep-section { padding-left: 18px; padding-right: 18px; }
-  .bottom-bar { padding: 18px; }
-  .count-num { font-size: 32px; }
-  .stage-track { gap: 4px; }
+/* MOBILE */
+@media (max-width: 800px) {
+  .sidebar { display: none; width: 0; border: none; }
+  .sidebar.open { display: block; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; width: 280px; }
+  .hamburger { display: block; }
+  .tab-panel, .header, .bottom-bar { padding-left: 20px; padding-right: 20px; }
+  .action-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>LDAG Production Pipeline</h1>
-  <div class="sub">Late Diagnosed AuDHD Guy -- your episode command center</div>
-</div>
+<div class="app">
 
-<div class="counts-bar">
-  <div class="count-block c-done"><span class="count-num" id="cnt-done">2</span><span class="count-lbl">Done</span></div>
-  <div class="count-block c-prod"><span class="count-num" id="cnt-prod">0</span><span class="count-lbl">In Production</span></div>
-  <div class="count-block c-ready"><span class="count-num" id="cnt-ready">9</span><span class="count-lbl">Ready to Run</span></div>
-  <div class="count-block c-concept"><span class="count-num" id="cnt-concept">11</span><span class="count-lbl">Concept</span></div>
-  <div class="count-block c-moments"><span class="count-num">69</span><span class="count-lbl">Moments</span></div>
-</div>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">LDAG</div>
+      <div class="sidebar-sub">Production Pipeline</div>
+    </div>
 
-<!-- WHAT TO DO NOW -->
-<div class="section">
-  <div class="section-title">What do you want to do right now? Tap a card.</div>
-  <div class="action-grid">
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Navigate</div>
+      <a class="sidebar-nav-item" onclick="switchTab('workflow')">
+        <span style="font-size:16px;">&#9654;</span>
+        <span class="sidebar-ep-title">What To Do Now</span>
+      </a>
+      <a class="sidebar-nav-item" onclick="switchTab('episodes')">
+        <span style="font-size:16px;">&#9632;</span>
+        <span class="sidebar-ep-title">All Episodes</span>
+      </a>
+      <a class="sidebar-nav-item" onclick="switchTab('roadmap')">
+        <span style="font-size:16px;">&#9670;</span>
+        <span class="sidebar-ep-title">Roadmap</span>
+      </a>
+    </div>
 
-    <div class="action-card" id="card1">
-      <div class="action-header" onclick="toggle('card1')">
-        <div class="action-num">1</div>
-        <div>
-          <div class="action-title">I have a new recording</div>
-          <div class="action-desc">Recorded a brain dump. Want to pull episodes from it.</div>
-          <div class="tap-label">TAP -- GET THE PROMPT</div>
-        </div>
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Season 1 -- Summer 2026</div>
+      <div id="sidebarEps"></div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Season 2 -- Autumn 2026</div>
+      <div class="sidebar-nav-item" style="opacity:0.4; cursor:default; font-size:14px; color:#444; padding: 4px 10px;">
+        Coming -- record more brain dumps
       </div>
-      <div class="prompt-reveal">
-        <div class="step-label">Step 1 -- Open a new Cowork chat and paste this</div>
-        <div class="prompt-box">
-          <div class="prompt-text" id="p1">You are continuing work on LDAG (Late Diagnosed AuDHD Guy), a micro-reality docuseries about living with late-diagnosed AuDHD. Start by reading these files in order:
+    </div>
+
+    <div style="height: 40px;"></div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <div class="header">
+      <div>
+        <h1>LDAG Production Pipeline</h1>
+        <div class="sub">Late Diagnosed AuDHD Guy -- your episode command center</div>
+      </div>
+      <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+    </div>
+
+    <div class="counts-bar">
+      <div class="count-block c-done"><span class="count-num" id="cnt-done">2</span><span class="count-lbl">Done</span></div>
+      <div class="count-block c-prod"><span class="count-num" id="cnt-prod">0</span><span class="count-lbl">In Production</span></div>
+      <div class="count-block c-ready"><span class="count-num" id="cnt-ready">9</span><span class="count-lbl">Ready to Run</span></div>
+      <div class="count-block c-concept"><span class="count-num" id="cnt-concept">11</span><span class="count-lbl">Concept</span></div>
+      <div class="count-block c-moments"><span class="count-num">69</span><span class="count-lbl">Moments</span></div>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('workflow')">What To Do Now</div>
+      <div class="tab" onclick="switchTab('episodes')">Episodes</div>
+      <div class="tab" onclick="switchTab('roadmap')">Roadmap</div>
+    </div>
+
+    <!-- WORKFLOW TAB -->
+    <div class="tab-panel active" id="tab-workflow">
+      <div class="section-label">Tap a card to get the exact prompt</div>
+      <div class="action-grid">
+
+        <div class="action-card" id="card1">
+          <div class="action-header" onclick="toggleCard('card1')">
+            <div class="action-num">1</div>
+            <div>
+              <div class="action-title">I have a new recording</div>
+              <div class="action-desc">Recorded a brain dump. Want to pull episodes from it.</div>
+              <div class="tap-cta">TAP -- GET THE PROMPT</div>
+            </div>
+          </div>
+          <div class="prompt-reveal">
+            <div class="step-lbl">Open a new Cowork chat and paste this first</div>
+            <div class="prompt-box">
+              <div class="prompt-text" id="p1">You are continuing work on LDAG (Late Diagnosed AuDHD Guy), a micro-reality docuseries about living with late-diagnosed AuDHD. Start by reading these files in order:
 1. latedxaudhd/CLAUDE.md
 2. latedxaudhd/production/MOMENTS_DB.md
 3. latedxaudhd/production/EPISODE_PIPELINE.md
 
 The ldag-transcript-intake skill is installed and will auto-activate when I paste a transcript. I have a new brain dump transcript to process. Confirm what you know about the project before we start.</div>
-          <button class="copy-btn" data-label="COPY THIS PROMPT" onclick="cp('p1',this)">COPY THIS PROMPT</button>
+              <button class="copy-btn" onclick="cp('p1',this,'COPY THIS PROMPT')">COPY THIS PROMPT</button>
+            </div>
+            <div class="info-box"><strong>Then:</strong> Go to Otter.ai. Export your transcript as text. Paste it into the Cowork chat. The skill extracts moments, tags themes, and writes Opus Agent prompts automatically.</div>
+          </div>
         </div>
-        <div class="info-box"><strong>Then:</strong> Go to Otter.ai or wherever your recording lives. Export the transcript as text. Paste it into the new Cowork chat. The skill does the rest automatically -- it extracts moments, tags themes, and adds Opus Agent prompts.</div>
-      </div>
-    </div>
 
-    <div class="action-card" id="card2">
-      <div class="action-header" onclick="toggle('card2')">
-        <div class="action-num">2</div>
-        <div>
-          <div class="action-title">I want to make an episode</div>
-          <div class="action-desc">Paste a prompt into Opus Agent and get AI animation footage.</div>
-          <div class="tap-label">TAP -- GET THE NEXT PROMPT</div>
+        <div class="action-card" id="card2">
+          <div class="action-header" onclick="toggleCard('card2')">
+            <div class="action-num">2</div>
+            <div>
+              <div class="action-title">I want to make an episode</div>
+              <div class="action-desc">Paste a prompt into Opus Agent and get AI animation footage.</div>
+              <div class="tap-cta">TAP -- GET THE NEXT PROMPT</div>
+            </div>
+          </div>
+          <div class="prompt-reveal">
+            <div class="priority-flag">START WITH THIS ONE: "THE THREAT"</div>
+            <div class="step-lbl">Step 1 -- Narration lines for ElevenLabs</div>
+            <div class="info-box">Open ElevenLabs. Select the LDAG narrator voice. Paste these lines. Highlight all. Use the narration enhancement feature. Generate audio as M4A or WAV. Save the file.</div>
+            <div class="prompt-box">
+              <div class="prompt-text" id="p2a">Nobody tells you that taking out the trash feels like a threat. Not a metaphor. An actual threat. Your brain registers it the same way it registers danger. And you know -- you KNOW -- it's just garbage cans. You know everyone else just does it. But the lift for this brain, for these two operating systems, is so much more than anyone can see. Part of what ended my marriage was this. Just: take out the trash. I know. I know. But I'm not gonna do it. I can't. And I couldn't explain why.</div>
+              <button class="copy-btn" onclick="cp('p2a',this,'COPY NARRATION LINES')">COPY NARRATION LINES</button>
+            </div>
+            <div class="step-lbl">Step 2 -- Paste this into Opus Agent, attach your ElevenLabs audio</div>
+            <div class="prompt-box">
+              <div class="prompt-text" id="p2b">Create a scroll stopping video using this concept: The Threat. A small suburban kitchen, early morning, 2025. Sun coming through the window. A man in a green sweatsuit stands at the back door looking out at two garbage cans on their sides in the alley. One recycling bin has its lid open. This is a thirty-second task. He does not move. The camera pushes in on his face. His jaw is tight. His hands are at his sides. The garbage cans begin to grow -- slowly at first, then obviously. They tower over the alley. The recycling bin lid opens wider like a mouth. The morning light turns harsh. The walls of the alley narrow. What was a simple chore is now a barricade. The man takes one step backward into the kitchen. He closes the door. Cut to: the same man in a car, driving. The garbage cans are behind him. He is going to a donut shop, a recycling center, the beach -- anywhere but back to the alley. The day is full. The cans are still on their sides when he gets home. He walks past them. "Nobody tells you that taking out the trash feels like a threat. Not a metaphor. An actual threat. Your brain registers it the same way it registers danger. And you know -- you KNOW -- it's just garbage cans. You know everyone else just does it. But the lift for this brain, for these two operating systems, is so much more than anyone can see. Part of what ended my marriage was this. Just: take out the trash. I know. I know. But I'm not gonna do it. I can't. And I couldn't explain why."</div>
+              <button class="copy-btn" onclick="cp('p2b',this,'COPY OPUS AGENT PROMPT')">COPY OPUS AGENT PROMPT</button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="prompt-reveal">
-        <div class="priority-flag">START WITH THIS ONE: "THE THREAT"</div>
-        <div class="step-label">Step 1 -- Go to ElevenLabs first</div>
-        <div class="info-box">Open ElevenLabs. Select the LDAG narrator voice. Paste the narration lines below. Use the narration enhancement feature. Generate audio as M4A or WAV. Save that file.</div>
-        <div class="prompt-box">
-          <div class="step-label">Narration lines to paste into ElevenLabs</div>
-          <div class="prompt-text" id="p2a">Nobody tells you that taking out the trash feels like a threat. Not a metaphor. An actual threat. Your brain registers it the same way it registers danger. And you know -- you KNOW -- it's just garbage cans. You know everyone else just does it. But the lift for this brain, for these two operating systems, is so much more than anyone can see. Part of what ended my marriage was this. Just: take out the trash. I know. I know. But I'm not gonna do it. I can't. And I couldn't explain why.</div>
-          <button class="copy-btn" data-label="COPY NARRATION LINES" onclick="cp('p2a',this)">COPY NARRATION LINES</button>
-        </div>
-        <div class="step-label">Step 2 -- Open Opus Agent, paste this, attach your ElevenLabs audio</div>
-        <div class="prompt-box">
-          <div class="prompt-text" id="p2b">Create a scroll stopping video using this concept: The Threat. A small suburban kitchen, early morning, 2025. Sun coming through the window. A man in a green sweatsuit stands at the back door looking out at two garbage cans on their sides in the alley. One recycling bin has its lid open. This is a thirty-second task. He does not move. The camera pushes in on his face. His jaw is tight. His hands are at his sides. The garbage cans begin to grow -- slowly at first, then obviously. They tower over the alley. The recycling bin lid opens wider like a mouth. The morning light turns harsh. The walls of the alley narrow. What was a simple chore is now a barricade. The man takes one step backward into the kitchen. He closes the door. Cut to: the same man in a car, driving. The garbage cans are behind him. He is going to a donut shop, a recycling center, the beach -- anywhere but back to the alley. The day is full. The cans are still on their sides when he gets home. He walks past them. "Nobody tells you that taking out the trash feels like a threat. Not a metaphor. An actual threat. Your brain registers it the same way it registers danger. And you know -- you KNOW -- it's just garbage cans. You know everyone else just does it. But the lift for this brain, for these two operating systems, is so much more than anyone can see. Part of what ended my marriage was this. Just: take out the trash. I know. I know. But I'm not gonna do it. I can't. And I couldn't explain why."</div>
-          <button class="copy-btn" data-label="COPY OPUS AGENT PROMPT" onclick="cp('p2b',this)">COPY OPUS AGENT PROMPT</button>
-        </div>
-      </div>
-    </div>
 
-    <div class="action-card" id="card3">
-      <div class="action-header" onclick="toggle('card3')">
-        <div class="action-num">3</div>
-        <div>
-          <div class="action-title">I need a new script</div>
-          <div class="action-desc">Need Claude to write the next episode from your moments database.</div>
-          <div class="tap-label">TAP -- GET THE PROMPT</div>
-        </div>
-      </div>
-      <div class="prompt-reveal">
-        <div class="step-label">Open a new Cowork chat and paste this</div>
-        <div class="prompt-box">
-          <div class="prompt-text" id="p3">You are continuing work on LDAG (Late Diagnosed AuDHD Guy), a micro-reality docuseries about living with late-diagnosed AuDHD. Start by reading these files in order:
+        <div class="action-card" id="card3">
+          <div class="action-header" onclick="toggleCard('card3')">
+            <div class="action-num">3</div>
+            <div>
+              <div class="action-title">I need a new script</div>
+              <div class="action-desc">Need Claude to write the next episode from your moments database.</div>
+              <div class="tap-cta">TAP -- GET THE PROMPT</div>
+            </div>
+          </div>
+          <div class="prompt-reveal">
+            <div class="step-lbl">Open a new Cowork chat and paste this</div>
+            <div class="prompt-box">
+              <div class="prompt-text" id="p3">You are continuing work on LDAG (Late Diagnosed AuDHD Guy), a micro-reality docuseries about living with late-diagnosed AuDHD. Start by reading these files in order:
 1. latedxaudhd/CLAUDE.md
 2. latedxaudhd/production/MOMENTS_DB.md
 3. latedxaudhd/production/EPISODE_PIPELINE.md
 
 I want to script a new episode. Look at the MOMENTS_DB for strong unused moments, check the EPISODE_PIPELINE for what is already scripted, and propose the next best episode concept. Then write the full Opus Agent prompt using the format in CLAUDE.md. Confirm what you know about the project before we start.</div>
-          <button class="copy-btn" data-label="COPY THIS PROMPT" onclick="cp('p3',this)">COPY THIS PROMPT</button>
+              <button class="copy-btn" onclick="cp('p3',this,'COPY THIS PROMPT')">COPY THIS PROMPT</button>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 
-  </div>
-</div>
-
-<!-- EPISODE LIST -->
-<div class="ep-section">
-  <div class="ep-header">
-    <div class="section-title" style="margin:0;">All Episodes</div>
-    <div class="filters">
-      <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-      <button class="filter-btn" onclick="setFilter('ready',this)">Ready to Run</button>
-      <button class="filter-btn" onclick="setFilter('in-production',this)">In Production</button>
-      <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
-      <button class="filter-btn" onclick="setFilter('concept',this)">Concept</button>
+    <!-- EPISODES TAB -->
+    <div class="tab-panel" id="tab-episodes">
+      <div class="ep-section-header">
+        <div class="section-label" style="margin:0;">All Episodes</div>
+        <div class="filters">
+          <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-btn" onclick="setFilter('ready',this)">Ready to Run</button>
+          <button class="filter-btn" onclick="setFilter('in-production',this)">In Production</button>
+          <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
+          <button class="filter-btn" onclick="setFilter('concept',this)">Concept</button>
+        </div>
+      </div>
+      <div class="ep-list" id="epList"></div>
     </div>
-  </div>
-  <div class="ep-list" id="epList"></div>
-</div>
 
-<div class="bottom-bar">
-  <div class="bottom-note">Check circle = mark done. Click any stage pill to jump to that stage. Auto-saves to URL.</div>
-  <button class="state-btn" id="stateBtn" onclick="saveAndCopy()">Copy Shareable URL</button>
+    <!-- ROADMAP TAB -->
+    <div class="tab-panel" id="tab-roadmap">
+      <div class="section-label" style="margin-bottom: 24px;">What gets built next -- in order</div>
+      <div class="roadmap-grid">
+
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Done</div>
+          <div class="roadmap-title">ldag-transcript-intake skill</div>
+          <div class="roadmap-desc">Processes raw brain dump transcripts. Extracts golden moments, intro clip candidates, theme tags, and Opus Agent prompts. Auto-activates when you paste a transcript into a Cowork session.</div>
+          <span class="roadmap-tag">3 sessions processed, 69 moments extracted</span>
+        </div>
+
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Done</div>
+          <div class="roadmap-title">Production pipeline dashboard</div>
+          <div class="roadmap-desc">This dashboard. Interactive episode tracker with stage checkboxes, inline prompts, and workflow action cards. No backend required -- state encodes in URL.</div>
+          <span class="roadmap-tag">Live at latedxaudhdguy.com/dashboard.html</span>
+        </div>
+
+        <div class="roadmap-card phase-soon">
+          <div class="roadmap-phase">Next -- build when ready</div>
+          <div class="roadmap-title">ldag-episode-script skill</div>
+          <div class="roadmap-desc">Takes a concept and selected moment IDs from MOMENTS_DB. Outputs a correctly formatted Opus Agent prompt. Eliminates manual scripting work and ensures consistent format every time.</div>
+          <span class="roadmap-tag">Dedicated Cowork session -- 45-60 min</span>
+        </div>
+
+        <div class="roadmap-card phase-soon">
+          <div class="roadmap-phase">Next -- after episode-script</div>
+          <div class="roadmap-title">ldag-sequence-check skill</div>
+          <div class="roadmap-desc">Validates a proposed episode order for pedagogical flow. Checks that no episode assumes context the viewer doesn't have yet. Runs against EPISODE_PIPELINE.md and flags sequencing issues.</div>
+          <span class="roadmap-tag">Dedicated Cowork session -- 30-45 min</span>
+        </div>
+
+        <div class="roadmap-card phase-later">
+          <div class="roadmap-phase">After both skills are built</div>
+          <div class="roadmap-title">Executive Producer agent</div>
+          <div class="roadmap-desc">A scheduled agent that holds cross-project strategic context. Reads MOMENTS_DB and EPISODE_PIPELINE on a cadence. Surfaces what to do next, flags gaps in coverage, notices when a theme is overrepresented or underrepresented. The machine that runs the show strategy.</div>
+          <span class="roadmap-tag">Use Sonnet 4.6 for the build session -- Opus is overkill here</span>
+        </div>
+
+        <div class="roadmap-card phase-later">
+          <div class="roadmap-phase">When episode volume justifies it</div>
+          <div class="roadmap-title">Supabase backend for dashboard</div>
+          <div class="roadmap-desc">Replaces the URL hash state with a real database. Every time you advance an episode stage, it saves automatically with no button press. Agents can update episode status autonomously -- when the transcript skill runs, it updates the dashboard directly.</div>
+          <span class="roadmap-tag">Needs: Supabase project, episodes table, status column, JS API calls</span>
+        </div>
+
+        <div class="roadmap-card phase-later">
+          <div class="roadmap-phase">Long-term</div>
+          <div class="roadmap-title">Dashboard sidebar: episode detail view</div>
+          <div class="roadmap-desc">Click any episode in the sidebar and see the full Opus Agent prompt, associated moments from MOMENTS_DB, intro clip candidates, and production notes -- all inline. No hunting in Markdown files.</div>
+          <span class="roadmap-tag">Requires Supabase backend first</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-note">Check circle = done. Click any stage pill to change status. Saves to URL automatically.</div>
+      <button class="state-btn" id="stateBtn" onclick="saveAndCopy()">Copy Shareable URL</button>
+    </div>
+
+  </div>
 </div>
 
 <script>
-const STAGES = ['concept','scripted','intro-tagged','in-production','done','scheduled','published'];
-const LABELS = { concept:'Concept', scripted:'Scripted', 'intro-tagged':'Intro Tagged', 'in-production':'In Production', done:'Done', scheduled:'Scheduled', published:'Published' };
-const ORDER = { concept:0, scripted:1, 'intro-tagged':2, 'in-production':3, done:4, scheduled:5, published:6 };
+const STAGES = ['concept','scripted','intro-tagged','in-production','done','published'];
+const SL = { concept:'Concept', scripted:'Scripted', 'intro-tagged':'Intro Tagged', 'in-production':'In Production', done:'Done', published:'Published' };
+const SO = { concept:0, scripted:1, 'intro-tagged':2, 'in-production':3, done:4, published:5 };
 
 const episodes = [
-  { id:'E01', title:'S1E01 -- "The Quiet Storm"', logline:'Grade 6, 1985. Pure internal chaos. Nobody in the classroom notices anything.', def:'done', priority:false },
-  { id:'E02', title:'S1E02 -- "The Record"', logline:'1980s bedroom. Cracked vinyl. "There\'s something wrong with me." The internal narrator that never stops.', def:'done', priority:false },
-  { id:'E03', title:'"The Threat"', logline:'Garbage cans in the alley. Thirty-second task becomes a towering threat. Part of what ended the marriage.', def:'scripted', priority:true },
-  { id:'E04', title:'"The Wave"', logline:'Pacific ocean. Choppy water. Waits. One clean wave. Rides it to shore. It was never about effort.', def:'scripted', priority:false },
-  { id:'E05', title:'"The Crash"', logline:'Three meetings back to back. Face tightening. Shutdown. Weighted blanket. Reality TV. Judgment scrolling overhead.', def:'scripted', priority:false },
-  { id:'E06', title:'"The Fence"', logline:'1983 little league. Dad clears the fence in one motion. Same field, 40 years later, empty.', def:'scripted', priority:false },
-  { id:'E07', title:'"Too Much"', logline:'Late 90s restaurant. Friends exchange glances he doesn\'t see. Parked car, rain, text from ex about Charlie.', def:'scripted', priority:false },
-  { id:'E08', title:'"The Breadwinner"', logline:'Late 2000s apartment. Comes home. Sits. Battery at 1%. Knows every task. Can\'t move.', def:'scripted', priority:false },
-  { id:'E09', title:'"The Comfort"', logline:'Dark room. Record player. Strange comfort in the loop. Steps through the door anyway.', def:'scripted', priority:false },
-  { id:'E10', title:'"260 Raymur"', logline:'Late 90s industrial loft. Performing for nobody. Every connection made through alcohol. Three years sober. Two dates.', def:'scripted', priority:false },
-  { id:'E11', title:'"The Radar Dish"', logline:'Organic radio telescope made of nerve endings. He is not operating the dish. He IS the dish.', def:'scripted', priority:false },
-  { id:'E12', title:'"The Battery"', logline:'Full drain, mechanism, recovery. Three-act structure in one episode.', def:'concept', priority:false },
-  { id:'E13', title:'"The ADHD Tax"', logline:'Trail of wreckage. Hundreds of domains. The graveyard of started things.', def:'concept', priority:false },
-  { id:'E14', title:'"The Alien"', logline:'Feeling like an alien to your own family. The lifetime of not fitting.', def:'concept', priority:false },
-  { id:'E15', title:'"The Sensory Map"', logline:'Sunglasses as regulation. The uniform. Fan dependency. Summer dread.', def:'concept', priority:false },
-  { id:'E16', title:'"Rock Bottom"', logline:'"There\'s no such thing as rock bottom. You just decide to stop digging." Sobriety. Two dates.', def:'concept', priority:false },
-  { id:'E17', title:'"The Food"', logline:'Processed food as sensory predictability. Not laziness -- the nervous system needing to know.', def:'concept', priority:false },
-  { id:'E18', title:'"The Unmasking"', logline:'You run out of energy to keep masking. Not a choice. A collapse.', def:'concept', priority:false },
-  { id:'E19', title:'"The Line Backwards"', logline:'Late diagnosis as simultaneous liberation and grief.', def:'concept', priority:false },
-  { id:'E20', title:'"The Burnout Ladder"', logline:'Push through burnout = down for days. The concrete math of collapse.', def:'concept', priority:false },
-  { id:'E21', title:'"Not the Stereotype"', logline:'Never the bouncing-off-walls kid. Mine was always the mind.', def:'concept', priority:false },
-  { id:'E22', title:'"The Invisible"', logline:'Physical tells of overwhelm nobody recognizes. The body showing what words can\'t.', def:'concept', priority:false }
+  { id:'E01', title:'S1E01 -- "The Quiet Storm"', logline:'Grade 6, 1985. Pure internal chaos. Nobody in the classroom notices anything.', def:'done', priority:false, s:1 },
+  { id:'E02', title:'S1E02 -- "The Record"', logline:'1980s bedroom. Cracked vinyl. "There\'s something wrong with me."', def:'done', priority:false, s:1 },
+  { id:'E03', title:'"The Threat"', logline:'Garbage cans in the alley. Thirty-second task becomes a towering threat. Part of what ended the marriage.', def:'scripted', priority:true, s:1 },
+  { id:'E04', title:'"The Wave"', logline:'Pacific ocean. Choppy water. Waits. One clean wave. Rides it to shore. It was never about effort.', def:'scripted', priority:false, s:1 },
+  { id:'E05', title:'"The Crash"', logline:'Three meetings back to back. Face tightening. Shutdown. Weighted blanket. Reality TV.', def:'scripted', priority:false, s:1 },
+  { id:'E06', title:'"The Fence"', logline:'1983 little league. Dad clears the fence. Same field, 40 years later, empty.', def:'scripted', priority:false, s:1 },
+  { id:'E07', title:'"Too Much"', logline:'Late 90s restaurant. Friends exchange glances he doesn\'t see. Text from ex about Charlie.', def:'scripted', priority:false, s:1 },
+  { id:'E08', title:'"The Breadwinner"', logline:'Late 2000s apartment. Battery at 1%. Knows every task. Can\'t move.', def:'scripted', priority:false, s:1 },
+  { id:'E09', title:'"The Comfort"', logline:'Dark room. Record player. Strange comfort in the loop. Steps through the door anyway.', def:'scripted', priority:false, s:1 },
+  { id:'E10', title:'"260 Raymur"', logline:'Late 90s industrial loft. Performing for nobody. Three years sober. Two dates.', def:'scripted', priority:false, s:1 },
+  { id:'E11', title:'"The Radar Dish"', logline:'Organic radio telescope made of nerve endings. He is not operating the dish. He IS the dish.', def:'scripted', priority:false, s:1 },
+  { id:'E12', title:'"The Battery"', logline:'Full drain, mechanism, recovery. Three-act structure in one episode.', def:'concept', priority:false, s:1 },
+  { id:'E13', title:'"The ADHD Tax"', logline:'Trail of wreckage. Hundreds of domains. The graveyard of started things.', def:'concept', priority:false, s:1 },
+  { id:'E14', title:'"The Alien"', logline:'Feeling like an alien to your own family. The lifetime of not fitting.', def:'concept', priority:false, s:1 },
+  { id:'E15', title:'"The Sensory Map"', logline:'Sunglasses. The uniform. Fan dependency. Summer dread.', def:'concept', priority:false, s:1 },
+  { id:'E16', title:'"Rock Bottom"', logline:'"There\'s no such thing as rock bottom. You just decide to stop digging."', def:'concept', priority:false, s:1 },
+  { id:'E17', title:'"The Food"', logline:'Processed food as sensory predictability. Not laziness -- the nervous system needing to know.', def:'concept', priority:false, s:1 },
+  { id:'E18', title:'"The Unmasking"', logline:'You run out of energy to keep masking. Not a choice. A collapse.', def:'concept', priority:false, s:1 },
+  { id:'E19', title:'"The Line Backwards"', logline:'Late diagnosis as simultaneous liberation and grief.', def:'concept', priority:false, s:1 },
+  { id:'E20', title:'"The Burnout Ladder"', logline:'Push through burnout = down for days. The concrete math of collapse.', def:'concept', priority:false, s:1 },
+  { id:'E21', title:'"Not the Stereotype"', logline:'Never the bouncing-off-walls kid. Mine was always the mind.', def:'concept', priority:false, s:1 },
+  { id:'E22', title:'"The Invisible"', logline:'Physical tells of overwhelm nobody recognizes.', def:'concept', priority:false, s:1 }
 ];
 
 let state = {};
 let currentFilter = 'all';
+let currentTab = 'workflow';
 
 function initState() {
-  try {
-    const h = window.location.hash.slice(1);
-    if (h) state = JSON.parse(decodeURIComponent(h));
-  } catch(e) {}
+  try { const h = window.location.hash.slice(1); if (h) state = JSON.parse(decodeURIComponent(h)); } catch(e) {}
   episodes.forEach(ep => { if (!state[ep.id]) state[ep.id] = ep.def; });
 }
 
-function saveState() {
-  window.location.replace('#' + encodeURIComponent(JSON.stringify(state)));
-}
+function saveState() { window.location.replace('#' + encodeURIComponent(JSON.stringify(state))); }
 
-function isDone(s) { return s === 'done' || s === 'scheduled' || s === 'published'; }
-function isReady(s) { return s === 'scripted' || s === 'intro-tagged'; }
+const isDone = s => s === 'done' || s === 'published';
+const isReady = s => s === 'scripted' || s === 'intro-tagged';
 
 function renderAll() {
+  renderEpisodes();
+  renderSidebar();
+  updateCounts();
+  applyFilter();
+}
+
+function renderEpisodes() {
   const list = document.getElementById('epList');
   list.innerHTML = '';
   episodes.forEach(ep => {
     const status = state[ep.id];
     const done = isDone(status);
     const isUp = ep.priority && status === 'scripted';
-
     const card = document.createElement('div');
+    card.id = 'ep-' + ep.id;
     card.className = 'ep-card' + (ep.priority && !done ? ' priority' : '') + (done ? ' done-state' : '');
-    card.dataset.id = ep.id;
     card.dataset.status = status;
 
-    // Build stage pills
-    const stageOrder = ORDER[status] ?? 0;
+    const stageOrder = SO[status] ?? 0;
     const pillsHTML = STAGES.map((s, i) => {
-      if (s === 'scheduled') return ''; // skip scheduled -- rolled into done
-      const label = LABELS[s];
       let cls = '';
-      if (s === 'published' && (status === 'published')) cls = 'pub-done';
-      else if (ORDER[s] < stageOrder || (isDone(status) && ORDER[s] <= ORDER['done'])) cls = 'completed';
-      else if (s === status || (isDone(status) && s === 'done')) cls = 'current';
-      const check = cls === 'completed' ? '&#10003;' : cls === 'pub-done' ? '&#10003;' : '&#9711;';
-      const arrow = i < STAGES.length - 2 ? '<span class="stage-arrow">&#8250;</span>' : '';
-      return `<button class="stage-pill ${cls}" onclick="jumpTo('${ep.id}','${s}')" title="Mark as ${label}">
-        <span class="pill-check">${check}</span>${label}
-      </button>${arrow}`;
+      if (SO[s] < stageOrder || (done && SO[s] <= SO['done'])) cls = 'done-stage';
+      else if (s === status) cls = 'current-stage';
+      else if (s === 'published' && status === 'published') cls = 'pub-stage';
+      const check = cls === 'done-stage' || cls === 'pub-stage' ? '&#10003;' : '&#9711;';
+      const arrow = i < STAGES.length - 1 ? '<span class="s-arrow">&#8250;</span>' : '';
+      return `<button class="s-pill ${cls}" onclick="jumpTo('${ep.id}','${s}')">${check} ${SL[s]}</button>${arrow}`;
     }).join('');
+
+    let badgeCls = 'b-' + status.replace('intro-tagged','intro-tagged');
+    let badgeText = isUp ? 'UP NEXT' : SL[status] || status;
 
     card.innerHTML = `
       <div class="ep-top">
-        <div class="ep-check ${done ? 'checked' : ''}" onclick="toggleDone('${ep.id}')" title="${done ? 'Unmark done' : 'Mark as done'}">${done ? '&#10003;' : ''}</div>
+        <div class="ep-check ${done ? 'checked' : ''}" onclick="toggleDone('${ep.id}')">${done ? '&#10003;' : ''}</div>
         <div class="ep-main">
-          ${isUp ? '<div class="up-next-badge">UP NEXT</div>' : ''}
+          <div class="ep-badge-row"><span class="ep-badge b-${status.replace('intro-tagged','intro-tagged')} ${isUp ? 'b-next' : ''}">${badgeText}</span></div>
           <div class="ep-title">${ep.title}</div>
           <div class="ep-logline">${ep.logline}</div>
         </div>
       </div>
-      <div class="stage-track">${pillsHTML}</div>
-    `;
-
+      <div class="stage-track">${pillsHTML}</div>`;
     list.appendChild(card);
   });
-
-  updateCounts();
-  applyFilter();
 }
 
-function jumpTo(id, stage) {
-  state[id] = stage;
-  saveState();
-  renderAll();
+function renderSidebar() {
+  const el = document.getElementById('sidebarEps');
+  el.innerHTML = '';
+  episodes.filter(ep => ep.s === 1).forEach(ep => {
+    const status = state[ep.id];
+    const done = isDone(status);
+    const isUp = ep.priority && status === 'scripted';
+    const dotClass = done ? 'dot-done' : isUp ? 'dot-next' : isReady(status) ? 'dot-scripted' : status === 'in-production' ? 'dot-production' : 'dot-concept';
+    const item = document.createElement('div');
+    item.className = 'sidebar-nav-item' + (done ? ' done-ep' : '');
+    item.onclick = () => { switchTab('episodes'); setTimeout(() => { const el = document.getElementById('ep-' + ep.id); if (el) el.scrollIntoView({ behavior:'smooth', block:'center' }); }, 100); };
+    item.innerHTML = `<span class="sidebar-dot ${dotClass}"></span><span class="sidebar-ep-title">${ep.title.replace(/"/g,'')}</span>`;
+    el.appendChild(item);
+  });
 }
 
-function toggleDone(id) {
-  if (isDone(state[id])) {
-    // find what it was before (go back to in-production or scripted based on context)
-    state[id] = 'in-production';
-  } else {
-    state[id] = 'done';
-  }
-  saveState();
-  renderAll();
-}
+function jumpTo(id, stage) { state[id] = stage; saveState(); renderAll(); }
+function toggleDone(id) { state[id] = isDone(state[id]) ? 'in-production' : 'done'; saveState(); renderAll(); }
 
 function updateCounts() {
   let done=0, prod=0, ready=0, concept=0;
@@ -556,20 +711,29 @@ function applyFilter() {
   });
 }
 
-function toggle(id) {
+function switchTab(id) {
+  currentTab = id;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const tabs = ['workflow','episodes','roadmap'];
+  const tabIdx = tabs.indexOf(id);
+  document.querySelectorAll('.tab')[tabIdx]?.classList.add('active');
+  document.getElementById('tab-' + id)?.classList.add('active');
+}
+
+function toggleCard(id) {
   const c = document.getElementById(id);
   const open = c.classList.contains('open');
   document.querySelectorAll('.action-card').forEach(x => x.classList.remove('open'));
   if (!open) c.classList.add('open');
 }
 
-function cp(id, btn) {
+function cp(id, btn, label) {
   const text = document.getElementById(id).textContent;
-  const orig = btn.dataset.label || btn.textContent;
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = 'COPIED!';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2500);
+    setTimeout(() => { btn.textContent = label; btn.classList.remove('copied'); }, 2500);
   });
 }
 
@@ -581,6 +745,10 @@ function saveAndCopy() {
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Copy Shareable URL'; btn.classList.remove('copied'); }, 2500);
   });
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
 }
 
 initState();
