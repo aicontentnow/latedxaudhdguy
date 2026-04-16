@@ -427,6 +427,22 @@ body {
 .music-copy-btn:hover { background: #22223a; border-color: #6666aa; color: #aaaaff; }
 .music-copy-btn.copied { color: #39FF14; border-color: #39FF14; background: #0a1a05; }
 
+/* CLIP STATUS BADGE */
+.clip-status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.clip-status-found { color: #39FF14; background: #0a1a05; border: 1px solid #39FF1444; }
+.clip-status-needed { color: #FFCC00; background: #1a1400; border: 1px solid #FFCC0044; }
+.ep-clip-box.clip-found { border-left-color: #39FF14; }
+.ep-clip-box.clip-needed { border-left-color: #FFCC00; }
+
 /* MOBILE */
 @media (max-width: 800px) {
   .sidebar { display: none; width: 0; border: none; }
@@ -677,133 +693,133 @@ const episodes = [
   {
     id:'E01', title:'S1E01 -- "The Quiet Storm"', logline:'Grade 6, 1985. Pure internal chaos. Nobody in the classroom notices anything.', def:'done', priority:false, s:1,
     era: '1985 -- Elementary school, mid-80s',
-    clip: { location:'S03 brain dump or any Vancouver outdoor footage', quote:'Find a shot of you looking completely calm and normal from the outside. Walking, in a coffee shop, sitting in the car. Anything that looks like "everything is fine." That contrast IS the confessional for this episode.', note:'No specific quote yet -- the visual contrast of external calm is the hook. Record a short piece to camera: "Grade 6. 1985. I sat completely still in class every single day."' },
+    clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: describe what a normal school day looked like from the outside vs what it felt like on the inside. The stillness, the compliance, the invisible storm.' },
     music: { era:'1985 -- stadium rock, mid-80s', prompt:'vintage, 1985, stadium hair metal, dueling guitars, building tension, C major key' }
   },
   {
     id:'E02', title:'S1E02 -- "The Record"', logline:'1980s bedroom. Cracked vinyl. "There\'s something wrong with me."', def:'done', priority:false, s:1,
     era: '1980s -- childhood bedroom',
-    clip: { location:'Any brain dump session -- find the moment where you say the phrase', quote:'"There\'s just something wrong with me. That\'s the record that spins."', note:'From S01 drive transcript. Find this timestamp. 10-15 seconds. Delivery should be flat, matter-of-fact -- not dramatic. The flatness is the point.' },
+    clip: { status:'found', location:'S01 drive transcript', quote:'"There\'s just something wrong with me. That\'s the record that spins."', note:'This IS the intro. 10-15 seconds. Find this timestamp in S01 and cut right there. Flat, matter-of-fact delivery -- the absence of drama is the performance.' },
     music: { era:'Late 1980s -- slow glam ballad', prompt:'vintage, 1980s slow ballad, glam rock, guitars, synth, melancholic, minor key' }
   },
   {
     id:'E03', title:'"The Threat"', logline:'Garbage cans in the alley. Thirty-second task becomes a towering threat. Part of what ended the marriage.', def:'scripted', priority:true, s:1,
     era: '2025 -- present day',
-    clip: { location:'S03 early -- alley behind the house', quote:'"Yeah, you have to take out the trash. I was like, Yeah, I know, but I\'m not gonna do it. My brain will not let me."', note:'10-15 seconds. You are standing outside or in the apartment when you say this. If you can film yourself looking at the alley from the back door, that is the shot. Film it fresh if needed -- 20 seconds, looking at actual garbage cans.' },
+    clip: { status:'found', location:'S03 brain dump, early section', quote:'"Yeah, you have to take out the trash. I was like, Yeah, I know, but I\'m not gonna do it. My brain will not let me."', note:'This IS the confessional. 15-20 seconds. The resigned delivery is what makes it land -- you already know you won\'t do it. Cut just this moment. No setup needed.' },
     music: { era:'2020s -- present-day domestic tension', prompt:'modern, 2020s, indie folk, sparse acoustic guitar, slow burn tension, building unease, D minor' }
   },
   {
     id:'E04', title:'"The Wave"', logline:'Pacific ocean. Choppy water. Waits. One clean wave. Rides it to shore. It was never about effort.', def:'scripted', priority:false, s:1,
     era: '2020s -- present day, Pacific coast',
-    clip: { location:'S02 -- home/couch, real-time crash moment', quote:'"I\'m so overwhelmed right now. I now have to, like, shut down."', note:'15-20 seconds. This is the crash BEFORE the wave metaphor lands -- it is the before. You are on the couch when you say it. Raw, unfiltered. That is the confessional -- the wave metaphor plays out in the AI animation.' },
+    clip: { status:'found', location:'S02 brain dump, home/couch section', quote:'"I\'m so overwhelmed right now. I now have to, like, shut down."', note:'Real-time crash caught on camera. This is the before -- before the wave metaphor arrives. 10-15 seconds. Do not trim the hesitation. The rawness is the whole point.' },
     music: { era:'2020s -- coastal, atmospheric', prompt:'modern, 2020s, cinematic ambient, building wave energy, rising from minor to major, atmospheric synth, hopeful' }
   },
   {
     id:'E05', title:'"The Crash"', logline:'Three meetings back to back. Face tightening. Shutdown. Weighted blanket. Reality TV.', def:'scripted', priority:false, s:1,
     era: '2020s -- present day, home office',
-    clip: { location:'S02 -- home/couch, weighted blanket', quote:'"I\'ll put on some shitty reality TV that I love, and just take that thinking and rumination and swirliness and worrying about, oh, I\'m being lazy."', note:'15-20 seconds. You are on the couch under the blanket when you say this. The judgment loop is in your voice. Film in your actual crash spot -- the confessional IS the crash. You do not need to have recovered to film it.' },
+    clip: { status:'found', location:'S02 brain dump, home/couch, weighted blanket section', quote:'"I\'ll put on some shitty reality TV that I love, and just take that thinking and rumination and swirliness and worrying about, oh, I\'m being lazy."', note:'Found in S02. The judgment loop is audible in your voice. 15-20 seconds. Find the point where you say "shitty reality TV" -- cut from there through "being lazy." Keep the self-deprecating lilt. That IS the performance.' },
     music: { era:'2020s -- lo-fi downtempo, exhausted', prompt:'modern, 2020s, lo-fi downtempo, heavy synth, slow tempo, exhausted energy, minor key, barely moving' }
   },
   {
     id:'E06', title:'"The Fence"', logline:'1983 little league. Dad clears the fence. Same field, 40 years later, empty.', def:'scripted', priority:false, s:1,
     era: '1983 -- little league, early 80s',
-    clip: { location:'S01 late transcript -- baseball diamond', quote:'"My parents out supporting their kids. My dad. Memories I do have of my dad."', note:'Film this AT an actual baseball diamond if possible -- even a park with a chain-link fence. The physical location grounds the confessional. 15-20 seconds. Look at the field, not the camera, for the first half.' },
+    clip: { status:'found', location:'S01 brain dump, late section', quote:'"My parents out supporting their kids. My dad. Memories I do have of my dad."', note:'Found in S01. The trailing-off delivery after "my dad" is the emotional weight -- that pause is part of the cut. 12-15 seconds. Keep the silence at the end. It lands harder than any explanation.' },
     music: { era:'1983 -- heartland rock, early 80s', prompt:'vintage, 1983, heartland rock, acoustic and electric guitar, warm nostalgia, Americana feel, mid-tempo, C major' }
   },
   {
     id:'E07', title:'"Too Much"', logline:'Late 90s restaurant. Friends exchange glances he doesn\'t see. Text from ex about Charlie.', def:'scripted', priority:false, s:1,
     era: 'Late 1990s into 2020s -- two timelines',
-    clip: { location:'S01 late transcript -- parked car outside soccer field', quote:'"My son Charlie\'s got soccer today, but he doesn\'t like when I come out."', note:'Film this in your actual car outside an actual field if possible. Rain on the windshield is a bonus. 15-20 seconds. Your phone is in your hand or on the dash. Flat delivery -- you are proud of him and something breaks open.' },
+    clip: { status:'found', location:'S01 brain dump, late section', quote:'"My son Charlie\'s got soccer today, but he doesn\'t like when I come out."', note:'Found in S01. This is the whole confession in one line -- 10-12 seconds. The flat delivery does the work. End cut right there. The AI animation carries the rest. Do not add any explanation.' },
     music: { era:'Late 1990s -- post-grunge, bittersweet', prompt:'late 1990s, alternative rock, distorted guitar, bittersweet major key, driving rhythm, Vancouver 90s vibe' }
   },
   {
     id:'E08', title:'"The Breadwinner"', logline:'Late 2000s apartment. Battery at 1%. Knows every task. Can\'t move.', def:'scripted', priority:false, s:1,
     era: 'Late 2000s -- married life, 2007-2012 era',
-    clip: { location:'Future brain dump -- co-parenting memory, late 2000s apartment', quote:'Record a brain dump specifically about coming home from work when the kids were small. Find the moment where you describe sitting on the couch and not being able to get up.', note:'No clip identified yet. Trigger: record a brain dump that starts with "I want to talk about what it was like coming home when Charlie was a baby."' },
+    clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: describe coming home from work when the kids were small -- the moment of sitting on the couch and knowing every task that needed doing and not being able to move.' },
     music: { era:'Late 2000s -- indie, quiet desperation', prompt:'late 2000s, indie rock, sparse piano and drums, quiet desperation, fluorescent-light feeling, C minor, slow tempo' }
   },
   {
     id:'E09', title:'"The Comfort"', logline:'Dark room. Record player. Strange comfort in the loop. Steps through the door anyway.', def:'scripted', priority:false, s:1,
     era: 'Timeless -- dark room, the internal loop',
-    clip: { location:'No strong clip identified yet', quote:'Record a brain dump where you catch yourself leaning into a negative thought loop and notice it in real time.', note:'Trigger: "I want to talk about the strange comfort that comes from familiar negative thoughts. Why it is easier to stay in the loop than to step out of it." This is a late-arc episode -- do not rush to produce it.' },
+    clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: describe the strange comfort of a familiar negative thought loop -- why staying in it feels safer than stepping out.' },
     music: { era:'Timeless -- dark folk, circular', prompt:'dark folk, acoustic guitar, circular repeating melody, hypnotic, minor key drone, slow and deliberate, timeless' }
   },
   {
     id:'E10', title:'"260 Raymur"', logline:'Late 90s industrial loft. Performing for nobody. Three years sober. Two dates.', def:'scripted', priority:false, s:1,
     era: 'Late 1990s -- Vancouver music scene',
-    clip: { location:'S03 late -- outside 260 Raymur Ave (if filmable) or home studio context', quote:'"That was my window, my only window. Somebody broke through, came in middle of the night, robbed me while I was sleeping with my earplugs and my eye goggles."', note:'15 seconds. Film outside 260 Raymur Ave if it still exists and you can get there. If not, film anywhere in the DTES. The location gives it weight. The story is so specific it does not need much framing.' },
+    clip: { status:'found', location:'S03 brain dump, late section', quote:'"That was my window, my only window. Somebody broke through, came in middle of the night, robbed me while I was sleeping with my earplugs and my eye goggles."', note:'Found in S03. The image is so specific it anchors the whole episode. 15-20 seconds. The detail "earplugs and eye goggles" is the hook -- audiences understand immediately. Cut right at that image and stop.' },
     music: { era:'Late 1990s -- Vancouver indie, bar band', prompt:'late 1990s, Vancouver indie rock, raw electric guitar, bar band energy, honest and rough, G minor, Weakerthans-style' }
   },
   {
     id:'E11', title:'"The Radar Dish"', logline:'Organic radio telescope made of nerve endings. He is not operating the dish. He IS the dish.', def:'scripted', priority:false, s:1,
     era: '2020s -- present day, coastal Vancouver',
-    clip: { location:'S03 mid -- Spanish Banks beach or any outdoor Vancouver location', quote:'"I can\'t do the fucking small talk. I\'m just terrible in those type of situations. But if you want to go deep... I\'m your boy."', note:'12-15 seconds. Spanish Banks or any open outdoor location. The sky and horizon in frame if possible. This is the visual -- you ARE the dish, pointed up at everything.' },
+    clip: { status:'found', location:'S03 brain dump, mid section', quote:'"I can\'t do the fucking small talk. I\'m just terrible in those type of situations. But if you want to go deep... I\'m your boy."', note:'Found in S03. The rhythm is perfect -- the admission, then the redirect. 12-15 seconds. Cut from "I can\'t do" through "I\'m your boy." The contrast does everything.' },
     music: { era:'2020s -- ambient, cosmic, vast', prompt:'modern, 2020s, ambient electronic, vast cosmic soundscape, minor key drone, building slowly, the sound of receiving everything at once' }
   },
   {
     id:'E12', title:'"The Battery"', logline:'Full drain, mechanism, recovery. Three-act structure in one episode.', def:'concept', priority:false, s:1,
     era: '2020s -- present day recurring',
-    clip: { location:'Find or record the moment you describe your battery hitting 1% in real time', quote:'"My battery is like the first iPhone model. Drains after five minutes."', note:'From S01 drive transcript. This is one of the show\'s best metaphors -- find the exact moment. Could also record a fresh confessional specifically about the drain/recovery cycle.' },
+    clip: { status:'found', location:'S01 drive transcript', quote:'"My battery is like the first iPhone model. Drains after five minutes."', note:'One of the show\'s best metaphors. Found in S01. 8-10 seconds -- just this line. Deadpan delivery lands the joke. If there\'s a laugh or a beat after "five minutes," keep it in.' },
     music: { era:'2020s -- pulsing, electronic, energy drain', prompt:'modern, 2020s, electronic, pulsing irregular rhythm, energy drain to flatline then recharge, minor key, glitchy' }
   },
   {
     id:'E13', title:'"The ADHD Tax"', logline:'Trail of wreckage. Hundreds of domains. The graveyard of started things.', def:'concept', priority:false, s:1,
     era: 'Lifetime -- all decades',
-    clip: { location:'Find in S01 drive transcript around the 13-minute mark', quote:'"My life is a trail of wreckage."', note:'4 words. Flat delivery. That is the whole confessional. What comes after can be a list -- domains, projects, relationships. 20-30 seconds max.' },
+    clip: { status:'found', location:'S01 drive transcript, approximately 13-minute mark', quote:'"My life is a trail of wreckage."', note:'Four words. Found in S01, around the 13-minute mark. Cut just this line -- nothing before, nothing after. The silence around it IS the production choice. 5-8 seconds total including the beat before and after.' },
     music: { era:'All decades collapsed -- restless, driving', prompt:'modern, 2020s, indie rock, driving rhythm, restless energy, A minor, feels like it never quite stops or finishes' }
   },
   {
     id:'E14', title:'"The Alien"', logline:'Feeling like an alien to your own family. The lifetime of not fitting.', def:'concept', priority:false, s:1,
     era: '1980s childhood -- sense of otherness',
-    clip: { location:'Record a brain dump specifically about childhood family dynamics', quote:'Trigger: "I want to talk about feeling like an alien inside my own family. Not dramatic -- just factual. Like you are watching from outside a window."', note:'No clip identified yet. This is early-arc material -- record it fresh.' },
+    clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: describe feeling like an alien inside your own family -- not dramatic, just factual, like watching everyone else through a window.' },
     music: { era:'1980s -- new wave, sense of otherness', prompt:'vintage, 1980s, synth-driven new wave, sense of alienation, minor key, cold and slightly detached, pulsing synth bass' }
   },
   {
     id:'E15', title:'"The Sensory Map"', logline:'Sunglasses. The uniform. Fan dependency. Summer dread.', def:'concept', priority:false, s:1,
     era: '2020s -- present day sensory reality',
-    clip: { location:'Record in your actual environment', quote:'Trigger: film yourself putting on the sunglasses, adjusting the fan, wearing the tracksuit. Let the routine speak first. Then say: "This is not laziness. This is the nervous system needing to know."', note:'Observational confessional -- the camera follows the ritual before you explain it.' },
+    clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: walk through the daily sensory management routine -- sunglasses, fan, tracksuit -- and what it would cost to skip any of it.' },
     music: { era:'2020s -- ambient, sensory texture', prompt:'modern, 2020s, ambient, soft layered textures, sensory overwhelm slowly resolving to calm, minor key drifting to major' }
   },
   {
     id:'E16', title:'"Rock Bottom"', logline:'"There\'s no such thing as rock bottom. You just decide to stop digging." Sobriety. Two dates.', def:'concept', priority:false, s:1,
     era: 'Timeless -- sobriety, 2020s reflection',
-    clip: { location:'Any brain dump that touches sobriety', quote:'"Three years sober now and I\'ve had two dates. Every connection I made with anyone was through alcohol. Every single one."', note:'From S03M31. This is raw. Let it be raw. Short -- 15 seconds max. Do not explain it. Let the number do the work.' },
+    clip: { status:'found', location:'S03 brain dump (Moment S03M31)', quote:'"Three years sober now and I\'ve had two dates. Every connection I made with anyone was through alcohol. Every single one."', note:'Found in S03M31. Raw -- let it be raw. 15 seconds max. Do not trim the pause before "Every single one." That beat is the whole episode.' },
     music: { era:'2020s -- stripped acoustic, honest', prompt:'modern, 2020s, acoustic folk, completely stripped down, raw honesty, C major resolution, just guitar and voice feeling' }
   },
   {
     id:'E17', title:'"The Food"', logline:'Processed food as sensory predictability. Not laziness -- the nervous system needing to know.', def:'concept', priority:false, s:1,
     era: '2020s -- present day, the couch',
-    clip: { location:'Record at home with food visible', quote:'Trigger: film yourself with the actual food. Say: "Same thing, every time. You know what you\'re going to get. That\'s not laziness. That\'s the nervous system needing one less thing to process."', note:'30 seconds max. The food in frame is the visual anchor. Confessional booth setup or couch.' },
+    clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: describe the processed food ritual -- same thing every time, what it costs the nervous system to have to make a new decision about food.' },
     music: { era:'2020s -- lo-fi warm, predictable comfort', prompt:'modern, 2020s, lo-fi, warm and predictable, comfort-coded, C major, gentle rhythm, like a familiar song you know every note of' }
   },
   {
     id:'E18', title:'"The Unmasking"', logline:'You run out of energy to keep masking. Not a choice. A collapse.', def:'concept', priority:false, s:1,
     era: '2020s -- present day, post-diagnosis',
-    clip: { location:'Find or record the exhaustion moment', quote:'"When you start to peel away the masks... you\'re so tired of performing."', note:'From S03M32. Record when you are actually tired. The fatigue in the voice is the whole point. Do not perform being tired.' },
+    clip: { status:'found', location:'S03 brain dump (Moment S03M32)', quote:'"When you start to peel away the masks... you\'re so tired of performing."', note:'Found in S03M32. Find the take where you\'re actually tired -- the fatigue in the voice is the production value. 12-15 seconds. The trailing end of "performing" should land softly. Do not cut early.' },
     music: { era:'2020s -- dark indie, building to release', prompt:'modern, 2020s, dark indie, building from sparse to full, tension that releases once, then goes quiet again, D minor' }
   },
   {
     id:'E19', title:'"The Line Backwards"', logline:'Late diagnosis as simultaneous liberation and grief.', def:'concept', priority:false, s:1,
     era: '2020s -- post-diagnosis reflection',
-    clip: { location:'Record specifically on this theme', quote:'"I can see a line from where I am today... goes backwards... that\'s part of the liberation, but it\'s also part of the grief and the mourning."', note:'From S03M18. This is the show\'s most philosophical moment. Film it somewhere with a long view -- Spanish Banks, a rooftop, anywhere you can see distance. The visual matches the concept.' },
+    clip: { status:'found', location:'S03 brain dump (Moment S03M18)', quote:'"I can see a line from where I am today... goes backwards... that\'s part of the liberation, but it\'s also part of the grief and the mourning."', note:'Found in S03M18. The show\'s most philosophical clip. The trailing "..." in your delivery is the cut point -- do not rush it. 20-25 seconds. This is the rare case where length earns its length.' },
     music: { era:'2020s -- cinematic, reflective, piano-led', prompt:'modern, 2020s, cinematic piano, reflective and spacious, minor key, a long view backward, strings entering slowly' }
   },
   {
     id:'E20', title:'"The Burnout Ladder"', logline:'Push through burnout = down for days. The concrete math of collapse.', def:'concept', priority:false, s:1,
     era: '2020s -- present day pattern',
-    clip: { location:'Record specifically -- this is a teachable moment', quote:'"If you push through burnout, you\'re down for days or weeks or months or years, even."', note:'From S03M24. The math is the hook -- say it as math. "One day = three days. One week = one month." Short, factual, like you are explaining physics. 20 seconds.' },
+    clip: { status:'found', location:'S03 brain dump (Moment S03M24)', quote:'"If you push through burnout, you\'re down for days or weeks or months or years, even."', note:'Found in S03M24. Say it like physics -- the math is the hook. If there\'s a moment where you escalate through "days... weeks... months... years," that pacing IS the production value. 15-20 seconds.' },
     music: { era:'2020s -- heavy downtempo, escalating collapse', prompt:'modern, 2020s, heavy downtempo, escalating weight, the sound of a structure bearing too much load, slow collapse, minor key' }
   },
   {
     id:'E21', title:'"Not the Stereotype"', logline:'Never the bouncing-off-walls kid. Mine was always the mind.', def:'concept', priority:false, s:1,
     era: '1980s childhood -- correcting the record',
-    clip: { location:'S01 drive transcript, early -- the stereotype corrector', quote:'"I\'m not the bouncing off the walls kid. That was my brother. Mine was always the mind."', note:'From S01. This is a direct address to the camera. Short and certain. The correction is the whole confessional -- 10 seconds. It does not need elaboration.' },
+    clip: { status:'found', location:'S01 drive transcript, early section', quote:'"I\'m not the bouncing off the walls kid. That was my brother. Mine was always the mind."', note:'Found in S01. Direct address -- the correction is the whole confessional. 10-12 seconds. "Mine was always the mind" is the last word. Do not add anything after it.' },
     music: { era:'1980s correcting into now', prompt:'vintage, 1985, hair metal energy but restrained, like the energy is all internal, builds but never fully releases, C minor' }
   },
   {
     id:'E22', title:'"The Invisible"', logline:'Physical tells of overwhelm nobody recognizes.', def:'concept', priority:false, s:1,
     era: '2020s -- present day, the body showing what words can\'t',
-    clip: { location:'Record during or right after overwhelm -- face tight, eyes squinting', quote:'"My face does this thing when the overwhelm hits. Everything tightens. My eyes, my jaw, everything squints like it\'s trying to shut the world out."', note:'From S02M01. Ideally film this when you are actually in it. Or film right after. The face IS the confessional -- let the camera be close.' },
+    clip: { status:'found', location:'S02 brain dump (Moment S02M01)', quote:'"My face does this thing when the overwhelm hits. Everything tightens. My eyes, my jaw, everything squints like it\'s trying to shut the world out."', note:'Found in S02M01. The golden take is the one where your face is doing it while you say it. 15-20 seconds. Camera close. If the description matches what\'s on your face in frame, that is the clip.' },
     music: { era:'2020s -- sparse, atmospheric, almost inaudible', prompt:'modern, 2020s, atmospheric minimal, sparse piano, the sound of trying to disappear, minor key, almost inaudible at points' }
   }
 ];
@@ -855,6 +871,8 @@ function renderEpisodes() {
     let badgeCls = 'b-' + status.replace('intro-tagged','intro-tagged');
     let badgeText = isUp ? 'UP NEXT' : SL[status] || status;
 
+    const clipStatus = ep.clip.status || 'found';
+    const clipBadge = `<div class="clip-status-badge clip-status-${clipStatus}">${clipStatus === 'found' ? 'IN YOUR FOOTAGE' : 'ADD TO NEXT SESSION'}</div>`;
     const noteHTML = ep.clip.note ? `<div class="clip-note">${esc(ep.clip.note)}</div>` : '';
     card.innerHTML = `
       <div class="ep-top">
@@ -870,7 +888,8 @@ function renderEpisodes() {
       <div class="ep-detail-panel">
         <div class="ep-detail-section">
           <div class="ep-detail-label">&#127916; Confessional Clip</div>
-          <div class="ep-clip-box">
+          <div class="ep-clip-box clip-${clipStatus}">
+            ${clipBadge}
             <div class="clip-location">${esc(ep.clip.location)}</div>
             <div class="clip-quote">${esc(ep.clip.quote)}</div>
             ${noteHTML}
