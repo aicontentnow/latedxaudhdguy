@@ -594,6 +594,56 @@ body {
 }
 .notif-overlay.open { display: block; }
 
+/* TEAM TAB */
+.team-grid { display: grid; gap: 16px; }
+.team-card {
+  background: #181818;
+  border: 2px solid #252525;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.team-card.team-ready { border-left: 6px solid #39FF14; }
+.team-card.team-build  { border-left: 6px solid #FFCC00; }
+.team-card.team-future { border-left: 6px solid #333; opacity: 0.7; }
+.team-card-header { padding: 22px 24px 0; }
+.team-role-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.team-role-name { font-size: 20px; font-weight: 900; color: #fff; }
+.team-status-badge {
+  display: inline-block; font-size: 11px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 4px;
+}
+.badge-ready  { color: #000; background: #39FF14; }
+.badge-build  { color: #000; background: #FFCC00; }
+.badge-future { color: #666; background: #1e1e1e; }
+.team-when { font-size: 16px; color: #888; line-height: 1.5; padding: 0 24px 16px; }
+.team-prompt-area { padding: 0 24px 24px; }
+.team-prompt-box {
+  background: #0d0d0d; border: 2px solid #252525; border-radius: 10px;
+  padding: 16px; margin-bottom: 12px;
+}
+.team-prompt-text {
+  font-size: 15px; color: #ddd; line-height: 1.7;
+  white-space: pre-wrap; word-break: break-word; font-family: inherit;
+}
+.team-build-note {
+  font-size: 15px; color: #888; line-height: 1.6;
+  background: #141414; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px;
+}
+.team-build-note strong { color: #FFCC00; }
+.team-copy-btn {
+  display: block; width: 100%; padding: 13px;
+  background: #FFCC00; border: none; border-radius: 8px;
+  color: #000; font-size: 16px; font-weight: 900;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
+}
+.team-copy-btn:hover { background: #ffd633; }
+.team-copy-btn.copied { background: #39FF14; }
+.team-copy-btn:disabled {
+  background: #1e1e1e; color: #555; cursor: not-allowed; letter-spacing: 1px;
+}
+
 /* MOBILE */
 @media (max-width: 800px) {
   .sidebar { display: none; width: 0; border: none; }
@@ -633,12 +683,20 @@ body {
         <span style="font-size:16px;">&#9881;</span>
         <span class="sidebar-ep-title">Skill Library</span>
       </a>
+      <a class="sidebar-nav-item" onclick="switchTab('team')">
+        <span style="font-size:16px;">&#128101;</span>
+        <span class="sidebar-ep-title">Your Team</span>
+      </a>
     </div>
 
     <div class="sidebar-divider"></div>
 
     <div class="sidebar-section">
       <div class="sidebar-section-label">Skill Library</div>
+      <a class="sidebar-nav-item" onclick="switchTab('team')" style="gap:8px;">
+        <span class="sidebar-dot dot-done"></span>
+        <span class="sidebar-ep-title" style="font-size:14px;">chief-of-staff</span>
+      </a>
       <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
         <span class="sidebar-dot dot-done"></span>
         <span class="sidebar-ep-title" style="font-size:14px;">transcript-intake</span>
@@ -646,6 +704,10 @@ body {
       <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
         <span class="sidebar-dot dot-done"></span>
         <span class="sidebar-ep-title" style="font-size:14px;">episode-script</span>
+      </a>
+      <a class="sidebar-nav-item" onclick="switchTab('team')" style="gap:8px;">
+        <span class="sidebar-dot dot-scripted"></span>
+        <span class="sidebar-ep-title" style="font-size:14px; color:#FFCC00;">production-design</span>
       </a>
       <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
         <span class="sidebar-dot dot-concept"></span>
@@ -721,6 +783,7 @@ body {
       <div class="tab" onclick="switchTab('episodes')">Episodes</div>
       <div class="tab" onclick="switchTab('roadmap')">Roadmap</div>
       <div class="tab" onclick="switchTab('skills')">Skills</div>
+      <div class="tab" onclick="switchTab('team')">Your Team</div>
     </div>
 
     <!-- WORKFLOW TAB -->
@@ -845,6 +908,27 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           <span class="roadmap-tag">~/.claude/skills/ldag-episode-script/SKILL.md</span>
         </div>
 
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Built 2026-04-17</div>
+          <div class="roadmap-title">ldag-chief-of-staff skill + Team tab</div>
+          <div class="roadmap-desc">Chief of Staff session type. Reads compact state file (ldag-state.md, 30 lines), asks "What's on your mind?", gives ONE next action with exact copy-paste prompt. Team tab in dashboard has a card per specialist -- one click to copy any session prompt.</div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-chief-of-staff/SKILL.md</span>
+        </div>
+
+        <div class="roadmap-card phase-soon">
+          <div class="roadmap-phase">Next -- build after CoS</div>
+          <div class="roadmap-title">ldag-production-design skill</div>
+          <div class="roadmap-desc">Guides generating LDAG brand assets in the papercraft/cyan aesthetic. Outputs hero (1080x1920), icon (1080x1080), OG card (1200x630). Must happen before website retheme. Full brief in the Team tab -- tap "COPY BUILD PROMPT" on the Production Design card.</div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-production-design/SKILL.md -- TO BUILD</span>
+        </div>
+
+        <div class="roadmap-card phase-soon">
+          <div class="roadmap-phase">After -- once assets exist</div>
+          <div class="roadmap-title">Website retheme</div>
+          <div class="roadmap-desc">Full brief at latedxaudhd/INSTRUCTIONS_FOR_COWORK_LDAG_Website_Rebuild.md. BigShoulders Bold, yellow palette, papercraft hero. Blocked on brand assets from production design session.</div>
+          <span class="roadmap-tag">Skill: ldag-website-update -- FUTURE</span>
+        </div>
+
         <div class="roadmap-card phase-soon">
           <div class="roadmap-phase">Next -- after episode-script</div>
           <div class="roadmap-title">ldag-sequence-check skill</div>
@@ -963,6 +1047,138 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
             <strong style="color:#ccc;">Skills it calls:</strong> transcript-intake, episode-script, sequence-check, brand-check
           </div>
           <span class="roadmap-tag">Scheduled agent -- Sonnet 4.6 -- build after all 4 skills are DONE</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TEAM TAB -->
+    <div class="tab-panel" id="tab-team">
+      <div class="section-label" style="margin-bottom:8px;">Your Team</div>
+      <div class="info-box" style="margin-bottom:28px; font-size:15px;">
+        Each card is a specialist Claude session. Tap COPY PROMPT, open a new Cowork chat, paste it in. That's it.<br><br>
+        <strong style="color:#FFCC00;">Start here every time: Chief of Staff.</strong> It reads the current state and tells you the ONE thing to do next.
+      </div>
+      <div class="team-grid">
+
+        <!-- CHIEF OF STAFF -->
+        <div class="team-card team-ready">
+          <div class="team-card-header">
+            <div class="team-role-row">
+              <div class="team-role-name">Chief of Staff</div>
+              <span class="team-status-badge badge-ready">READY</span>
+            </div>
+          </div>
+          <div class="team-when">When your brain is jumping. When you don't know what to do next. When something isn't working. Opens with: "What's on your mind?" Closes with ONE action and the exact prompt.</div>
+          <div class="team-prompt-area">
+            <div class="team-prompt-box">
+              <div class="team-prompt-text" id="tp-cos">Load this skill and follow its instructions:
+~/.claude/skills/ldag-chief-of-staff/SKILL.md
+
+I'm Bodhi. LDAG project. Let's figure out what's next.</div>
+            </div>
+            <button class="team-copy-btn" onclick="cpTeam('tp-cos', this)">COPY PROMPT</button>
+          </div>
+        </div>
+
+        <!-- TRANSCRIPT INTAKE -->
+        <div class="team-card team-ready">
+          <div class="team-card-header">
+            <div class="team-role-row">
+              <div class="team-role-name">Transcript Intake</div>
+              <span class="team-status-badge badge-ready">READY</span>
+            </div>
+          </div>
+          <div class="team-when">When you've recorded a new brain dump. Paste the transcript and it extracts golden moments, intro clip candidates, theme tags, and Opus Agent prompt seeds. 75 moments and counting.</div>
+          <div class="team-prompt-area">
+            <div class="team-prompt-box">
+              <div class="team-prompt-text" id="tp-intake">Load this skill and follow its instructions:
+~/.claude/skills/ldag-transcript-intake/SKILL.md
+
+I'm Bodhi. I have a new brain dump transcript to process. Confirm you've loaded the skill, then I'll paste the transcript.</div>
+            </div>
+            <button class="team-copy-btn" onclick="cpTeam('tp-intake', this)">COPY PROMPT</button>
+          </div>
+        </div>
+
+        <!-- EPISODE SCRIPT -->
+        <div class="team-card team-ready">
+          <div class="team-card-header">
+            <div class="team-role-row">
+              <div class="team-role-name">Episode Script</div>
+              <span class="team-status-badge badge-ready">READY</span>
+            </div>
+          </div>
+          <div class="team-when">When you want to move a CONCEPT episode to SCRIPTED. Reads your moments database and episode pipeline. Outputs a full Opus Agent visual brief plus narration seed lines.</div>
+          <div class="team-prompt-area">
+            <div class="team-prompt-box">
+              <div class="team-prompt-text" id="tp-script">Load this skill and follow its instructions:
+~/.claude/skills/ldag-episode-script/SKILL.md
+
+Also read these two files:
+- latedxaudhd/production/MOMENTS_DB.md
+- latedxaudhd/production/EPISODE_PIPELINE.md
+
+I'm Bodhi. I want to script an episode. Confirm what you've loaded, then let's pick one.</div>
+            </div>
+            <button class="team-copy-btn" onclick="cpTeam('tp-script', this)">COPY PROMPT</button>
+          </div>
+        </div>
+
+        <!-- PRODUCTION DESIGN -->
+        <div class="team-card team-build">
+          <div class="team-card-header">
+            <div class="team-role-row">
+              <div class="team-role-name">Production Design</div>
+              <span class="team-status-badge badge-build">BUILD NEEDED</span>
+            </div>
+          </div>
+          <div class="team-when">When you need brand assets: hero image (1080x1920), icon (1080x1080), OG card (1200x630). Papercraft/cyan aesthetic. Must happen before the website retheme.</div>
+          <div class="team-prompt-area">
+            <div class="team-build-note">
+              <strong>Skill not built yet.</strong> Use this prompt to build it first -- takes one Cowork session. Once built, come back here and the card updates to READY.
+            </div>
+            <div class="team-prompt-box">
+              <div class="team-prompt-text" id="tp-proddesign">Build the ldag-production-design skill. Read this first:
+- latedxaudhd/brand/LDAG_Brand_Bible.md
+
+The skill should guide generating LDAG brand assets in the papercraft/cyan aesthetic at three sizes: 1080x1920 hero, 1080x1080 icon, 1200x630 OG card. Make it self-contained -- all visual rules embedded in the skill, no file hunting needed at runtime. Save it to:
+~/.claude/skills/ldag-production-design/SKILL.md
+
+Confirm when built and show me the starter prompt.</div>
+            </div>
+            <button class="team-copy-btn" onclick="cpTeam('tp-proddesign', this)">COPY BUILD PROMPT</button>
+          </div>
+        </div>
+
+        <!-- SEQUENCE CHECK -->
+        <div class="team-card team-future">
+          <div class="team-card-header">
+            <div class="team-role-row">
+              <div class="team-role-name">Sequence Check</div>
+              <span class="team-status-badge badge-future">QUEUED</span>
+            </div>
+          </div>
+          <div class="team-when">When you're ready to validate Season 1 episode order before it goes public. No episode should assume context the viewer doesn't have yet.</div>
+          <div class="team-prompt-area">
+            <div class="team-build-note">Build after more episodes are scripted. Skill path: <code style="color:#FFCC00;">~/.claude/skills/ldag-sequence-check/SKILL.md</code></div>
+            <button class="team-copy-btn" disabled>NOT BUILT YET</button>
+          </div>
+        </div>
+
+        <!-- WEBSITE UPDATE -->
+        <div class="team-card team-future">
+          <div class="team-card-header">
+            <div class="team-role-row">
+              <div class="team-role-name">Website Update</div>
+              <span class="team-status-badge badge-future">FUTURE</span>
+            </div>
+          </div>
+          <div class="team-when">When you're ready to retheme the site or add new episodes to the public episode grid. Blocked on brand assets existing first.</div>
+          <div class="team-prompt-area">
+            <div class="team-build-note">Build after Production Design session generates assets. Full brief at: <code style="color:#FFCC00;">latedxaudhd/INSTRUCTIONS_FOR_COWORK_LDAG_Website_Rebuild.md</code></div>
+            <button class="team-copy-btn" disabled>NOT BUILT YET</button>
+          </div>
         </div>
 
       </div>
@@ -1282,7 +1498,7 @@ function switchTab(id) {
   currentTab = id;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  const tabs = ['workflow','episodes','roadmap','skills'];
+  const tabs = ['workflow','episodes','roadmap','skills','team'];
   const tabIdx = tabs.indexOf(id);
   document.querySelectorAll('.tab')[tabIdx]?.classList.add('active');
   document.getElementById('tab-' + id)?.classList.add('active');
@@ -1447,6 +1663,17 @@ const EP_STARTERS = {};
 
 function cpEpStarter(epId, btn, label) {
   const text = EP_STARTERS[epId] || '';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => markCopied(btn, label)).catch(() => { fallbackCopy(text); markCopied(btn, label); });
+  } else {
+    fallbackCopy(text);
+    markCopied(btn, label);
+  }
+}
+
+function cpTeam(id, btn) {
+  const text = document.getElementById(id).textContent;
+  const label = btn.textContent;
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => markCopied(btn, label)).catch(() => { fallbackCopy(text); markCopied(btn, label); });
   } else {
