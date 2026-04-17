@@ -443,6 +443,18 @@ body {
 .ep-clip-box.clip-found { border-left-color: #39FF14; }
 .ep-clip-box.clip-needed { border-left-color: #FFCC00; }
 
+/* MAKE THIS EPISODE */
+.ep-make-section { border-top: 2px solid #1e1e1e; padding-top: 16px; }
+.ep-make-btn {
+  display: block; width: 100%; padding: 14px 18px;
+  background: #FFCC00; border: none; border-radius: 8px;
+  color: #000; font-size: 16px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer; font-family: inherit;
+  transition: background 0.15s;
+}
+.ep-make-btn:hover { background: #ffd633; }
+.ep-make-btn.copied { background: #39FF14; }
+
 /* MOBILE */
 @media (max-width: 800px) {
   .sidebar { display: none; width: 0; border: none; }
@@ -558,8 +570,8 @@ The ldag-transcript-intake skill is installed and will auto-activate when I past
             <div class="action-num">2</div>
             <div>
               <div class="action-title">I want to make an episode</div>
-              <div class="action-desc">Paste a prompt into Opus Agent and get AI animation footage.</div>
-              <div class="tap-cta">TAP -- GET THE NEXT PROMPT</div>
+              <div class="action-desc">The current priority episode is shown below. To make any other episode, go to the Episodes tab, open any card, and tap COPY STARTER PROMPT.</div>
+              <div class="tap-cta">TAP -- GET THE PROMPTS</div>
             </div>
           </div>
           <div class="prompt-reveal">
@@ -875,6 +887,8 @@ function renderEpisodes() {
     const clipStatus = ep.clip.status || 'found';
     const clipBadge = `<div class="clip-status-badge clip-status-${clipStatus}">${clipStatus === 'found' ? 'IN YOUR FOOTAGE' : 'ADD TO NEXT SESSION'}</div>`;
     const noteHTML = ep.clip.note ? `<div class="clip-note">${esc(ep.clip.note)}</div>` : '';
+    const cleanTitle = ep.title.replace(/["""]/g, '').replace(/--/g, '--').trim();
+    const coworkStarter = `You are continuing work on LDAG (Late Diagnosed AuDHD Guy). Start by reading:\n1. latedxaudhd/CLAUDE.md\n2. latedxaudhd/production/EPISODE_PIPELINE.md\n3. latedxaudhd/production/MOMENTS_DB.md\n\nI want to produce ${ep.id} -- ${cleanTitle}.\nConcept: ${ep.logline}\n\nFind the Opus Agent prompt for this episode in EPISODE_PIPELINE. If it exists, give it to me ready to paste. Also give me the narration lines separately so I can record them. If no Opus prompt exists yet, write one now using the format in CLAUDE.md. Confirm what you know before we start.`;
     card.innerHTML = `
       <div class="ep-top">
         <div class="ep-check ${done ? 'checked' : ''}" onclick="toggleDone('${ep.id}')">${done ? '&#10003;' : ''}</div>
@@ -903,6 +917,11 @@ function renderEpisodes() {
             <div class="ep-music-prompt">${esc(ep.music.prompt)}</div>
             <button class="music-copy-btn" data-prompt="${esc(ep.music.prompt)}" onclick="cpThis(this,'COPY PROMPT')">COPY PROMPT</button>
           </div>
+        </div>
+        <div class="ep-detail-section ep-make-section">
+          <div class="ep-detail-label">&#9654; Make This Episode</div>
+          <div class="info-box" style="font-size:14px; margin-bottom:12px;">Open a new Cowork chat and paste this. Claude will find or write the Opus prompt and give you the narration lines ready to record.</div>
+          <button class="ep-make-btn" data-prompt="${esc(coworkStarter)}" onclick="cpThis(this,'COPY STARTER PROMPT')">COPY STARTER PROMPT</button>
         </div>
       </div>`;
     list.appendChild(card);
