@@ -455,6 +455,119 @@ body {
 .ep-make-btn:hover { background: #ffd633; }
 .ep-make-btn.copied { background: #39FF14; }
 
+/* NOTIFICATION BELL */
+.notif-bell {
+  position: relative;
+  background: none;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.12s;
+  display: flex;
+  align-items: center;
+}
+.notif-bell:hover { background: #1a1a1a; }
+.notif-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #D21E1E;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0d0d0d;
+}
+.notif-badge.zero { display: none; }
+
+/* NOTIFICATION PANEL */
+.notif-panel {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-width: 95vw;
+  height: 100vh;
+  background: #111;
+  border-left: 2px solid #2a2a2a;
+  z-index: 200;
+  overflow-y: auto;
+  flex-direction: column;
+}
+.notif-panel.open { display: flex; }
+.notif-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid #2a2a2a;
+  position: sticky;
+  top: 0;
+  background: #111;
+}
+.notif-panel-title { font-size: 18px; font-weight: 900; color: #FFCC00; letter-spacing: 1px; }
+.notif-close {
+  background: none;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #888;
+  font-size: 16px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.notif-close:hover { color: #fff; border-color: #555; }
+.notif-list { padding: 16px 0; flex: 1; }
+.notif-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid #1a1a1a;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.notif-item:hover { background: #161616; }
+.notif-type {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.notif-type-action { color: #FFCC00; }
+.notif-type-warning { color: #D21E1E; }
+.notif-type-info { color: #666; }
+.notif-title { font-size: 16px; font-weight: 700; color: #eee; margin-bottom: 4px; }
+.notif-desc { font-size: 14px; color: #888; line-height: 1.5; }
+.notif-cta {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFCC00;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.notif-cta:hover { background: #252525; }
+.notif-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 199;
+}
+.notif-overlay.open { display: block; }
+
 /* MOBILE */
 @media (max-width: 800px) {
   .sidebar { display: none; width: 0; border: none; }
@@ -490,6 +603,36 @@ body {
         <span style="font-size:16px;">&#9670;</span>
         <span class="sidebar-ep-title">Roadmap</span>
       </a>
+      <a class="sidebar-nav-item" onclick="switchTab('skills')">
+        <span style="font-size:16px;">&#9881;</span>
+        <span class="sidebar-ep-title">Skill Library</span>
+      </a>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Skill Library</div>
+      <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
+        <span class="sidebar-dot dot-done"></span>
+        <span class="sidebar-ep-title" style="font-size:14px;">transcript-intake</span>
+      </a>
+      <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
+        <span class="sidebar-dot dot-next"></span>
+        <span class="sidebar-ep-title" style="font-size:14px;">episode-script</span>
+      </a>
+      <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
+        <span class="sidebar-dot dot-concept"></span>
+        <span class="sidebar-ep-title" style="font-size:14px; color:#555;">sequence-check</span>
+      </a>
+      <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
+        <span class="sidebar-dot dot-concept"></span>
+        <span class="sidebar-ep-title" style="font-size:14px; color:#555;">brand-check</span>
+      </a>
+      <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
+        <span class="sidebar-dot dot-concept"></span>
+        <span class="sidebar-ep-title" style="font-size:14px; color:#555;">website-update</span>
+      </a>
     </div>
 
     <div class="sidebar-divider"></div>
@@ -519,8 +662,24 @@ body {
         <h1>LDAG Production Pipeline</h1>
         <div class="sub">Late Diagnosed AuDHD Guy -- your episode command center</div>
       </div>
-      <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="notif-bell" id="notifBell" onclick="toggleNotifications()" title="Notifications">
+          <span style="font-size:22px;">&#128276;</span>
+          <span class="notif-badge" id="notifBadge">4</span>
+        </button>
+        <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+      </div>
     </div>
+
+    <!-- NOTIFICATIONS PANEL -->
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-panel-header">
+        <span class="notif-panel-title">Notifications</span>
+        <button class="notif-close" onclick="toggleNotifications()">&#10005;</button>
+      </div>
+      <div class="notif-list" id="notifList"></div>
+    </div>
+    <div class="notif-overlay" id="notifOverlay" onclick="toggleNotifications()"></div>
 
     <div class="counts-bar">
       <div class="count-block c-done"><span class="count-num" id="cnt-done">2</span><span class="count-lbl">Done</span></div>
@@ -534,6 +693,7 @@ body {
       <div class="tab active" onclick="switchTab('workflow')">What To Do Now</div>
       <div class="tab" onclick="switchTab('episodes')">Episodes</div>
       <div class="tab" onclick="switchTab('roadmap')">Roadmap</div>
+      <div class="tab" onclick="switchTab('skills')">Skills</div>
     </div>
 
     <!-- WORKFLOW TAB -->
@@ -679,11 +839,103 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           <span class="roadmap-tag">Needs: Supabase project, episodes table, status column, JS API calls</span>
         </div>
 
+        <div class="roadmap-card phase-soon" style="border-left-color:#555;">
+          <div class="roadmap-phase" style="color:#555;">Queued -- After sequence-check</div>
+          <div class="roadmap-title">ldag-brand-check skill</div>
+          <div class="roadmap-desc">Validates any LDAG content against the brand bible. Checks: title treatment (Dx, AuDHD capitalization), tagline usage, color rules, voice rules (direct/specific/unresolved -- not inspirational/tips-based).</div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-brand-check/SKILL.md -- TO BUILD</span>
+        </div>
+
+        <div class="roadmap-card phase-later">
+          <div class="roadmap-phase">Future -- When episodes are ready to publish</div>
+          <div class="roadmap-title">ldag-website-update skill</div>
+          <div class="roadmap-desc">Takes new episode data from EPISODE_PIPELINE.md and updates the public website episode grid automatically. No manual HTML editing needed when adding a new episode.</div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-website-update/SKILL.md -- FUTURE</span>
+        </div>
+
         <div class="roadmap-card phase-later">
           <div class="roadmap-phase">Long-term</div>
           <div class="roadmap-title">Dashboard sidebar: episode detail view</div>
           <div class="roadmap-desc">Click any episode in the sidebar and see the full Opus Agent prompt, associated moments from MOMENTS_DB, intro clip candidates, and production notes -- all inline. No hunting in Markdown files.</div>
           <span class="roadmap-tag">Requires Supabase backend first</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SKILLS TAB -->
+    <div class="tab-panel" id="tab-skills">
+      <div class="section-label" style="margin-bottom:8px;">LDAG Skill Universe</div>
+      <div class="info-box" style="margin-bottom:24px; font-size:15px;">Every skill lives at <code style="background:#1a1a1a; padding:2px 6px; border-radius:4px; color:#FFCC00;">~/.claude/skills/ldag-[name]/SKILL.md</code><br><br>When a skill is built: (1) update its card here from QUEUED to DONE, (2) update latedxaudhd/CLAUDE.md revision log, (3) update master Claude-Workspace/CLAUDE.md revision log, (4) deploy this dashboard. Every session that builds a skill must do all four steps before closing.</div>
+      <div class="roadmap-grid">
+
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Done -- Built 2026-04-16</div>
+          <div class="roadmap-title">ldag-transcript-intake</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Input:</strong> Raw Markdown transcript (Otter/Wispr export)<br>
+            <strong style="color:#ccc;">Output:</strong> MOMENTS_DB entries, theme tags, intro clip candidates by timestamp, Opus Agent prompt seeds<br>
+            <strong style="color:#ccc;">Trigger:</strong> Any session where Bodhi pastes a transcript<br>
+            <strong style="color:#ccc;">Status:</strong> 3 sessions processed, 69 moments extracted
+          </div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-transcript-intake/SKILL.md</span>
+        </div>
+
+        <div class="roadmap-card phase-soon">
+          <div class="roadmap-phase">Next -- Build this session</div>
+          <div class="roadmap-title">ldag-episode-script</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Input:</strong> Episode ID + logline + Moment IDs from MOMENTS_DB<br>
+            <strong style="color:#ccc;">Output:</strong> Opus Agent visual brief (no narration embedded) + narration seed lines (separate block) + EPISODE_PIPELINE.md update line<br>
+            <strong style="color:#ccc;">Trigger:</strong> "Write the Opus prompt for [episode]"<br>
+            <strong style="color:#ccc;">Key rule:</strong> Visual brief never contains narration. Opus writes its own script.
+          </div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-episode-script/SKILL.md -- TO BUILD</span>
+        </div>
+
+        <div class="roadmap-card phase-soon" style="border-left-color:#555;">
+          <div class="roadmap-phase" style="color:#555;">Queued -- After episode-script</div>
+          <div class="roadmap-title">ldag-sequence-check</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Input:</strong> Proposed episode order (list of IDs + titles + concepts)<br>
+            <strong style="color:#ccc;">Output:</strong> Validated ordering, flags for assumed context, suggested Season 1 opener sequence<br>
+            <strong style="color:#ccc;">Trigger:</strong> "Validate the episode order" or before Season 1 goes public<br>
+            <strong style="color:#ccc;">Key rule:</strong> No episode should assume context the viewer doesn't have yet
+          </div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-sequence-check/SKILL.md -- TO BUILD</span>
+        </div>
+
+        <div class="roadmap-card phase-soon" style="border-left-color:#555;">
+          <div class="roadmap-phase" style="color:#555;">Queued -- After sequence-check</div>
+          <div class="roadmap-title">ldag-brand-check</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Input:</strong> Any LDAG content -- script, title, copy, asset description<br>
+            <strong style="color:#ccc;">Output:</strong> Brand compliance report against LDAG_Brand_Bible.md<br>
+            <strong style="color:#ccc;">Trigger:</strong> "Check this against the brand bible" or before finalizing any episode<br>
+            <strong style="color:#ccc;">Checks:</strong> Title treatment (Dx/AuDHD), tagline integrity, color rules, voice rules (direct/specific/unresolved)
+          </div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-brand-check/SKILL.md -- TO BUILD</span>
+        </div>
+
+        <div class="roadmap-card phase-later">
+          <div class="roadmap-phase">Future -- When episodes are publishing</div>
+          <div class="roadmap-title">ldag-website-update</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Input:</strong> New episode data from EPISODE_PIPELINE.md (title, logline, status, thumbnail)<br>
+            <strong style="color:#ccc;">Output:</strong> Updated index.html with new episode card added to the grid, deployed to GitHub Pages<br>
+            <strong style="color:#ccc;">Trigger:</strong> "Add [episode] to the website" or when marking an episode DONE
+          </div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-website-update/SKILL.md -- FUTURE</span>
+        </div>
+
+        <div class="roadmap-card phase-later">
+          <div class="roadmap-phase">After all 4 core skills exist</div>
+          <div class="roadmap-title">Executive Producer agent</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Orchestrates all skills.</strong> Reads MOMENTS_DB and EPISODE_PIPELINE on a cadence. Surfaces what to produce next. Flags theme coverage gaps. Runs sequence-check. Keeps the catalog growing without Bodhi doing the connective tissue.<br>
+            <strong style="color:#ccc;">Skills it calls:</strong> transcript-intake, episode-script, sequence-check, brand-check
+          </div>
+          <span class="roadmap-tag">Scheduled agent -- Sonnet 4.6 -- build after all 4 skills are DONE</span>
         </div>
 
       </div>
@@ -834,6 +1086,24 @@ const episodes = [
     era: '2020s -- present day, the body showing what words can\'t',
     clip: { status:'found', location:'S02 -- Moment S02M01, very early in the session, first few minutes. NOTE: S02 video status unconfirmed -- check whether this session has video or audio only.', quote:'"My face does this thing when the overwhelm hits. Everything tightens. My eyes, my jaw, everything squints like it\'s trying to shut the world out."', note:'First few minutes of S02. If video exists: the golden take is where your face is doing it while you say it. Camera close, 15-20 seconds. If audio only: re-record when you\'re actually in it.' },
     music: { era:'2020s -- sparse, atmospheric, almost inaudible', prompt:'modern, 2020s, atmospheric minimal, sparse piano, the sound of trying to disappear, minor key, almost inaudible at points' }
+  },
+  {
+    id:'E23', title:'"The Tunnel"', logline:'Hyperfocus tunnel vision. When you\'re in it, everything else ceases to exist -- including people who need you.', def:'scripted', priority:false, s:1,
+    era: 'Any era -- this is a recurring state',
+    clip: { status:'needed', location:'Not yet captured in S01-S03. Brain dump agenda: describe what it feels like to go into the tunnel -- what triggers it, how long it lasts, what happens to the people around you while you\'re in it. Specific example if possible.', quote:'[Prompt being developed]' },
+    music: { era:'timeless -- obsessive loop energy', prompt:'obsessive, hypnotic, single repeating motif that builds and never resolves, minor key, 80s synth undertones, the sound of being trapped inside your own focus' }
+  },
+  {
+    id:'E24', title:'"The Lane"', logline:'One track. One thing at a time. The AuDHD brain doesn\'t switch lanes -- it exits the highway.', def:'scripted', priority:false, s:1,
+    era: 'School memories + present day',
+    clip: { status:'needed', location:'Not yet captured in S01-S03. Brain dump agenda: describe what happens when you have to switch tasks or contexts mid-flow. Specific example -- a meeting that derailed a whole day, a kid interrupting a work session, anything that forced a lane switch.', quote:'[Prompt being developed]' },
+    music: { era:'1990s -- the decade of forced lane switching', prompt:'1990s, driving rock energy, starts confident and single-direction, then abrupt jarring shift mid-track, never fully recovers the original groove' }
+  },
+  {
+    id:'E25', title:'"The Volume"', logline:'Everyone else has a volume knob. Mine is broken off. Everything is always too loud.', def:'scripted', priority:false, s:1,
+    era: 'Present day -- sensory processing',
+    clip: { status:'needed', location:'Not yet captured in S01-S03. Brain dump agenda: describe what sensory overwhelm actually feels like -- sound, light, movement. One specific environment where it hits hardest. How you cope vs how it looks from the outside.', quote:'[Prompt being developed]' },
+    music: { era:'2020s -- maximal', prompt:'2020s, starts quiet and clean, layers pile on relentlessly, multiple tempos fighting each other, never resolves into clarity, the sound of too many inputs at once' }
   }
 ];
 
@@ -985,10 +1255,85 @@ function switchTab(id) {
   currentTab = id;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  const tabs = ['workflow','episodes','roadmap'];
+  const tabs = ['workflow','episodes','roadmap','skills'];
   const tabIdx = tabs.indexOf(id);
   document.querySelectorAll('.tab')[tabIdx]?.classList.add('active');
   document.getElementById('tab-' + id)?.classList.add('active');
+}
+
+/* ---- NOTIFICATIONS ---- */
+const NOTIFICATIONS = [
+  {
+    type: 'action',
+    title: '3 new episodes added to pipeline',
+    desc: 'The Tunnel (E23), The Lane (E24), The Volume (E25) are now in the episodes tab with scripted status. Opus prompts need to be written -- use ldag-episode-script skill when built.',
+    cta: null
+  },
+  {
+    type: 'action',
+    title: '12 episodes ready for Opus Agent',
+    desc: '9 scripted + 3 newly added. Start with "The Threat" -- highest priority. Opus Agent has 200 free credits/day. One episode per session builds the backlog fast.',
+    cta: { label: 'Go to Episodes', action: () => switchTab('episodes') }
+  },
+  {
+    type: 'warning',
+    title: 'S02 camera status unconfirmed',
+    desc: 'E22 "The Invisible" and others draw from S02 footage. Camera status is unconfirmed -- check whether the session has video or audio only before cutting any S02 clips.',
+    cta: null
+  },
+  {
+    type: 'warning',
+    title: 'Website visual identity is wrong',
+    desc: 'latedxaudhdguy.com uses the SEASONS template design (blue, Space Grotesk). Brand bible spec is Caution Yellow + BigShoulders Bold. Retheme needed before public launch.',
+    cta: null
+  },
+  {
+    type: 'action',
+    title: 'ldag-episode-script skill -- build next session',
+    desc: 'This is the highest-impact skill not yet built. Without it, every episode scripting session burns tokens re-explaining the Opus Agent format. Dedicated Cowork session, 45-60 min.',
+    cta: { label: 'Go to Skills', action: () => switchTab('skills') }
+  },
+  {
+    type: 'info',
+    title: 'HTTPS enforcement pending',
+    desc: 'Run: gh api repos/aicontentnow/latedxaudhdguy/pages --method PUT --field https_enforced=true -- then delete Netlify site 7ab6445a.',
+    cta: null
+  }
+];
+
+function buildNotifications() {
+  const list = document.getElementById('notifList');
+  const badge = document.getElementById('notifBadge');
+  const actionCount = NOTIFICATIONS.filter(n => n.type === 'action' || n.type === 'warning').length;
+  badge.textContent = actionCount;
+  if (actionCount === 0) badge.classList.add('zero');
+
+  list.innerHTML = NOTIFICATIONS.map((n, i) => `
+    <div class="notif-item">
+      <div class="notif-type notif-type-${n.type}">${n.type === 'action' ? 'Action Needed' : n.type === 'warning' ? 'Warning' : 'Info'}</div>
+      <div class="notif-title">${n.title}</div>
+      <div class="notif-desc">${n.desc}</div>
+      ${n.cta ? `<button class="notif-cta" onclick="notifAction(${i})">${n.cta.label}</button>` : ''}
+    </div>
+  `).join('');
+}
+
+function notifAction(idx) {
+  const n = NOTIFICATIONS[idx];
+  if (n.cta?.action) { n.cta.action(); closeNotifications(); }
+}
+
+function toggleNotifications() {
+  const panel = document.getElementById('notifPanel');
+  const overlay = document.getElementById('notifOverlay');
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  overlay.classList.toggle('open', !isOpen);
+}
+
+function closeNotifications() {
+  document.getElementById('notifPanel').classList.remove('open');
+  document.getElementById('notifOverlay').classList.remove('open');
 }
 
 function toggleCard(id) {
@@ -1080,6 +1425,7 @@ function toggleDetail(id) {
 
 initState();
 renderAll();
+buildNotifications();
 </script>
 </body>
 </html>
