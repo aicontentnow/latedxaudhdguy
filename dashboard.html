@@ -618,7 +618,7 @@ body {
         <span class="sidebar-ep-title" style="font-size:14px;">transcript-intake</span>
       </a>
       <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
-        <span class="sidebar-dot dot-next"></span>
+        <span class="sidebar-dot dot-done"></span>
         <span class="sidebar-ep-title" style="font-size:14px;">episode-script</span>
       </a>
       <a class="sidebar-nav-item" onclick="switchTab('skills')" style="gap:8px;">
@@ -811,11 +811,11 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           <span class="roadmap-tag">Live at latedxaudhdguy.com/dashboard.html</span>
         </div>
 
-        <div class="roadmap-card phase-soon">
-          <div class="roadmap-phase">Next -- build when ready</div>
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Built 2026-04-17</div>
           <div class="roadmap-title">ldag-episode-script skill</div>
-          <div class="roadmap-desc">Takes a concept and selected moment IDs from MOMENTS_DB. Outputs a correctly formatted Opus Agent prompt. Eliminates manual scripting work and ensures consistent format every time.</div>
-          <span class="roadmap-tag">Dedicated Cowork session -- 45-60 min</span>
+          <div class="roadmap-desc">Takes a concept and selected moment IDs from MOMENTS_DB. Outputs a correctly formatted Opus Agent visual brief, narration seed block, and PIPELINE status line. Use it: "Write the Opus prompt for [episode]".</div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-episode-script/SKILL.md</span>
         </div>
 
         <div class="roadmap-card phase-soon">
@@ -881,8 +881,8 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           <span class="roadmap-tag">~/.claude/skills/ldag-transcript-intake/SKILL.md</span>
         </div>
 
-        <div class="roadmap-card phase-soon">
-          <div class="roadmap-phase">Next -- Build this session</div>
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Built 2026-04-17</div>
           <div class="roadmap-title">ldag-episode-script</div>
           <div class="roadmap-desc" style="line-height:1.7;">
             <strong style="color:#ccc;">Input:</strong> Episode ID + logline + Moment IDs from MOMENTS_DB<br>
@@ -890,7 +890,7 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
             <strong style="color:#ccc;">Trigger:</strong> "Write the Opus prompt for [episode]"<br>
             <strong style="color:#ccc;">Key rule:</strong> Visual brief never contains narration. Opus writes its own script.
           </div>
-          <span class="roadmap-tag">~/.claude/skills/ldag-episode-script/SKILL.md -- TO BUILD</span>
+          <span class="roadmap-tag">~/.claude/skills/ldag-episode-script/SKILL.md</span>
         </div>
 
         <div class="roadmap-card phase-soon" style="border-left-color:#555;">
@@ -1266,7 +1266,7 @@ const NOTIFICATIONS = [
   {
     type: 'action',
     title: '3 new episodes added to pipeline',
-    desc: 'The Tunnel (E23), The Lane (E24), The Volume (E25) are now in the episodes tab with scripted status. Opus prompts need to be written -- use ldag-episode-script skill when built.',
+    desc: 'The Tunnel (E23), The Lane (E24), The Volume (E25) are now in the episodes tab with scripted status. Opus prompts need to be written -- use the ldag-episode-script skill.',
     cta: null
   },
   {
@@ -1286,12 +1286,6 @@ const NOTIFICATIONS = [
     title: 'Website visual identity is wrong',
     desc: 'latedxaudhdguy.com uses the SEASONS template design (blue, Space Grotesk). Brand bible spec is Caution Yellow + BigShoulders Bold. Retheme needed before public launch.',
     cta: null
-  },
-  {
-    type: 'action',
-    title: 'ldag-episode-script skill -- build next session',
-    desc: 'This is the highest-impact skill not yet built. Without it, every episode scripting session burns tokens re-explaining the Opus Agent format. Dedicated Cowork session, 45-60 min.',
-    cta: { label: 'Go to Skills', action: () => switchTab('skills') }
   },
   {
     type: 'info',
