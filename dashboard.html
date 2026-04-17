@@ -523,20 +523,46 @@ body {
   cursor: pointer;
 }
 .notif-close:hover { color: #fff; border-color: #555; }
+.notif-clear-all {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-right: 4px;
+}
+.notif-clear-all:hover { color: #888; }
 .notif-list { padding: 16px 0; flex: 1; }
 .notif-item {
   padding: 14px 20px;
   border-bottom: 1px solid #1a1a1a;
-  cursor: pointer;
   transition: background 0.1s;
 }
 .notif-item:hover { background: #161616; }
+.notif-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.notif-dismiss {
+  background: none;
+  border: none;
+  color: #444;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+.notif-dismiss:hover { color: #888; }
 .notif-type {
   font-size: 10px;
   font-weight: 900;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 6px;
 }
 .notif-type-action { color: #FFCC00; }
 .notif-type-warning { color: #D21E1E; }
@@ -675,6 +701,7 @@ body {
     <div class="notif-panel" id="notifPanel">
       <div class="notif-panel-header">
         <span class="notif-panel-title">Notifications</span>
+        <button class="notif-clear-all" onclick="dismissAll()">Clear all</button>
         <button class="notif-close" onclick="toggleNotifications()">&#10005;</button>
       </div>
       <div class="notif-list" id="notifList"></div>
@@ -686,7 +713,7 @@ body {
       <div class="count-block c-prod"><span class="count-num" id="cnt-prod">0</span><span class="count-lbl">In Production</span></div>
       <div class="count-block c-ready"><span class="count-num" id="cnt-ready">9</span><span class="count-lbl">Ready to Run</span></div>
       <div class="count-block c-concept"><span class="count-num" id="cnt-concept">11</span><span class="count-lbl">Concept</span></div>
-      <div class="count-block c-moments"><span class="count-num">69</span><span class="count-lbl">Moments</span></div>
+      <div class="count-block c-moments"><span class="count-num">75</span><span class="count-lbl">Moments</span></div>
     </div>
 
     <div class="tab-bar">
@@ -1264,57 +1291,76 @@ function switchTab(id) {
 /* ---- NOTIFICATIONS ---- */
 const NOTIFICATIONS = [
   {
-    type: 'action',
-    title: '3 new episodes added to pipeline',
-    desc: 'The Tunnel (E23), The Lane (E24), The Volume (E25) are now in the episodes tab with scripted status. Opus prompts need to be written -- use the ldag-episode-script skill.',
-    cta: null
-  },
-  {
+    id: 'opus-ready',
     type: 'action',
     title: '12 episodes ready for Opus Agent',
-    desc: '9 scripted + 3 newly added. Start with "The Threat" -- highest priority. Opus Agent has 200 free credits/day. One episode per session builds the backlog fast.',
+    desc: 'Start with "The Threat" -- highest priority. Opus Agent has 200 free credits/day. One episode per session builds the backlog fast.',
     cta: { label: 'Go to Episodes', action: () => switchTab('episodes') }
   },
   {
-    type: 'warning',
-    title: 'S02 camera status unconfirmed',
-    desc: 'E22 "The Invisible" and others draw from S02 footage. Camera status is unconfirmed -- check whether the session has video or audio only before cutting any S02 clips.',
-    cta: null
-  },
-  {
-    type: 'warning',
-    title: 'Website visual identity is wrong',
-    desc: 'latedxaudhdguy.com uses the SEASONS template design (blue, Space Grotesk). Brand bible spec is Caution Yellow + BigShoulders Bold. Retheme needed before public launch.',
-    cta: null
-  },
-  {
+    id: 'https-pending',
     type: 'info',
     title: 'HTTPS enforcement pending',
     desc: 'Run: gh api repos/aicontentnow/latedxaudhdguy/pages --method PUT --field https_enforced=true -- then delete Netlify site 7ab6445a.',
     cta: null
+  },
+  {
+    id: 'website-retheme',
+    type: 'info',
+    title: 'Website retheme blocked on brand assets',
+    desc: 'Site uses placeholder design. Retheme happens after production design session generates hero (1080x1920) and icon (1080x1080) in the papercraft/cyan aesthetic.',
+    cta: null
+  },
+  {
+    id: 's02-camera',
+    type: 'info',
+    title: 'S02 camera status unconfirmed',
+    desc: 'E22 "The Invisible" and others draw from S02 footage. Verify whether that session has video or audio only before cutting S02 clips.',
+    cta: null
   }
 ];
+
+let dismissedNotifs = new Set();
 
 function buildNotifications() {
   const list = document.getElementById('notifList');
   const badge = document.getElementById('notifBadge');
-  const actionCount = NOTIFICATIONS.filter(n => n.type === 'action' || n.type === 'warning').length;
+  const visible = NOTIFICATIONS.filter(n => !dismissedNotifs.has(n.id));
+  const actionCount = visible.filter(n => n.type === 'action').length;
   badge.textContent = actionCount;
-  if (actionCount === 0) badge.classList.add('zero');
+  badge.classList.toggle('zero', actionCount === 0);
 
-  list.innerHTML = NOTIFICATIONS.map((n, i) => `
-    <div class="notif-item">
-      <div class="notif-type notif-type-${n.type}">${n.type === 'action' ? 'Action Needed' : n.type === 'warning' ? 'Warning' : 'Info'}</div>
+  if (visible.length === 0) {
+    list.innerHTML = '<div style="padding:24px 16px;color:#666;font-size:13px;">No active notifications.</div>';
+    return;
+  }
+
+  list.innerHTML = visible.map((n) => `
+    <div class="notif-item" id="notif-${n.id}">
+      <div class="notif-item-header">
+        <div class="notif-type notif-type-${n.type}">${n.type === 'action' ? 'Action Needed' : n.type === 'warning' ? 'Warning' : 'Info'}</div>
+        <button class="notif-dismiss" onclick="dismissNotif('${n.id}')" title="Dismiss">&#10005;</button>
+      </div>
       <div class="notif-title">${n.title}</div>
       <div class="notif-desc">${n.desc}</div>
-      ${n.cta ? `<button class="notif-cta" onclick="notifAction(${i})">${n.cta.label}</button>` : ''}
+      ${n.cta ? `<button class="notif-cta" onclick="notifAction('${n.id}')">${n.cta.label}</button>` : ''}
     </div>
   `).join('');
 }
 
-function notifAction(idx) {
-  const n = NOTIFICATIONS[idx];
-  if (n.cta?.action) { n.cta.action(); closeNotifications(); }
+function dismissNotif(id) {
+  dismissedNotifs.add(id);
+  buildNotifications();
+}
+
+function dismissAll() {
+  NOTIFICATIONS.forEach(n => dismissedNotifs.add(n.id));
+  buildNotifications();
+}
+
+function notifAction(id) {
+  const n = NOTIFICATIONS.find(x => x.id === id);
+  if (n?.cta?.action) { n.cta.action(); closeNotifications(); }
 }
 
 function toggleNotifications() {
