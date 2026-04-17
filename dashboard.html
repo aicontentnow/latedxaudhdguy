@@ -888,7 +888,7 @@ function renderEpisodes() {
     const clipBadge = `<div class="clip-status-badge clip-status-${clipStatus}">${clipStatus === 'found' ? 'IN YOUR FOOTAGE' : 'ADD TO NEXT SESSION'}</div>`;
     const noteHTML = ep.clip.note ? `<div class="clip-note">${esc(ep.clip.note)}</div>` : '';
     const cleanTitle = ep.title.replace(/["""]/g, '').replace(/--/g, '--').trim();
-    const coworkStarter = `You are continuing work on LDAG (Late Diagnosed AuDHD Guy). Start by reading:\n1. latedxaudhd/CLAUDE.md\n2. latedxaudhd/production/EPISODE_PIPELINE.md\n3. latedxaudhd/production/MOMENTS_DB.md\n\nI want to produce ${ep.id} -- ${cleanTitle}.\nConcept: ${ep.logline}\n\nFind the Opus Agent prompt for this episode in EPISODE_PIPELINE. If it exists, give it to me ready to paste. Also give me the narration lines separately so I can record them. If no Opus prompt exists yet, write one now using the format in CLAUDE.md. Confirm what you know before we start.`;
+    EP_STARTERS[ep.id] = `You are continuing work on LDAG (Late Diagnosed AuDHD Guy). Start by reading:\n1. latedxaudhd/CLAUDE.md\n2. latedxaudhd/production/EPISODE_PIPELINE.md\n3. latedxaudhd/production/MOMENTS_DB.md\n\nI want to produce ${ep.id} -- ${cleanTitle}.\nConcept: ${ep.logline}\n\nFind the Opus Agent prompt for this episode in EPISODE_PIPELINE. If it exists, give it to me ready to paste. Also give me the narration lines separately so I can record them. If no Opus prompt exists yet, write one now using the format in CLAUDE.md. Confirm what you know before we start.`;
     card.innerHTML = `
       <div class="ep-top">
         <div class="ep-check ${done ? 'checked' : ''}" onclick="toggleDone('${ep.id}')">${done ? '&#10003;' : ''}</div>
@@ -921,7 +921,7 @@ function renderEpisodes() {
         <div class="ep-detail-section ep-make-section">
           <div class="ep-detail-label">&#9654; Make This Episode</div>
           <div class="info-box" style="font-size:14px; margin-bottom:12px;">Open a new Cowork chat and paste this. Claude will find or write the Opus prompt and give you the narration lines ready to record.</div>
-          <button class="ep-make-btn" data-prompt="${esc(coworkStarter)}" onclick="cpThis(this,'COPY STARTER PROMPT')">COPY STARTER PROMPT</button>
+          <button class="ep-make-btn" onclick="cpEpStarter('${ep.id}',this,'COPY STARTER PROMPT')">COPY STARTER PROMPT</button>
         </div>
       </div>`;
     list.appendChild(card);
@@ -998,13 +998,36 @@ function toggleCard(id) {
   if (!open) c.classList.add('open');
 }
 
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.top = '0';
+  ta.style.left = '0';
+  ta.style.opacity = '0';
+  ta.style.pointerEvents = 'none';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand('copy'); } catch(e) { console.warn('copy failed', e); }
+  document.body.removeChild(ta);
+}
+
+function markCopied(btn, label) {
+  const orig = btn.textContent;
+  btn.textContent = 'COPIED!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = label || orig; btn.classList.remove('copied'); }, 2500);
+}
+
 function cp(id, btn, label) {
   const text = document.getElementById(id).textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'COPIED!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = label; btn.classList.remove('copied'); }, 2500);
-  });
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => markCopied(btn, label)).catch(() => { fallbackCopy(text); markCopied(btn, label); });
+  } else {
+    fallbackCopy(text);
+    markCopied(btn, label);
+  }
 }
 
 function saveAndCopy() {
@@ -1027,11 +1050,24 @@ function esc(s) {
 
 function cpThis(btn, label) {
   const text = btn.dataset.prompt;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'COPIED!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = label; btn.classList.remove('copied'); }, 2500);
-  });
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => markCopied(btn, label)).catch(() => { fallbackCopy(text); markCopied(btn, label); });
+  } else {
+    fallbackCopy(text);
+    markCopied(btn, label);
+  }
+}
+
+const EP_STARTERS = {};
+
+function cpEpStarter(epId, btn, label) {
+  const text = EP_STARTERS[epId] || '';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => markCopied(btn, label)).catch(() => { fallbackCopy(text); markCopied(btn, label); });
+  } else {
+    fallbackCopy(text);
+    markCopied(btn, label);
+  }
 }
 
 function toggleDetail(id) {
