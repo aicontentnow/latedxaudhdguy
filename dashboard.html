@@ -915,11 +915,11 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           <span class="roadmap-tag">~/.claude/skills/ldag-chief-of-staff/SKILL.md</span>
         </div>
 
-        <div class="roadmap-card phase-soon">
-          <div class="roadmap-phase">Next -- build after CoS</div>
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Built 2026-04-17</div>
           <div class="roadmap-title">ldag-production-design skill</div>
-          <div class="roadmap-desc">Guides generating LDAG brand assets in the papercraft/cyan aesthetic. Outputs hero (1080x1920), icon (1080x1080), OG card (1200x630). Must happen before website retheme. Full brief in the Team tab -- tap "COPY BUILD PROMPT" on the Production Design card.</div>
-          <span class="roadmap-tag">~/.claude/skills/ldag-production-design/SKILL.md -- TO BUILD</span>
+          <div class="roadmap-desc">Complete visual system reference for LDAG. Characters, objects, environments, color system, production pipeline (Weavy + Opus + CapCut), asset size specs. Self-contained -- no outside files needed at runtime.</div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-production-design/SKILL.md</span>
         </div>
 
         <div class="roadmap-card phase-soon">
@@ -1002,6 +1002,18 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
             <strong style="color:#ccc;">Key rule:</strong> Visual brief never contains narration. Opus writes its own script.
           </div>
           <span class="roadmap-tag">~/.claude/skills/ldag-episode-script/SKILL.md</span>
+        </div>
+
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Built 2026-04-17</div>
+          <div class="roadmap-title">ldag-production-design</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Input:</strong> Asset request -- hero (1080x1920), icon (1080x1080), OG card (1200x630), Opus Agent brief<br>
+            <strong style="color:#ccc;">Output:</strong> Brand-accurate visual assets and briefs using confirmed papercraft/cyan aesthetic<br>
+            <strong style="color:#ccc;">Trigger:</strong> "Generate brand assets" or "Write the visual brief for [episode]" (visual system context)<br>
+            <strong style="color:#ccc;">Built from:</strong> Discovery session -- character sheets, object renders, environment shots, 20 video frames
+          </div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-production-design/SKILL.md</span>
         </div>
 
         <div class="roadmap-card phase-soon" style="border-left-color:#555;">
@@ -1126,28 +1138,22 @@ I'm Bodhi. I want to script an episode. Confirm what you've loaded, then let's p
         </div>
 
         <!-- PRODUCTION DESIGN -->
-        <div class="team-card team-build">
+        <div class="team-card team-ready">
           <div class="team-card-header">
             <div class="team-role-row">
               <div class="team-role-name">Production Design</div>
-              <span class="team-status-badge badge-build">BUILD NEEDED</span>
+              <span class="team-status-badge badge-ready">READY</span>
             </div>
           </div>
           <div class="team-when">When you need brand assets: hero image (1080x1920), icon (1080x1080), OG card (1200x630). Papercraft/cyan aesthetic. Must happen before the website retheme.</div>
           <div class="team-prompt-area">
-            <div class="team-build-note">
-              <strong>Skill not built yet.</strong> Use this prompt to build it first -- takes one Cowork session. Once built, come back here and the card updates to READY.
-            </div>
             <div class="team-prompt-box">
-              <div class="team-prompt-text" id="tp-proddesign">Build the ldag-production-design skill. Read this first:
-- latedxaudhd/brand/LDAG_Brand_Bible.md
-
-The skill should guide generating LDAG brand assets in the papercraft/cyan aesthetic at three sizes: 1080x1920 hero, 1080x1080 icon, 1200x630 OG card. Make it self-contained -- all visual rules embedded in the skill, no file hunting needed at runtime. Save it to:
+              <div class="team-prompt-text" id="tp-proddesign">Load this skill and follow its instructions:
 ~/.claude/skills/ldag-production-design/SKILL.md
 
-Confirm when built and show me the starter prompt.</div>
+I'm Bodhi. LDAG project. I need brand assets. Tell me what you need from me to start.</div>
             </div>
-            <button class="team-copy-btn" onclick="cpTeam('tp-proddesign', this)">COPY BUILD PROMPT</button>
+            <button class="team-copy-btn" onclick="cpTeam('tp-proddesign', this)">COPY PROMPT</button>
           </div>
         </div>
 
