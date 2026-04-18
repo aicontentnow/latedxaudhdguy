@@ -925,8 +925,8 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
         <div class="roadmap-card phase-soon">
           <div class="roadmap-phase">After -- once assets exist</div>
           <div class="roadmap-title">Website retheme</div>
-          <div class="roadmap-desc">Full brief at latedxaudhd/INSTRUCTIONS_FOR_COWORK_LDAG_Website_Rebuild.md. BigShoulders Bold, yellow palette, papercraft hero. Blocked on brand assets from production design session.</div>
-          <span class="roadmap-tag">Skill: ldag-website-update -- FUTURE</span>
+          <div class="roadmap-desc">Handoff ready at latedxaudhd/HANDOFF_LDAG_Website_Update_2026-04-17.md. Production Bible is now the complete visual + show reference (Sections 1-16). Spin up a dedicated Cowork session using the starter prompt in the handoff doc.</div>
+          <span class="roadmap-tag">Skill: ldag-website-update -- NEXT</span>
         </div>
 
         <div class="roadmap-card phase-soon">
@@ -1173,17 +1173,21 @@ I'm Bodhi. LDAG project. I need brand assets. Tell me what you need from me to s
         </div>
 
         <!-- WEBSITE UPDATE -->
-        <div class="team-card team-future">
+        <div class="team-card team-next">
           <div class="team-card-header">
             <div class="team-role-row">
               <div class="team-role-name">Website Update</div>
-              <span class="team-status-badge badge-future">FUTURE</span>
+              <span class="team-status-badge badge-next">NEXT</span>
             </div>
           </div>
-          <div class="team-when">When you're ready to retheme the site or add new episodes to the public episode grid. Blocked on brand assets existing first.</div>
+          <div class="team-when">Handoff ready. Spin up a dedicated Cowork session. The website needs to reflect the actual production visual system: teal/cyan primary field, low-poly geometric papercraft, BigShoulders Bold, dark background (#0F0F0F). Production Bible Sections 1-16 are the complete brief.</div>
           <div class="team-prompt-area">
-            <div class="team-build-note">Build after Production Design session generates assets. Full brief at: <code style="color:#FFCC00;">latedxaudhd/INSTRUCTIONS_FOR_COWORK_LDAG_Website_Rebuild.md</code></div>
-            <button class="team-copy-btn" disabled>NOT BUILT YET</button>
+            <div class="team-prompt-label">STARTER PROMPT</div>
+            <div class="team-prompt-text" id="tp-website">Read this handoff document first:
+latedxaudhd/HANDOFF_LDAG_Website_Update_2026-04-17.md
+
+That document contains the full brief and starter prompt for this session. Follow the instructions in it exactly.</div>
+            <button class="team-copy-btn" onclick="copyPrompt('tp-website', this)">COPY PROMPT</button>
           </div>
         </div>
 
@@ -1528,9 +1532,9 @@ const NOTIFICATIONS = [
   },
   {
     id: 'website-retheme',
-    type: 'info',
-    title: 'Website retheme blocked on brand assets',
-    desc: 'Site uses placeholder design. Retheme happens after production design session generates hero (1080x1920) and icon (1080x1080) in the papercraft/cyan aesthetic.',
+    type: 'action',
+    title: 'Website update: handoff ready',
+    desc: 'Spin up a dedicated Cowork session. Read latedxaudhd/HANDOFF_LDAG_Website_Update_2026-04-17.md for the full brief and copy-paste starter prompt.',
     cta: null
   },
   {
