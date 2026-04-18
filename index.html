@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Late Dx AuDHD Guy</title>
+  <title>LATE Dx AuDHD GUY</title>
   <meta name="description" content="A micro-reality docuseries. 50. Divorced father of three. Full-time marketing professional. Late-diagnosed AuDHD. Unmasking in real time. Vancouver BC." />
   <meta name="robots" content="index, follow" />
 
   <!-- OG / Social -->
-  <meta property="og:title" content="Late Dx AuDHD Guy" />
+  <meta property="og:title" content="LATE Dx AuDHD GUY" />
   <meta property="og:description" content="A micro-reality docuseries. 50. Divorced father of three. Full-time marketing professional. Late-diagnosed AuDHD. Unmasking in real time." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://latedxaudhdguy.com" />
@@ -23,7 +23,7 @@
   {
     "@context": "https://schema.org",
     "@type": "TVSeries",
-    "name": "Late Dx AuDHD Guy",
+    "name": "LATE Dx AuDHD GUY",
     "description": "A micro-reality docuseries documenting the lived experience of a late-diagnosed AuDHD man. 50. Divorced father of three. Full-time marketing professional. Confessional booth format. Observational B-roll. Real moments.",
     "genre": ["Documentary", "Reality"],
     "url": "https://latedxaudhdguy.com",
@@ -44,7 +44,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Teal-first palette */
+      /* Dark-base palette -- teal is accent, forest + tan add warmth */
       --teal:           #1EC8C8;
       --teal-dark:      #16A8A8;
       --teal-deeper:    #0E8888;
@@ -52,26 +52,25 @@
       --teal-glow:      rgba(30,200,200,0.08);
       --crimson:        #D21E1E;
       --crimson-dim:    rgba(210,30,30,0.18);
-      --forest:         #2A5C2A;
+      --forest:         #2D5C3A;
+      --forest-dim:     rgba(45,92,58,0.35);
       --tan:            #C4A882;
+      --tan-dim:        rgba(196,168,130,0.18);
 
-      /* Dark layer (cards, nav, panels) */
+      /* Dark backgrounds -- warm, not cold */
       --bg-dark:        #0F0F0F;
-      --bg-card:        #111111;
-      --bg-card2:       #181818;
-      --bg-nav:         rgba(10,10,10,0.96);
+      --bg-card:        #1A1612;  /* warm dark, not cold black */
+      --bg-card2:       #1F1B16;
+      --bg-nav:         rgba(12,10,8,0.96);
 
-      /* Text on dark bg */
-      --text:           #F4F4F4;
-      --text-dim:       #999;
-      --text-muted:     #555;
+      /* Text -- warm whites and tans, not cold grays */
+      --text:           #F0EAE0;  /* warm white */
+      --text-dim:       #B8A898;  /* warm tan-gray */
+      --text-muted:     #7A6A58;  /* warm muted brown */
       --border:         rgba(255,255,255,0.08);
       --border-teal:    rgba(30,200,200,0.28);
-
-      /* Text on teal bg */
-      --text-on-teal:       #0F0F0F;
-      --text-dim-on-teal:   rgba(15,15,15,0.65);
-      --border-on-teal:     rgba(15,15,15,0.15);
+      --border-forest:  rgba(45,92,58,0.45);
+      --border-tan:     rgba(196,168,130,0.25);
 
       /* Typography */
       --font-display:   'Big Shoulders Display', sans-serif;
@@ -86,10 +85,10 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--teal);
-      color: var(--text-on-teal);
+      background: var(--bg-dark);
+      color: var(--text);
       font-family: var(--font-body);
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
@@ -227,13 +226,13 @@
       pointer-events: none;
     }
 
-    /* Bottom fade into the teal page body */
+    /* Bottom fade into dark page body */
     .hero::after {
       content: '';
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 160px;
-      background: linear-gradient(to bottom, transparent, var(--teal));
+      background: linear-gradient(to bottom, transparent, var(--bg-dark));
       z-index: 2;
       pointer-events: none;
     }
@@ -423,7 +422,7 @@
       font-size: 28px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      color: var(--text-on-teal);
+      color: var(--text);
     }
 
     /* Sections that live on the dark strip */
@@ -445,9 +444,9 @@
       border: 1px solid var(--border-teal);
     }
     .badge--dark {
-      background: rgba(0,0,0,0.15);
-      color: var(--text-dim-on-teal);
-      border: 1px solid var(--border-on-teal);
+      background: rgba(255,255,255,0.06);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
     }
     .badge--teal-inv {
       background: rgba(30,200,200,0.12);
@@ -467,6 +466,7 @@
     .episode-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
+      border-top: 3px solid var(--forest);
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
@@ -474,6 +474,7 @@
     }
     .episode-card:hover {
       border-color: var(--teal);
+      border-top-color: var(--teal);
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(30,200,200,0.2);
     }
@@ -570,9 +571,9 @@
       line-height: 1.2;
     }
     .episode-card__desc {
-      font-size: 13px;
-      color: var(--text-dim);
-      line-height: 1.5;
+      font-size: 14px;
+      color: var(--tan);
+      line-height: 1.55;
       margin-bottom: 14px;
     }
     .episode-card__meta {
@@ -591,7 +592,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 40px;
-      border-top: 3px solid var(--teal);
+      border-top: 3px solid var(--forest);
     }
 
     .identity__eyebrow {
@@ -606,7 +607,7 @@
 
     .identity__text {
       font-size: 16px;
-      line-height: 1.75;
+      line-height: 1.8;
       color: var(--text-dim);
       margin-bottom: 18px;
     }
@@ -663,7 +664,7 @@
     }
     .social-pill__handle {
       font-size: 12px;
-      color: var(--text-muted);
+      color: var(--tan);
       margin-top: 2px;
     }
 
@@ -672,11 +673,11 @@
     ============================================= */
     .subscribe-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-teal);
+      border: 1px solid var(--border-tan);
       border-radius: 12px;
       padding: 40px;
       max-width: 600px;
-      border-top: 3px solid var(--teal);
+      border-top: 3px solid var(--tan);
     }
 
     .subscribe-desc {
@@ -1075,7 +1076,7 @@
 
   <!-- NAV -->
   <nav class="nav" id="main-nav">
-    <span class="nav__brand">Late Dx <span>AuDHD</span> Guy</span>
+    <span class="nav__brand">LATE Dx <span>AuDHD</span> GUY</span>
     <div class="nav__links">
       <a href="#episodes">Episodes</a>
       <a href="#about">About</a>
@@ -1094,7 +1095,7 @@
     <div class="hero__bg-wrap" id="hero-bg-wrap"></div>
     <div class="hero__content fade-in">
       <div class="hero__badge">Now Filming &bull; Season 1</div>
-      <h1 class="hero__title">Late Dx<br />AuDHD Guy</h1>
+      <h1 class="hero__title">LATE Dx<br />AuDHD GUY</h1>
       <p class="hero__tagline">The invisible struggle is real</p>
       <div class="hero__actions">
         <a href="#episodes" class="btn btn--primary">&#9654; Watch Episodes</a>
