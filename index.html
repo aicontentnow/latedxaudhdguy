@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Late Diagnosed AuDHD Guy</title>
+  <title>Late Dx AuDHD Guy</title>
   <meta name="description" content="A micro-reality docuseries. 50. Divorced father of three. Full-time marketing professional. Late-diagnosed AuDHD. Unmasking in real time. Vancouver BC." />
   <meta name="robots" content="index, follow" />
 
   <!-- OG / Social -->
-  <meta property="og:title" content="Late Diagnosed AuDHD Guy" />
+  <meta property="og:title" content="Late Dx AuDHD Guy" />
   <meta property="og:description" content="A micro-reality docuseries. 50. Divorced father of three. Full-time marketing professional. Late-diagnosed AuDHD. Unmasking in real time." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://latedxaudhdguy.com" />
 
-  <!-- Fonts -->
+  <!-- Fonts: BigShoulders Display Bold + Work Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TVSeries",
-    "name": "Late Diagnosed AuDHD Guy",
+    "name": "Late Dx AuDHD Guy",
     "description": "A micro-reality docuseries documenting the lived experience of a late-diagnosed AuDHD man. 50. Divorced father of three. Full-time marketing professional. Confessional booth format. Observational B-roll. Real moments.",
     "genre": ["Documentary", "Reality"],
     "url": "https://latedxaudhdguy.com",
@@ -44,31 +44,50 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:          #0f0f0f;
-      --bg-card:     #1a1a1a;
-      --bg-nav:      rgba(15,15,15,0.95);
-      --blue:        #3B82F6;
-      --blue-dim:    rgba(59,130,246,0.15);
-      --blue-glow:   rgba(59,130,246,0.08);
-      --amber:       #F59E0B;
-      --amber-dim:   rgba(245,158,11,0.15);
-      --text:        #f4f4f4;
-      --text-dim:    #888;
-      --text-muted:  #555;
-      --border:      rgba(255,255,255,0.07);
-      --border-blue: rgba(59,130,246,0.25);
-      --radius:      8px;
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body:    'Inter', sans-serif;
-      --nav-h:       64px;
-      --mini-h:      72px;
+      /* Teal-first palette */
+      --teal:           #1EC8C8;
+      --teal-dark:      #16A8A8;
+      --teal-deeper:    #0E8888;
+      --teal-dim:       rgba(30,200,200,0.18);
+      --teal-glow:      rgba(30,200,200,0.08);
+      --crimson:        #D21E1E;
+      --crimson-dim:    rgba(210,30,30,0.18);
+      --forest:         #2A5C2A;
+      --tan:            #C4A882;
+
+      /* Dark layer (cards, nav, panels) */
+      --bg-dark:        #0F0F0F;
+      --bg-card:        #111111;
+      --bg-card2:       #181818;
+      --bg-nav:         rgba(10,10,10,0.96);
+
+      /* Text on dark bg */
+      --text:           #F4F4F4;
+      --text-dim:       #999;
+      --text-muted:     #555;
+      --border:         rgba(255,255,255,0.08);
+      --border-teal:    rgba(30,200,200,0.28);
+
+      /* Text on teal bg */
+      --text-on-teal:       #0F0F0F;
+      --text-dim-on-teal:   rgba(15,15,15,0.65);
+      --border-on-teal:     rgba(15,15,15,0.15);
+
+      /* Typography */
+      --font-display:   'Big Shoulders Display', sans-serif;
+      --font-body:      'Work Sans', sans-serif;
+
+      /* Layout */
+      --radius:         8px;
+      --nav-h:          64px;
+      --mini-h:         72px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--teal);
+      color: var(--text-on-teal);
       font-family: var(--font-body);
       font-size: 15px;
       line-height: 1.6;
@@ -78,15 +97,14 @@
     }
 
     a { color: inherit; text-decoration: none; }
-
     img { display: block; max-width: 100%; }
 
     /* =============================================
        SCROLLBAR
     ============================================= */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 2px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--teal-dark); border-radius: 2px; }
 
     /* =============================================
        NAVIGATION
@@ -98,42 +116,44 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      padding: 0 28px;
       background: var(--bg-nav);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(30,200,200,0.12);
       z-index: 900;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
       transition: box-shadow 0.3s;
     }
-    .nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.6); }
+    .nav.scrolled { box-shadow: 0 2px 32px rgba(0,0,0,0.7); }
 
     .nav__brand {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 16px;
-      letter-spacing: -0.3px;
+      font-size: 17px;
+      letter-spacing: 0.5px;
       color: var(--text);
       white-space: nowrap;
+      text-transform: uppercase;
     }
-    .nav__brand span { color: var(--blue); }
+    .nav__brand span { color: var(--teal); }
 
     .nav__links {
       display: flex;
       gap: 28px;
     }
     .nav__links a {
+      font-family: var(--font-body);
       font-size: 13px;
       font-weight: 600;
       color: var(--text-dim);
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
       transition: color 0.2s;
     }
-    .nav__links a:hover { color: var(--text); }
+    .nav__links a:hover { color: var(--teal); }
 
     .nav__social {
       display: flex;
-      gap: 12px;
+      gap: 10px;
     }
     .nav__social a {
       font-size: 12px;
@@ -141,71 +161,116 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border: 1px solid var(--border);
       border-radius: 20px;
       transition: all 0.2s;
     }
     .nav__social a:hover {
-      border-color: var(--blue);
-      color: var(--blue);
+      border-color: var(--teal);
+      color: var(--teal);
     }
 
     /* =============================================
        HERO
+       -- background image swap target:
+          replace CSS background-image with <video> element
+          inside .hero__bg-wrap to go video-first
     ============================================= */
     .hero {
       position: relative;
-      min-height: 88vh;
+      min-height: 90vh;
       display: flex;
       align-items: center;
-      padding: calc(var(--nav-h) + 48px) 24px 64px;
+      justify-content: center;
       overflow: hidden;
+      padding-top: var(--nav-h);
     }
 
-    .hero::before {
+    /* Background layer: swap this for <video> later */
+    .hero__bg-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      /* Hero image: drop img/hero-bg.jpg (1920x1080, brain + battery on teal, NO baked-in text) */
+      background-color: var(--teal);
+      background-image: url('img/hero-bg.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    /* Neural crackle texture -- sits on image, not on video when video is added */
+    .hero__bg-wrap::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at 60% 50%, rgba(59,130,246,0.12) 0%, transparent 60%),
-                  radial-gradient(ellipse at 20% 80%, rgba(245,158,11,0.06) 0%, transparent 50%);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.35;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    /* Dark gradient overlay so text is legible */
+    .hero__bg-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(0,0,0,0.45) 0%,
+        rgba(0,0,0,0.25) 35%,
+        rgba(0,0,0,0.25) 65%,
+        rgba(0,0,0,0.45) 100%
+      );
       pointer-events: none;
     }
 
+    /* Bottom fade into the teal page body */
     .hero::after {
       content: '';
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 200px;
-      background: linear-gradient(to bottom, transparent, var(--bg));
+      height: 160px;
+      background: linear-gradient(to bottom, transparent, var(--teal));
+      z-index: 2;
       pointer-events: none;
     }
 
     .hero__content {
       position: relative;
-      z-index: 2;
-      max-width: 680px;
+      z-index: 3;
+      text-align: center;
+      max-width: 720px;
+      padding: 64px 24px;
     }
 
     .hero__badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      font-family: var(--font-body);
       font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
       text-transform: uppercase;
-      color: var(--blue);
+      color: var(--teal);
       margin-bottom: 20px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(30,200,200,0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
     }
     .hero__badge::before {
       content: '';
       display: inline-block;
       width: 6px;
       height: 6px;
-      background: var(--blue);
+      background: var(--teal);
       border-radius: 50%;
       animation: blink 2s infinite;
+      flex-shrink: 0;
     }
     @keyframes blink {
       0%, 100% { opacity: 1; }
@@ -214,20 +279,23 @@
 
     .hero__title {
       font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(42px, 7vw, 80px);
-      line-height: 1.0;
-      letter-spacing: -2px;
-      color: var(--text);
-      margin-bottom: 24px;
+      font-weight: 900;
+      font-size: clamp(52px, 9vw, 100px);
+      line-height: 0.95;
+      letter-spacing: 1px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.5);
     }
-    .hero__title span { color: var(--blue); }
 
-    .hero__desc {
-      font-size: 17px;
-      line-height: 1.7;
-      color: var(--text-dim);
-      max-width: 560px;
+    .hero__tagline {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(13px, 1.8vw, 16px);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
       margin-bottom: 36px;
     }
 
@@ -235,50 +303,60 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
+    /* =============================================
+       BUTTONS
+    ============================================= */
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 13px 28px;
+      padding: 14px 30px;
       border-radius: var(--radius);
       font-family: var(--font-body);
-      font-weight: 600;
+      font-weight: 700;
       font-size: 14px;
-      letter-spacing: 0.2px;
+      letter-spacing: 0.3px;
       cursor: pointer;
       border: none;
       transition: all 0.2s;
+      text-transform: uppercase;
     }
     .btn--primary {
-      background: var(--blue);
-      color: #fff;
+      background: var(--teal);
+      color: var(--bg-dark);
     }
-    .btn--primary:hover { background: #2563eb; transform: translateY(-1px); }
-    .btn--outline {
+    .btn--primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+    .btn--dark {
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn--dark:hover {
+      background: rgba(0,0,0,0.8);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .btn--outline-teal {
+      background: transparent;
+      color: var(--teal);
+      border: 1px solid var(--border-teal);
+    }
+    .btn--outline-teal:hover {
+      background: var(--teal-dim);
+    }
+    .btn--outline-dark {
       background: transparent;
       color: var(--text-dim);
       border: 1px solid var(--border);
     }
-    .btn--outline:hover { border-color: var(--text-dim); color: var(--text); }
-
-    .hero__meta {
-      margin-top: 40px;
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .hero__meta-item {
-      font-size: 12px;
-      color: var(--text-muted);
-      letter-spacing: 0.3px;
-    }
-    .hero__meta-item strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-dim);
+    .btn--outline-dark:hover {
+      border-color: var(--teal);
+      color: var(--teal);
     }
 
     /* =============================================
@@ -287,31 +365,31 @@
     .ticker {
       width: 100%;
       overflow: hidden;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 0;
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(30,200,200,0.15);
+      border-bottom: 1px solid rgba(30,200,200,0.15);
+      padding: 11px 0;
     }
     .ticker__track {
       display: inline-flex;
       gap: 0;
       white-space: nowrap;
-      animation: ticker 40s linear infinite;
+      animation: ticker 44s linear infinite;
     }
     .ticker__track:hover { animation-play-state: paused; }
     .ticker__item {
       font-size: 12px;
       color: var(--text-dim);
-      padding: 0 20px;
+      padding: 0 22px;
       letter-spacing: 0.3px;
     }
     .ticker__label {
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--blue);
-      padding: 0 20px;
+      letter-spacing: 1.4px;
+      color: var(--teal);
+      padding: 0 22px;
     }
     .ticker__sep {
       font-size: 12px;
@@ -324,11 +402,11 @@
     }
 
     /* =============================================
-       SECTIONS
+       PAGE SECTIONS
     ============================================= */
     .section {
-      padding: 64px 24px;
-      max-width: 1280px;
+      padding: 72px 24px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -336,15 +414,21 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .section__title {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 22px;
-      letter-spacing: -0.4px;
-      color: var(--text);
+      font-size: 28px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-on-teal);
+    }
+
+    /* Sections that live on the dark strip */
+    .section--dark {
+      background: var(--bg-dark);
     }
 
     .section__badge {
@@ -352,100 +436,23 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 20px;
     }
-    .badge--blue { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--border-blue); }
-    .badge--amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
-    .badge--muted { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border); }
-
-    /* =============================================
-       LAUNCH CARD
-    ============================================= */
-    .launch-card {
-      background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(15,15,15,0) 60%);
-      border: 1px solid var(--border-blue);
-      border-radius: 12px;
-      padding: 36px;
-      margin-bottom: 40px;
-      position: relative;
-      overflow: hidden;
+    .badge--teal {
+      background: var(--teal-dim);
+      color: var(--teal);
+      border: 1px solid var(--border-teal);
     }
-    .launch-card::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(59,130,246,0.12), transparent 70%);
-      pointer-events: none;
+    .badge--dark {
+      background: rgba(0,0,0,0.15);
+      color: var(--text-dim-on-teal);
+      border: 1px solid var(--border-on-teal);
     }
-
-    .launch-card__season {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--blue);
-      margin-bottom: 16px;
-    }
-
-    .launch-card__title {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(24px, 4vw, 40px);
-      line-height: 1.15;
-      letter-spacing: -1px;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-
-    .launch-card__desc {
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--text-dim);
-      max-width: 620px;
-      margin-bottom: 24px;
-    }
-
-    .launch-card__status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .status-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: var(--blue);
-      border-radius: 50%;
-      animation: blink 2s infinite;
-      flex-shrink: 0;
-    }
-
-    /* =============================================
-       SEASON DIVIDER
-    ============================================= */
-    .season-divider {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-    .season-divider__label {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text-dim);
-      white-space: nowrap;
-      letter-spacing: -0.2px;
-    }
-    .season-divider__line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
+    .badge--teal-inv {
+      background: rgba(30,200,200,0.12);
+      color: var(--teal);
+      border: 1px solid var(--border-teal);
     }
 
     /* =============================================
@@ -453,23 +460,22 @@
     ============================================= */
     .episodes {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
     }
 
     .episode-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
       transition: all 0.25s;
     }
     .episode-card:hover {
-      border-color: var(--blue);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(59,130,246,0.15);
+      border-color: var(--teal);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(30,200,200,0.2);
     }
 
     .episode-card__thumb {
@@ -480,207 +486,121 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       overflow: hidden;
     }
     .episode-card__thumb::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, transparent 40%, rgba(15,15,15,0.9));
+      background: linear-gradient(to bottom, transparent 40%, rgba(10,10,10,0.92));
     }
 
     .episode-card__thumb-bg {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
     }
 
-    .episode-card__thumb-icon {
+    .episode-card__play-icon {
       position: relative;
       z-index: 2;
-      width: 48px;
-      height: 48px;
-      background: rgba(59,130,246,0.2);
-      border: 1px solid var(--border-blue);
+      width: 52px;
+      height: 52px;
+      background: rgba(30,200,200,0.25);
+      border: 2px solid rgba(30,200,200,0.6);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--blue);
+      color: var(--teal);
       font-size: 18px;
+      padding-left: 3px;
+      transition: all 0.2s;
     }
-    .episode-card__thumb-label {
-      position: relative;
-      z-index: 2;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
+    .episode-card:hover .episode-card__play-icon {
+      background: var(--teal);
+      color: var(--bg-dark);
+      border-color: var(--teal);
     }
 
     .episode-card__num {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 12px;
+      left: 12px;
       z-index: 3;
-      font-size: 10px;
+      font-family: var(--font-display);
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--blue);
-      background: var(--blue-dim);
-      border: 1px solid var(--border-blue);
-      padding: 3px 8px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(0,0,0,0.65);
+      border: 1px solid rgba(30,200,200,0.3);
+      padding: 4px 10px;
       border-radius: 20px;
     }
 
-    .episode-card__platform {
+    .episode-card__status {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 12px;
+      right: 12px;
       z-index: 3;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.5px;
-      color: var(--text-muted);
-      background: rgba(0,0,0,0.5);
-      padding: 3px 8px;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(30,200,200,0.3);
+      border: 1px solid rgba(30,200,200,0.5);
+      padding: 4px 10px;
       border-radius: 20px;
     }
 
     .episode-card__body {
-      padding: 14px;
+      padding: 16px 16px 18px;
     }
     .episode-card__title {
       font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: -0.2px;
-      color: var(--text);
-      margin-bottom: 6px;
-      line-height: 1.3;
-    }
-    .episode-card__meta {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    /* =============================================
-       SEASON CARDS CAROUSEL
-    ============================================= */
-    .carousel {
-      position: relative;
-      overflow: hidden;
-      margin: 0 -24px;
-      padding: 0 24px;
-    }
-    .carousel-track {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding-bottom: 8px;
-      cursor: grab;
-      user-select: none;
-    }
-    .carousel-track::-webkit-scrollbar { display: none; }
-    .carousel-track.dragging { cursor: grabbing; }
-
-    .season-card {
-      flex: 0 0 300px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-    .season-card:hover {
-      border-color: var(--border-blue);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    }
-
-    .season-card__art {
-      height: 160px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .season-card__art-inner {
-      position: absolute;
-      inset: 0;
-    }
-    .season-card__label {
-      position: relative;
-      z-index: 2;
-      font-family: var(--font-display);
       font-weight: 800;
-      font-size: 32px;
-      letter-spacing: -1px;
-      color: rgba(255,255,255,0.15);
+      font-size: 18px;
+      letter-spacing: 0.3px;
       text-transform: uppercase;
-    }
-
-    .season-card__body {
-      padding: 18px;
-    }
-    .season-card__season {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 8px;
-    }
-    .season-card__title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: -0.3px;
       color: var(--text);
       margin-bottom: 8px;
+      line-height: 1.2;
     }
-    .season-card__desc {
+    .episode-card__desc {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--text-dim);
       line-height: 1.5;
       margin-bottom: 14px;
     }
-    .season-card__footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .season-card__status {
+    .episode-card__meta {
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.3px;
-    }
-    .season-card__ep-count {
-      font-size: 11px;
       color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     /* =============================================
-       ABOUT / IDENTITY
+       IDENTITY / ABOUT CARD
     ============================================= */
     .identity {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 36px;
-      max-width: 720px;
+      padding: 40px;
+      border-top: 3px solid var(--teal);
     }
 
     .identity__eyebrow {
+      font-family: var(--font-body);
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--text-muted);
+      letter-spacing: 1.4px;
+      color: var(--teal);
       margin-bottom: 20px;
     }
 
@@ -688,13 +608,13 @@
       font-size: 16px;
       line-height: 1.75;
       color: var(--text-dim);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .identity__text:last-child { margin-bottom: 0; }
     .identity__text strong { color: var(--text); font-weight: 600; }
 
     /* =============================================
-       FOLLOW / SOCIAL PILLS
+       SOCIAL PILLS
     ============================================= */
     .socials {
       display: flex;
@@ -705,62 +625,140 @@
     .social-pill {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 20px 24px;
+      padding: 18px 24px;
       min-width: 200px;
+      flex: 1;
       transition: all 0.2s;
     }
-    .social-pill:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .social-pill:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
 
     .social-pill__icon {
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      background: var(--teal-dim);
+      border: 1px solid var(--border-teal);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 16px;
+      color: var(--teal);
       flex-shrink: 0;
     }
-    .social-pill--tiktok .social-pill__icon { background: rgba(0,0,0,0.5); color: #fff; }
-    .social-pill--instagram .social-pill__icon { background: rgba(225,48,108,0.15); color: #E1306C; }
-    .social-pill--youtube .social-pill__icon { background: rgba(255,0,0,0.15); color: #FF0000; }
 
     .social-pill__name {
+      font-family: var(--font-body);
       font-weight: 700;
       font-size: 14px;
       color: var(--text);
+      letter-spacing: 0.2px;
     }
     .social-pill__handle {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 2px;
+    }
+
+    /* =============================================
+       SUBSCRIBE
+    ============================================= */
+    .subscribe-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-teal);
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      border-top: 3px solid var(--teal);
+    }
+
+    .subscribe-desc {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .subscribe-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .subscribe-input {
+      flex: 1;
+      min-width: 220px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .subscribe-input::placeholder { color: var(--text-muted); }
+    .subscribe-input:focus { border-color: var(--teal); }
+
+    .subscribe-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+
+    /* =============================================
+       DARK STRIP (wraps episode + about + subscribe)
+    ============================================= */
+    .dark-strip {
+      background: var(--bg-dark);
+      padding: 0;
+    }
+    .dark-strip .section__title { color: var(--text); }
+    .dark-strip .section__badge.badge--dark {
+      background: rgba(255,255,255,0.06);
+      color: var(--text-dim);
+      border-color: var(--border);
     }
 
     /* =============================================
        FOOTER
     ============================================= */
     .footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 24px;
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
       gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer__left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer__neuroflix {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
     }
 
     .footer__brand {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text-dim);
-    }
-
-    .footer__copy {
+      font-family: var(--font-body);
       font-size: 12px;
       color: var(--text-muted);
     }
@@ -771,57 +769,55 @@
     }
     .footer__links a {
       font-size: 12px;
+      font-weight: 600;
       color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
       transition: color 0.2s;
     }
-    .footer__links a:hover { color: var(--text); }
+    .footer__links a:hover { color: var(--teal); }
 
     /* =============================================
-       MINI PLAYER
+       MINI PLAYER (ambient soundtrack)
     ============================================= */
     .mini-player {
       position: fixed;
-      bottom: 60px;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       height: var(--mini-h);
-      background: rgba(20,20,20,0.97);
-      border-top: 1px solid var(--border);
+      background: rgba(10,10,10,0.97);
+      border-top: 1px solid rgba(30,200,200,0.15);
       display: flex;
       align-items: center;
       padding: 0 20px;
       gap: 16px;
       z-index: 800;
       backdrop-filter: blur(16px);
-      transform: translateY(0);
-      transition: transform 0.3s;
+      transition: transform 0.3s ease;
     }
-    .mini-player.hidden { transform: translateY(calc(100% + 60px)); }
+    .mini-player.hidden { transform: translateY(100%); }
 
     .mp-art {
       width: 44px;
       height: 44px;
       border-radius: 6px;
-      background: linear-gradient(135deg, var(--blue-dim), #0f1a0f);
-      border: 1px solid var(--border-blue);
+      background: var(--teal-dim);
+      border: 1px solid var(--border-teal);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 18px;
+      color: var(--teal);
       flex-shrink: 0;
-      overflow: hidden;
     }
-    .mp-art.playing { animation: spin-slow 8s linear infinite; }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    .mp-art.playing { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(30,200,200,0.35); }
+      50% { box-shadow: 0 0 0 6px rgba(30,200,200,0); }
     }
 
-    .mp-info {
-      flex: 1;
-      min-width: 0;
-    }
+    .mp-info { flex: 1; min-width: 0; }
     .mp-title {
+      font-family: var(--font-body);
       font-size: 13px;
       font-weight: 600;
       color: var(--text);
@@ -832,38 +828,42 @@
     .mp-sub {
       font-size: 11px;
       color: var(--text-muted);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .mp-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .mp-btn {
       background: none;
       border: none;
-      cursor: pointer;
       color: var(--text-dim);
-      font-size: 18px;
-      padding: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .mp-btn:hover { color: var(--teal); background: var(--teal-dim); }
+    .mp-play-btn {
+      width: 36px;
+      height: 36px;
+      background: var(--teal-dim);
+      border: 1px solid var(--border-teal);
       border-radius: 50%;
+      color: var(--teal);
+      padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
-      width: 36px;
-      height: 36px;
+      font-size: 13px;
+      padding-left: 2px;
     }
-    .mp-btn:hover { background: var(--blue-dim); color: var(--blue); }
-    .mp-btn.active { color: var(--blue); }
-    .mp-btn.mp-play-btn {
-      width: 42px;
-      height: 42px;
-      background: var(--blue);
-      color: #fff;
-      font-size: 16px;
-    }
-    .mp-btn.mp-play-btn:hover { background: #2563eb; }
+    .mp-play-btn:hover { background: var(--teal); color: var(--bg-dark); }
 
     .mp-vol {
       display: flex;
@@ -871,9 +871,20 @@
       gap: 8px;
     }
     .mp-vol-icon { font-size: 14px; color: var(--text-muted); }
-    input[type="range"].mp-volume {
-      width: 72px;
-      accent-color: var(--blue);
+    .mp-volume {
+      -webkit-appearance: none;
+      width: 80px;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+    }
+    .mp-volume::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      background: var(--teal);
+      border-radius: 50%;
       cursor: pointer;
     }
 
@@ -883,20 +894,20 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0,0,0,0.7);
       z-index: 1000;
       display: flex;
       align-items: flex-end;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity 0.25s;
+      backdrop-filter: blur(4px);
     }
     .modal-overlay.open {
       opacity: 1;
       pointer-events: all;
     }
-
     .modal {
       background: #1a1a1a;
       border: 1px solid var(--border);
@@ -908,9 +919,7 @@
       transform: translateY(100%);
       transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
     }
-    .modal-overlay.open .modal {
-      transform: translateY(0);
-    }
+    .modal-overlay.open .modal { transform: translateY(0); }
 
     .modal__drag {
       width: 36px;
@@ -919,7 +928,6 @@
       border-radius: 2px;
       margin: 12px auto 0;
     }
-
     .modal__hero {
       height: 180px;
       position: relative;
@@ -939,7 +947,6 @@
       height: 100px;
       background: linear-gradient(to bottom, transparent, #1a1a1a);
     }
-
     .modal__season-label {
       position: relative;
       z-index: 2;
@@ -947,23 +954,19 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: var(--blue);
+      color: var(--teal);
     }
-
-    .modal__body {
-      padding: 20px 24px 32px;
-    }
-
+    .modal__body { padding: 20px 24px 32px; }
     .modal__title {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 26px;
-      letter-spacing: -0.5px;
+      font-size: 28px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
       color: var(--text);
       margin-bottom: 10px;
-      line-height: 1.2;
+      line-height: 1.15;
     }
-
     .modal__meta {
       display: flex;
       gap: 12px;
@@ -974,28 +977,20 @@
       font-size: 12px;
       color: var(--text-muted);
     }
-
     .modal__desc {
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.75;
       color: var(--text-dim);
       margin-bottom: 24px;
     }
-
-    .modal__actions {
-      display: flex;
-      gap: 10px;
-    }
-
+    .modal__actions { display: flex; gap: 10px; }
     .modal__close {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 16px; right: 16px;
       background: rgba(0,0,0,0.6);
       border: 1px solid var(--border);
       color: var(--text);
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       border-radius: 50%;
       cursor: pointer;
       font-size: 16px;
@@ -1014,15 +1009,14 @@
       position: fixed;
       bottom: 0; left: 0; right: 0;
       height: 60px;
-      background: rgba(15,15,15,0.97);
-      border-top: 1px solid var(--border);
+      background: rgba(10,10,10,0.97);
+      border-top: 1px solid rgba(30,200,200,0.12);
       display: none;
       align-items: center;
       justify-content: space-around;
       z-index: 900;
       backdrop-filter: blur(12px);
     }
-
     .bottom-nav__item {
       display: flex;
       flex-direction: column;
@@ -1036,11 +1030,11 @@
       padding: 8px 16px;
       transition: color 0.2s;
     }
-    .bottom-nav__item.active { color: var(--blue); }
+    .bottom-nav__item.active { color: var(--teal); }
     .bottom-nav__item svg { width: 20px; height: 20px; }
 
     /* =============================================
-       FADE IN (SCROLL ANIMATIONS)
+       SCROLL ANIMATIONS
     ============================================= */
     .fade-in {
       opacity: 0;
@@ -1059,86 +1053,21 @@
       .nav__links { display: none; }
       .nav__social { display: none; }
       .nav__brand { font-size: 14px; }
-      .hero { min-height: 80vh; padding: calc(var(--nav-h) + 24px) 16px 48px; }
+      .hero { min-height: 80vh; }
+      .hero__title { font-size: clamp(44px, 12vw, 80px); }
       .section { padding: 48px 16px; }
-      .launch-card { padding: 24px; }
       .identity { padding: 24px; }
+      .subscribe-card { padding: 24px; }
       .bottom-nav { display: flex; }
       .mp-vol { display: none; }
       .episodes { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
       .socials { flex-direction: column; }
       .social-pill { min-width: unset; }
-      .footer { flex-direction: column; align-items: flex-start; }
+      .footer { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
     @media (max-width: 480px) {
-      .hero__title { font-size: 36px; }
       .episodes { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    /* =============================================
-       SUBSCRIBE
-    ============================================= */
-    .subscribe-card {
-      background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, rgba(15,15,15,0) 70%);
-      border: 1px solid var(--border-blue);
-      border-radius: 12px;
-      padding: 36px;
-      max-width: 560px;
-    }
-
-    .subscribe-desc {
-      font-size: 16px;
-      line-height: 1.65;
-      color: var(--text-dim);
-      margin-bottom: 24px;
-    }
-
-    .subscribe-form {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .subscribe-input {
-      flex: 1;
-      min-width: 220px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 13px 16px;
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .subscribe-input::placeholder { color: var(--text-muted); }
-    .subscribe-input:focus { border-color: var(--blue); }
-
-    .subscribe-note {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 14px;
-    }
-
-    /* Autumn coming soon section */
-    .autumn-placeholder {
-      border: 1px dashed var(--border);
-      border-radius: 10px;
-      padding: 28px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-    .autumn-placeholder strong {
-      display: block;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--amber);
-      margin-bottom: 6px;
     }
   </style>
 </head>
@@ -1146,10 +1075,9 @@
 
   <!-- NAV -->
   <nav class="nav" id="main-nav">
-    <span class="nav__brand">Late Diagnosed <span>AuDHD</span> Guy</span>
+    <span class="nav__brand">Late Dx <span>AuDHD</span> Guy</span>
     <div class="nav__links">
       <a href="#episodes">Episodes</a>
-      <a href="#seasons">Seasons</a>
       <a href="#about">About</a>
       <a href="#follow">Follow</a>
       <a href="#subscribe">Subscribe</a>
@@ -1161,34 +1089,16 @@
   </nav>
 
   <!-- HERO -->
+  <!-- To swap to video: remove .hero__bg-wrap background-image CSS, add <video> tag inside .hero__bg-wrap -->
   <section class="hero">
+    <div class="hero__bg-wrap" id="hero-bg-wrap"></div>
     <div class="hero__content fade-in">
-      <div class="hero__badge">Now Filming -- Season 1</div>
-      <h1 class="hero__title">Late Diagnosed<br /><span>AuDHD Guy</span></h1>
-      <p class="hero__desc">
-        Got the diagnosis in my late 40s. Now I'm watching everything I thought I knew about myself come apart and put itself back together in real time. This is what that looks like.
-      </p>
+      <div class="hero__badge">Now Filming &bull; Season 1</div>
+      <h1 class="hero__title">Late Dx<br />AuDHD Guy</h1>
+      <p class="hero__tagline">The invisible struggle is real</p>
       <div class="hero__actions">
         <a href="#episodes" class="btn btn--primary">&#9654; Watch Episodes</a>
-        <a href="#about" class="btn btn--outline">What Is This</a>
-      </div>
-      <div class="hero__meta">
-        <div class="hero__meta-item">
-          <strong>Micro-Reality Docuseries</strong>
-          Format
-        </div>
-        <div class="hero__meta-item">
-          <strong>Spring 2026</strong>
-          Season 1 -- Now Filming
-        </div>
-        <div class="hero__meta-item">
-          <strong>Vancouver BC</strong>
-          Location
-        </div>
-        <div class="hero__meta-item">
-          <strong>90s -- 2min</strong>
-          Episode Length
-        </div>
+        <a href="#about" class="btn btn--dark">What Is This</a>
       </div>
     </div>
   </section>
@@ -1198,125 +1108,88 @@
     <div class="ticker__track">
       <span class="ticker__label">Now Filming</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">Season 1 &bull; Summer 2026</span>
+      <span class="ticker__item">Season 1 &bull; Spring 2026</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">First summer post-diagnosis</span>
+      <span class="ticker__item">Late diagnosis. Real life. No filter.</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">AuDHD regression &bull; unmasking &bull; heat intolerance &bull; all of it</span>
+      <span class="ticker__item">AuDHD regression &bull; unmasking &bull; 50 years of re-reading everything</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">@latedxaudhdguy on TikTok / Instagram / YouTube</span>
+      <span class="ticker__item">@latedxaudhdguy on TikTok &bull; Instagram &bull; YouTube</span>
       <span class="ticker__sep">/</span>
       <span class="ticker__label">Now Filming</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">Season 1 &bull; Summer 2026</span>
+      <span class="ticker__item">Season 1 &bull; Spring 2026</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">First summer post-diagnosis</span>
+      <span class="ticker__item">Late diagnosis. Real life. No filter.</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">AuDHD regression &bull; unmasking &bull; heat intolerance &bull; all of it</span>
+      <span class="ticker__item">AuDHD regression &bull; unmasking &bull; 50 years of re-reading everything</span>
       <span class="ticker__sep">/</span>
-      <span class="ticker__item">@latedxaudhdguy on TikTok / Instagram / YouTube</span>
+      <span class="ticker__item">@latedxaudhdguy on TikTok &bull; Instagram &bull; YouTube</span>
       <span class="ticker__sep">/</span>
     </div>
   </div>
 
-  <!-- EPISODES -->
-  <section class="section fade-in" id="episodes">
-    <div class="section__header">
-      <h2 class="section__title">Episodes</h2>
-      <span class="section__badge badge--blue">Season 1 in Production</span>
-    </div>
+  <!-- DARK STRIP: Episodes + About + Subscribe -->
+  <div class="dark-strip">
 
-    <div class="launch-card fade-in">
-      <div class="launch-card__season">Season 1 &bull; Spring 2026</div>
-      <h3 class="launch-card__title">The first spring<br />after finding out.</h3>
-      <p class="launch-card__desc">
-        The diagnosis arrived. Everything that came before it had to be re-read. Every memory, every failure, every relationship -- all of it filtered through new information. This is what that looks like in real time. 10 episodes. One per week. Starting now.
-      </p>
-      <div class="launch-card__status">
-        <span class="status-dot"></span>
-        Now filming -- Episodes drop Spring 2026
+    <!-- EPISODES -->
+    <section class="section fade-in" id="episodes">
+      <div class="section__header">
+        <h2 class="section__title">Episodes</h2>
+        <span class="section__badge badge--teal-inv">Season 1 in Production</span>
       </div>
-    </div>
-
-    <div class="season-divider fade-in">
-      <span class="season-divider__label">Summer 2026</span>
-      <span class="season-divider__line"></span>
-      <span class="section__badge badge--muted">Episodes TBA</span>
-    </div>
-
-    <div class="episodes fade-in" id="episode-grid">
-      <!-- Populated by JS -->
-    </div>
-
-    <div class="season-divider fade-in" style="margin-top: 48px;">
-      <span class="season-divider__label">Autumn 2026</span>
-      <span class="season-divider__line"></span>
-      <span class="section__badge badge--amber">Announced</span>
-    </div>
-    <div class="autumn-placeholder fade-in">
-      <strong>Autumn 2026 -- Season 2</strong>
-      The arc continues after the summer. More details once Season 1 wraps.
-    </div>
-  </section>
-
-  <!-- SEASONS CAROUSEL -->
-  <section class="section fade-in" id="seasons">
-    <div class="section__header">
-      <h2 class="section__title">Seasons</h2>
-      <span class="section__badge badge--muted">2 Announced</span>
-    </div>
-    <div class="carousel">
-      <div class="carousel-track" id="seasons-track">
+      <div class="episodes" id="episode-grid">
         <!-- Populated by JS -->
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ABOUT -->
-  <section class="section fade-in" id="about">
-    <div class="section__header">
-      <h2 class="section__title">What Is This</h2>
-      <span class="section__badge badge--muted">Real Story. Real Person.</span>
-    </div>
-    <div class="identity">
-      <div class="identity__eyebrow">About the show</div>
-      <p class="identity__text">
-        <strong>This is not a vlog. It's not therapy content. It's not an explainer series.</strong> It's a micro-reality docuseries -- confessional booth format, observational B-roll, real moments. The kind of show where you care what happens next not because there's manufactured drama but because the internal stakes are real.
-      </p>
-      <p class="identity__text">
-        The subject is 50 years old. Divorced father of three. Full-time marketing professional. Vancouver, BC. Late-diagnosed AuDHD -- ADHD confirmed, autism self-identified. For decades, everything got explained away. The sensitivity, the overwhelm, the careers that didn't quite fit, the relationships that required more management than they should have. Then the diagnosis arrived and the whole architecture of a life had to be re-read.
-      </p>
-      <p class="identity__text">
-        <strong>AuDHD isn't one thing -- it's two separate operating systems running simultaneously.</strong> The ADHD wants novelty and chaos. The autism wants predictability and quiet. They argue. The man in the middle manages. Season 1 documents the first spring after diagnosis -- the beginning of the unmasking. Everything that was suppressed starts to surface. Not all at once. Just enough to notice.
-      </p>
-      <p class="identity__text">
-        Real. Episodic. This is what it actually looks like.
-      </p>
-    </div>
-  </section>
+    <!-- ABOUT -->
+    <section class="section fade-in" id="about">
+      <div class="section__header">
+        <h2 class="section__title">What Is This</h2>
+        <span class="section__badge badge--teal-inv">Real Story. Real Person.</span>
+      </div>
+      <div class="identity">
+        <div class="identity__eyebrow">About the show</div>
+        <p class="identity__text">
+          <strong>This is not a vlog. It's not therapy content. It's not an explainer series.</strong> It's a micro-reality docuseries -- confessional booth format, observational B-roll, real moments. The kind of show where you care what happens next not because there's manufactured drama but because the internal stakes are real.
+        </p>
+        <p class="identity__text">
+          The subject is 50 years old. Divorced father of three. Full-time marketing professional. Vancouver, BC. Late-diagnosed AuDHD -- ADHD confirmed, autism self-identified. For decades, everything got explained away. The sensitivity, the overwhelm, the careers that didn't quite fit, the relationships that required more management than they should have. Then the diagnosis arrived and the whole architecture of a life had to be re-read.
+        </p>
+        <p class="identity__text">
+          <strong>AuDHD isn't one thing -- it's two separate operating systems running simultaneously.</strong> The ADHD wants novelty and chaos. The autism wants predictability and quiet. They argue. The man in the middle manages. Season 1 documents the first spring after diagnosis -- the beginning of the unmasking. Everything that was suppressed starts to surface. Not all at once. Just enough to notice.
+        </p>
+        <p class="identity__text">
+          Real. Episodic. This is what it actually looks like.
+        </p>
+      </div>
+    </section>
 
-  <!-- FOLLOW -->
+  </div><!-- end .dark-strip -->
+
+  <!-- FOLLOW (teal section) -->
   <section class="section fade-in" id="follow">
     <div class="section__header">
       <h2 class="section__title">Follow Along</h2>
-      <span class="section__badge badge--muted">Episodes drop on all platforms</span>
+      <span class="section__badge badge--dark">Episodes drop on all platforms</span>
     </div>
     <div class="socials">
-      <a href="https://tiktok.com/@latedxaudhdguy" target="_blank" rel="noopener" class="social-pill social-pill--tiktok">
+      <a href="https://tiktok.com/@latedxaudhdguy" target="_blank" rel="noopener" class="social-pill">
         <div class="social-pill__icon">&#9654;</div>
         <div>
           <div class="social-pill__name">TikTok</div>
           <div class="social-pill__handle">@latedxaudhdguy</div>
         </div>
       </a>
-      <a href="https://instagram.com/@latedxaudhdguy" target="_blank" rel="noopener" class="social-pill social-pill--instagram">
+      <a href="https://instagram.com/@latedxaudhdguy" target="_blank" rel="noopener" class="social-pill">
         <div class="social-pill__icon">&#9632;</div>
         <div>
           <div class="social-pill__name">Instagram</div>
           <div class="social-pill__handle">@latedxaudhdguy</div>
         </div>
       </a>
-      <a href="https://youtube.com/@latedxaudhdguy" target="_blank" rel="noopener" class="social-pill social-pill--youtube">
+      <a href="https://youtube.com/@latedxaudhdguy" target="_blank" rel="noopener" class="social-pill">
         <div class="social-pill__icon">&#9654;</div>
         <div>
           <div class="social-pill__name">YouTube</div>
@@ -1326,34 +1199,38 @@
     </div>
   </section>
 
-  <!-- SUBSCRIBE -->
-  <section class="section fade-in" id="subscribe">
-    <div class="section__header">
-      <h2 class="section__title">Get Episodes Early</h2>
-      <span class="section__badge badge--blue">Free</span>
-    </div>
-    <div class="subscribe-card">
-      <p class="subscribe-desc">
-        Episodes land on the website 24 hours before they go public on social. Subscribe and you get them first -- no algorithm, no feed, just the episode in your inbox.
-      </p>
-      <form
-        action="https://buttondown.email/api/emails/embed-subscribe/latedxaudhdguy"
-        method="post"
-        target="popupwindow"
-        onsubmit="window.open('https://buttondown.email/latedxaudhdguy', 'popupwindow')"
-        class="subscribe-form"
-      >
-        <input type="email" name="email" placeholder="Your email address" class="subscribe-input" required />
-        <button type="submit" class="btn btn--primary">Subscribe</button>
-      </form>
-      <p class="subscribe-note">No spam. Just episodes. Unsubscribe anytime.</p>
-    </div>
-  </section>
+  <!-- SUBSCRIBE (back on dark strip) -->
+  <div class="dark-strip">
+    <section class="section fade-in" id="subscribe">
+      <div class="section__header">
+        <h2 class="section__title">Get Episodes Early</h2>
+        <span class="section__badge badge--teal-inv">Free</span>
+      </div>
+      <div class="subscribe-card">
+        <p class="subscribe-desc">
+          Episodes land on the website 24 hours before they go public on social. Subscribe and you get them first -- no algorithm, no feed, just the episode in your inbox.
+        </p>
+        <form
+          action="https://buttondown.email/api/emails/embed-subscribe/latedxaudhdguy"
+          method="post"
+          target="popupwindow"
+          onsubmit="window.open('https://buttondown.email/latedxaudhdguy', 'popupwindow')"
+          class="subscribe-form"
+        >
+          <input type="email" name="email" placeholder="Your email address" class="subscribe-input" required />
+          <button type="submit" class="btn btn--primary">Subscribe</button>
+        </form>
+        <p class="subscribe-note">No spam. Just episodes. Unsubscribe anytime.</p>
+      </div>
+    </section>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <span class="footer__brand">latedxaudhdguy.com</span>
-    <span class="footer__copy">&copy; 2026 <a href="https://framezerocreative.com" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;">FRAMEZERØ Creative</a> &bull; Vancouver BC &bull; Website by <a href="https://framezerocreative.com" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;">FRAMEZERØ Creative</a></span>
+    <div class="footer__left">
+      <span class="footer__neuroflix">A NEUROFLIX Production</span>
+      <span class="footer__brand">latedxaudhdguy.com &bull; &copy; 2026</span>
+    </div>
     <div class="footer__links">
       <a href="#episodes">Episodes</a>
       <a href="#about">About</a>
@@ -1419,193 +1296,42 @@
 
   <script>
     /* =============================================
-       DATA
+       EPISODE DATA (published episodes only)
     ============================================= */
     const episodes = [
       {
-        id: 'S1E01',
-        season: 'Season 1',
-        ep: 'Episode 1',
-        title: 'This Is What It Is',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: '50 years old. Just got the diagnosis. The moment you put a name on the thing that has been running your entire life -- and then have to go back through every memory and re-read it with that new information.',
-        gradient: 'linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%)',
-        color: '#3B82F6',
-        status: 'coming-soon'
+        id: 'E01',
+        ep: 'E01',
+        title: 'The Quiet Storm',
+        meta: 'Spring 2026',
+        desc: 'The moment everything made sense. After 50 years, the diagnosis lands.',
+        gradient: 'linear-gradient(135deg, #0a2e2e 0%, #0a1a1a 100%)',
+        url: 'https://tiktok.com/@latedxaudhdguy',
+        status: 'Available'
       },
       {
-        id: 'S1E02',
-        season: 'Season 1',
-        ep: 'Episode 2',
-        title: 'The Stereotype',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'ADHD is not the kid bouncing off the walls. That was somebody else. This one was always quiet on the outside. The mind was never quiet. The gap between how it looks and what it costs -- that is the whole thing.',
-        gradient: 'linear-gradient(135deg, #0f1a2e 0%, #0a0f1a 100%)',
-        color: '#60A5FA',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E03',
-        season: 'Season 1',
-        ep: 'Episode 3',
+        id: 'E02',
+        ep: 'E02',
         title: 'The Record',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'There is a track that plays in your head. Same song. Every day. Since you were a kid. Depression, anxiety, burnout -- none of those labels were wrong. None of them were the whole story.',
-        gradient: 'linear-gradient(135deg, #1a0a0a 0%, #0f0808 100%)',
-        color: '#F87171',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E04',
-        season: 'Season 1',
-        ep: 'Episode 4',
-        title: 'The ADHD Tax',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'Probably 200 domain names. Never used. That is not a joke -- that is just the most legible example. The ADHD tax is real: money, time, relationships, opportunities. You pay it whether you know about it or not.',
-        gradient: 'linear-gradient(135deg, #2e1a00 0%, #1a0f00 100%)',
-        color: '#F59E0B',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E05',
-        season: 'Season 1',
-        ep: 'Episode 5',
-        title: 'Two Systems',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'ADHD wants chaos. Autism wants sameness. They live in the same body and they argue constantly. The person in the middle manages the negotiation. This is what that actually feels like from the inside.',
-        gradient: 'linear-gradient(135deg, #001a2e 0%, #000f1a 100%)',
-        color: '#34D399',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E06',
-        season: 'Season 1',
-        ep: 'Episode 6',
-        title: 'The Retrofit',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'The diagnosis does not change what happened. It changes what everything means. Every job. Every relationship. Every failure. Every time someone said you were not trying hard enough. All of it gets re-read.',
-        gradient: 'linear-gradient(135deg, #1a1a0a 0%, #0f0f08 100%)',
-        color: '#FCD34D',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E07',
-        season: 'Season 1',
-        ep: 'Episode 7',
-        title: 'Spring',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'Cherry blossoms in Vancouver. The season everyone loves. But the warmth is starting to build -- and with it comes the uniform anxiety, the sensory math of figuring out what to wear without losing your mind, and the pressure from the co-parent to get the kids outside. This is the episode where the season turns.',
-        gradient: 'linear-gradient(135deg, #1a0f2e 0%, #0f0a1a 100%)',
-        color: '#A78BFA',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E08',
-        season: 'Season 1',
-        ep: 'Episode 8',
-        title: 'Telling People',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'Six months of not telling anyone. Not because of shame -- because there was no map for how to say it. How do you tell people that the version of you they have always known was running on incomplete information?',
-        gradient: 'linear-gradient(135deg, #1a0a1a 0%, #0f080f 100%)',
-        color: '#C084FC',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E09',
-        season: 'Season 1',
-        ep: 'Episode 9',
-        title: 'The New Job',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'Got a new job while actively unmasking. Manager is also neurodivergent. Nobody planned that. What it is like to be professionally present when the internal architecture is being rebuilt at the same time.',
-        gradient: 'linear-gradient(135deg, #0a1a1a 0%, #080f0f 100%)',
-        color: '#2DD4BF',
-        status: 'coming-soon'
-      },
-      {
-        id: 'S1E10',
-        season: 'Season 1',
-        ep: 'Episode 10',
-        title: 'The Meds',
-        meta: 'Spring 2026 -- ~2 min',
-        platform: 'TikTok',
-        desc: 'They gave a stimulant for ADHD. I know how that sounds. Here is what actually happened -- not the version where everything got fixed, the version where one variable changed and everything else stayed complicated.',
-        gradient: 'linear-gradient(135deg, #1a2e1a 0%, #0f1a0f 100%)',
-        color: '#4ADE80',
-        status: 'coming-soon'
+        meta: 'Spring 2026',
+        desc: 'The track that plays on repeat. The voice that says there\'s something wrong with me.',
+        gradient: 'linear-gradient(135deg, #1a0a2e 0%, #0f0a1a 100%)',
+        url: 'https://tiktok.com/@latedxaudhdguy',
+        status: 'Available'
       }
     ];
 
-    const seasons = [
-      {
-        id: 's1',
-        label: 'S1',
-        season: 'Season 1 -- Spring 2026',
-        title: 'The first spring after finding out.',
-        desc: 'Cherry blossoms, fresh diagnosis, and the slow unravelling of 50 years of compensation strategies. 10 episodes. One per week.',
-        gradient: 'linear-gradient(135deg, #1a0f2e 0%, #0f0f0f 100%)',
-        color: '#A78BFA',
-        status: 'In Production',
-        statusClass: 'badge--blue',
-        episodes: '10'
-      },
-      {
-        id: 's2',
-        label: 'S2',
-        season: 'Season 2 -- Summer 2026',
-        title: 'The first summer after finding out.',
-        desc: 'Heat, regression, and the nervous system at capacity. Unmasking collides with the worst season for a sensory system that is already at its limit.',
-        gradient: 'linear-gradient(135deg, #2e1a00 0%, #0f0f0f 100%)',
-        color: '#F59E0B',
-        status: 'Announced',
-        statusClass: 'badge--amber',
-        episodes: '13'
-      },
-      {
-        id: 's3',
-        label: 'S3',
-        season: 'Season 3 -- Autumn 2026',
-        title: 'After the heat breaks.',
-        desc: 'The reckoning. What changes, what does not, and what the nervous system looks like when the pressure finally drops.',
-        gradient: 'linear-gradient(135deg, #2e1500 0%, #0f0f0f 100%)',
-        color: '#FB923C',
-        status: 'Announced',
-        statusClass: 'badge--muted',
-        episodes: '13'
-      },
-      {
-        id: 's4',
-        label: 'S4',
-        season: 'Season 4 -- Winter 2026',
-        title: 'The quiet season.',
-        desc: 'Hibernation, reflection, the dark months. What a year of unmasking in public actually produced.',
-        gradient: 'linear-gradient(135deg, #0f1a2e 0%, #0f0f0f 100%)',
-        color: '#93C5FD',
-        status: 'Announced',
-        statusClass: 'badge--muted',
-        episodes: '13'
-      }
-    ];
-
-    /* SEASØNS tracks for ambient audio bed -- no public credit needed */
+    /* SEASØNS tracks for ambient audio bed */
     const ambientTracks = [
-      { title: 'Watch You Grow', src: 'assets/audio/spring/01-watch-you-grow.mp3' },
-      { title: 'Unfolding', src: 'assets/audio/spring/02-unfolding.mp3' },
-      { title: 'First Light', src: 'assets/audio/spring/03-first-light.mp3' },
-      { title: 'Somewhere New', src: 'assets/audio/spring/04-somewhere-new.mp3' },
-      { title: 'Quiet', src: 'assets/audio/spring/05-quiet.mp3' },
-      { title: 'The Distance', src: 'assets/audio/spring/06-the-distance.mp3' },
-      { title: 'Still Here', src: 'assets/audio/spring/07-still-here.mp3' },
-      { title: 'Coming Back', src: 'assets/audio/spring/08-coming-back.mp3' },
-      { title: 'Enough', src: 'assets/audio/spring/09-enough.mp3' }
+      { title: 'Watch You Grow',  src: 'assets/audio/spring/01-watch-you-grow.mp3' },
+      { title: 'Unfolding',       src: 'assets/audio/spring/02-unfolding.mp3' },
+      { title: 'First Light',     src: 'assets/audio/spring/03-first-light.mp3' },
+      { title: 'Somewhere New',   src: 'assets/audio/spring/04-somewhere-new.mp3' },
+      { title: 'Quiet',           src: 'assets/audio/spring/05-quiet.mp3' },
+      { title: 'The Distance',    src: 'assets/audio/spring/06-the-distance.mp3' },
+      { title: 'Still Here',      src: 'assets/audio/spring/07-still-here.mp3' },
+      { title: 'Coming Back',     src: 'assets/audio/spring/08-coming-back.mp3' },
+      { title: 'Enough',          src: 'assets/audio/spring/09-enough.mp3' }
     ];
 
     /* =============================================
@@ -1616,17 +1342,17 @@
       grid.innerHTML = '';
       episodes.forEach(ep => {
         const card = document.createElement('div');
-        card.className = 'episode-card';
+        card.className = 'episode-card fade-in';
         card.innerHTML = `
           <div class="episode-card__thumb">
             <div class="episode-card__thumb-bg" style="background:${ep.gradient};"></div>
-            <span class="episode-card__num">${ep.id}</span>
-            <span class="episode-card__platform">${ep.platform}</span>
-            <div class="episode-card__thumb-icon">&#9654;</div>
-            <div class="episode-card__thumb-label">Coming Soon</div>
+            <span class="episode-card__num">${ep.ep}</span>
+            <span class="episode-card__status">${ep.status}</span>
+            <div class="episode-card__play-icon">&#9654;</div>
           </div>
           <div class="episode-card__body">
             <div class="episode-card__title">${ep.title}</div>
+            <div class="episode-card__desc">${ep.desc}</div>
             <div class="episode-card__meta">${ep.meta}</div>
           </div>
         `;
@@ -1636,66 +1362,20 @@
     }
 
     /* =============================================
-       RENDER SEASON CARDS
-    ============================================= */
-    function renderSeasons() {
-      const track = document.getElementById('seasons-track');
-      track.innerHTML = '';
-      seasons.forEach(s => {
-        const card = document.createElement('div');
-        card.className = 'season-card';
-        card.innerHTML = `
-          <div class="season-card__art">
-            <div class="season-card__art-inner" style="background:${s.gradient};"></div>
-            <span class="season-card__label">${s.label}</span>
-          </div>
-          <div class="season-card__body">
-            <div class="season-card__season" style="color:${s.color};">${s.season}</div>
-            <div class="season-card__title">${s.title}</div>
-            <div class="season-card__desc">${s.desc}</div>
-            <div class="season-card__footer">
-              <span class="season-card__status section__badge ${s.statusClass}" style="font-size:11px;">${s.status}</span>
-              <span class="season-card__ep-count">Episodes: ${s.episodes}</span>
-            </div>
-          </div>
-        `;
-        card.addEventListener('click', () => openSeasonModal(s));
-        track.appendChild(card);
-      });
-    }
-
-    /* =============================================
        MODALS
     ============================================= */
     function openEpisodeModal(ep) {
       document.getElementById('modal-hero-bg').style.background = ep.gradient;
-      document.getElementById('modal-season-label').textContent = ep.season + ' -- ' + ep.ep;
+      document.getElementById('modal-season-label').textContent = 'Season 1 \u2022 ' + ep.ep;
       document.getElementById('modal-title').textContent = ep.title;
       document.getElementById('modal-meta').innerHTML = `
-        <span class="modal__meta-item">${ep.platform}</span>
         <span class="modal__meta-item">${ep.meta}</span>
-        <span class="modal__meta-item" style="color:var(--blue)">Coming Summer 2026</span>
+        <span class="modal__meta-item" style="color:var(--teal)">${ep.status}</span>
       `;
       document.getElementById('modal-desc').textContent = ep.desc;
       document.getElementById('modal-actions').innerHTML = `
-        <a href="https://tiktok.com/@latedxaudhdguy" target="_blank" rel="noopener" class="btn btn--primary">Follow on TikTok</a>
-        <button class="btn btn--outline" onclick="closeModal()">Close</button>
-      `;
-      openModal();
-    }
-
-    function openSeasonModal(s) {
-      document.getElementById('modal-hero-bg').style.background = s.gradient;
-      document.getElementById('modal-season-label').textContent = s.season;
-      document.getElementById('modal-title').textContent = s.title;
-      document.getElementById('modal-meta').innerHTML = `
-        <span class="modal__meta-item section__badge ${s.statusClass}">${s.status}</span>
-        <span class="modal__meta-item">Episodes: ${s.episodes}</span>
-      `;
-      document.getElementById('modal-desc').textContent = s.desc;
-      document.getElementById('modal-actions').innerHTML = `
-        <a href="#episodes" class="btn btn--primary" onclick="closeModal()">See Episodes</a>
-        <button class="btn btn--outline" onclick="closeModal()">Close</button>
+        <a href="${ep.url}" target="_blank" rel="noopener" class="btn btn--primary">Watch on TikTok</a>
+        <button class="btn btn--outline-dark" onclick="closeModal()">Close</button>
       `;
       openModal();
     }
@@ -1761,11 +1441,9 @@
     }
 
     audio.addEventListener('ended', nextTrack);
-
     document.getElementById('mp-play').addEventListener('click', playPause);
     document.getElementById('mp-next').addEventListener('click', nextTrack);
     document.getElementById('mp-prev').addEventListener('click', prevTrack);
-
     document.getElementById('mp-volume').addEventListener('input', e => {
       audio.volume = parseFloat(e.target.value);
     });
@@ -1790,7 +1468,7 @@
     }, { passive: true });
 
     /* =============================================
-       FADE IN OBSERVER
+       SCROLL ANIMATIONS (IntersectionObserver)
     ============================================= */
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -1806,34 +1484,11 @@
     }
 
     /* =============================================
-       DRAG TO SCROLL CAROUSELS
-    ============================================= */
-    function initDragScroll(track) {
-      let startX, scrollLeft, isDragging = false;
-
-      track.addEventListener('mousedown', e => {
-        isDragging = true;
-        startX = e.pageX - track.offsetLeft;
-        scrollLeft = track.scrollLeft;
-        track.classList.add('dragging');
-      });
-      track.addEventListener('mouseleave', () => { isDragging = false; track.classList.remove('dragging'); });
-      track.addEventListener('mouseup', () => { isDragging = false; track.classList.remove('dragging'); });
-      track.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX - track.offsetLeft;
-        track.scrollLeft = scrollLeft - (x - startX) * 1.2;
-      });
-    }
-
-    /* =============================================
        BOTTOM NAV ACTIVE STATE
     ============================================= */
     function initBottomNav() {
       const items = document.querySelectorAll('.bottom-nav__item');
       const sections = ['episodes', 'about', 'follow'];
-
       window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(id => {
@@ -1851,9 +1506,7 @@
     ============================================= */
     document.addEventListener('DOMContentLoaded', () => {
       renderEpisodes();
-      renderSeasons();
       observeFades();
-      initDragScroll(document.getElementById('seasons-track'));
       initBottomNav();
     });
   </script>
