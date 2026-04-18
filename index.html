@@ -127,7 +127,7 @@
     .nav__brand {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 17px;
+      font-size: 24px;
       letter-spacing: 0.5px;
       color: var(--text);
       white-space: nowrap;
@@ -1053,8 +1053,13 @@
     @media (max-width: 768px) {
       .nav__links { display: none; }
       .nav__social { display: none; }
-      .nav__brand { font-size: 14px; }
+      .nav__brand { font-size: 18px; }
       .hero { min-height: 80vh; }
+      /* Shift hero image on mobile to show brain+battery -- adjust if image focal point differs */
+      .hero__bg-wrap {
+        background-position: 30% center;
+        background-size: 160%;
+      }
       .hero__title { font-size: clamp(44px, 12vw, 80px); }
       .section { padding: 48px 16px; }
       .identity { padding: 24px; }
@@ -1322,18 +1327,11 @@
       }
     ];
 
-    /* SEASØNS tracks for ambient audio bed */
-    const ambientTracks = [
-      { title: 'Watch You Grow',  src: 'assets/audio/spring/01-watch-you-grow.mp3' },
-      { title: 'Unfolding',       src: 'assets/audio/spring/02-unfolding.mp3' },
-      { title: 'First Light',     src: 'assets/audio/spring/03-first-light.mp3' },
-      { title: 'Somewhere New',   src: 'assets/audio/spring/04-somewhere-new.mp3' },
-      { title: 'Quiet',           src: 'assets/audio/spring/05-quiet.mp3' },
-      { title: 'The Distance',    src: 'assets/audio/spring/06-the-distance.mp3' },
-      { title: 'Still Here',      src: 'assets/audio/spring/07-still-here.mp3' },
-      { title: 'Coming Back',     src: 'assets/audio/spring/08-coming-back.mp3' },
-      { title: 'Enough',          src: 'assets/audio/spring/09-enough.mp3' }
-    ];
+    /* Season 1 soundtrack -- loaded from audio/s1/tracks.json
+       To add tracks: drop MP3 into audio/s1/, add entry to tracks.json, push.
+       Format: [{ "title": "Song Name", "file": "filename.mp3" }, ...]
+    */
+    let ambientTracks = [];
 
     /* =============================================
        RENDER EPISODES
@@ -1449,8 +1447,24 @@
       audio.volume = parseFloat(e.target.value);
     });
 
-    /* Show mini player after scrolling past hero */
+    /* Load Season 1 soundtrack from manifest */
+    fetch('audio/s1/tracks.json')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          ambientTracks = data.map(t => ({
+            title: t.title,
+            src: 'audio/s1/' + t.file
+          }));
+          /* Shuffle so it doesn't always start on track 1 */
+          ambientTracks.sort(() => Math.random() - 0.5);
+        }
+      })
+      .catch(() => { /* No tracks yet -- player stays hidden */ });
+
+    /* Show mini player after scrolling past hero (only if tracks loaded) */
     window.addEventListener('scroll', () => {
+      if (ambientTracks.length === 0) return;
       const heroH = document.querySelector('.hero').offsetHeight;
       const player = document.getElementById('mini-player');
       if (window.scrollY > heroH * 0.5 && !player.classList.contains('shown-once')) {
