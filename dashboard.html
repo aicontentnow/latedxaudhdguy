@@ -845,20 +845,7 @@ The ldag-transcript-intake skill is installed and will auto-activate when I past
               <div class="tap-cta">TAP -- GET THE PROMPTS</div>
             </div>
           </div>
-          <div class="prompt-reveal">
-            <div class="priority-flag">START WITH THIS ONE: "THE THREAT"</div>
-            <div class="step-lbl">Step 1 -- Narration lines for ElevenLabs</div>
-            <div class="info-box">Open ElevenLabs. Select the LDAG narrator voice. Paste these lines. Highlight all. Use the narration enhancement feature. Generate audio as M4A or WAV. Save the file.</div>
-            <div class="prompt-box">
-              <div class="prompt-text" id="p2a">Nobody tells you that taking out the trash feels like a threat. Not a metaphor. An actual threat. Your brain registers it the same way it registers danger. And you know -- you KNOW -- it's just garbage cans. You know everyone else just does it. But the lift for this brain, for these two operating systems, is so much more than anyone can see. Part of what ended my marriage was this. Just: take out the trash. I know. I know. But I'm not gonna do it. I can't. And I couldn't explain why.</div>
-              <button class="copy-btn" onclick="cp('p2a',this,'COPY NARRATION LINES')">COPY NARRATION LINES</button>
-            </div>
-            <div class="step-lbl">Step 2 -- Visual brief for Opus Agent (no narration)</div>
-            <div class="info-box">Paste this into Opus Agent. It will write its own script from the visual description. When it gives you the script, record it with your voice. Then bring that audio back to Opus as the narration layer.</div>
-            <div class="prompt-box">
-              <div class="prompt-text" id="p2b">Create a scroll stopping video using this concept: The Threat. A small suburban kitchen, early morning, 2025. Sun coming through the window. A man in a green sweatsuit stands at the back door looking out at two garbage cans on their sides in the alley. One recycling bin has its lid open. This is a thirty-second task. He does not move. The camera pushes in on his face. His jaw is tight. His hands are at his sides. The garbage cans begin to grow -- slowly at first, then obviously. They tower over the alley. The recycling bin lid opens wider like a mouth. The morning light turns harsh. The walls of the alley narrow. What was a simple chore is now a barricade. The man takes one step backward into the kitchen. He closes the door. Cut to: the same man in a car, driving. The garbage cans are behind him. He is going to a donut shop, a recycling center, the beach -- anywhere but back to the alley. The day is full. The cans are still on their sides when he gets home. He walks past them.</div>
-              <button class="copy-btn" onclick="cp('p2b',this,'COPY OPUS AGENT PROMPT')">COPY OPUS AGENT PROMPT</button>
-            </div>
+          <div class="prompt-reveal" id="card2-content">
           </div>
         </div>
 
@@ -1505,7 +1492,7 @@ function renderEpisodes() {
     const clipBadge = `<div class="clip-status-badge clip-status-${clipStatus}">${clipStatus === 'found' ? 'IN YOUR FOOTAGE' : 'ADD TO NEXT SESSION'}</div>`;
     const noteHTML = ep.clip.note ? `<div class="clip-note">${esc(ep.clip.note)}</div>` : '';
     const cleanTitle = ep.title.replace(/["""]/g, '').replace(/--/g, '--').trim();
-    EP_STARTERS[ep.id] = `You are continuing work on LDAG (Late Diagnosed AuDHD Guy). Start by reading:\n1. latedxaudhd/CLAUDE.md\n2. latedxaudhd/production/EPISODE_PIPELINE.md\n3. latedxaudhd/production/MOMENTS_DB.md\n\nI want to produce ${ep.id} -- ${cleanTitle}.\nConcept: ${ep.logline}\n\nFind the Opus Agent prompt for this episode in EPISODE_PIPELINE. If it exists, give it to me ready to paste. Also give me the narration lines separately so I can record them. If no Opus prompt exists yet, write one now using the format in CLAUDE.md. Confirm what you know before we start.`;
+    EP_STARTERS[ep.id] = `Load this skill and follow its instructions:\n~/.claude/skills/ldag-episode-script/SKILL.md\n\nEpisode: ${ep.id} -- ${cleanTitle}\nConcept: ${ep.logline}\n\nGive me the ElevenLabs narration lines for this episode ready to record. Confirm what you load before starting.`;
     card.innerHTML = `
       <div class="ep-top">
         <div class="ep-check ${done ? 'checked' : ''}" onclick="toggleDone('${ep.id}')">${done ? '&#10003;' : ''}</div>
@@ -1733,7 +1720,7 @@ function toggleCard(id) {
   const c = document.getElementById(id);
   const open = c.classList.contains('open');
   document.querySelectorAll('.action-card').forEach(x => x.classList.remove('open'));
-  if (!open) c.classList.add('open');
+  if (!open) { c.classList.add('open'); if (id === 'card2') renderCard2(); }
 }
 
 function fallbackCopy(text) {
@@ -1846,6 +1833,41 @@ function advanceAndNext(epId) {
     setTimeout(() => navigateEp(epId, 'next'), 200);
   } else {
     alert('Already at final stage: ' + cur);
+  }
+}
+
+function renderCard2() {
+  const div = document.getElementById('card2-content');
+  if (!div) return;
+  const actionable = ['scripted', 'intro-tagged', 'in-production'];
+  const ep = episodes.find(e => actionable.includes(state[e.id] || 'concept'));
+  if (!ep) {
+    div.innerHTML = '<div class="priority-flag" style="color:#555;font-size:13px;">ALL SCRIPTED EPISODES ARE IN PRODUCTION OR DONE -- CHECK EPISODES TAB</div>';
+    return;
+  }
+  const stage = state[ep.id] || 'concept';
+  const opusPrompt = OPUS_PROMPTS[ep.id] || '';
+  const sid = 'c2s' + ep.id;
+  const oid = 'c2o' + ep.id;
+  const cleanTitle = ep.title.replace(/["""]/g,'').trim();
+  div.innerHTML =
+    '<div class="priority-flag">CURRENT PRIORITY: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo; (' + stage + ')</div>' +
+    '<div class="step-lbl">Step 1 -- Narration lines for ElevenLabs</div>' +
+    '<div class="info-box">Paste this into a new Cowork session. Claude loads the episode-script skill and returns narration lines ready to record.</div>' +
+    '<div class="prompt-box"><div class="prompt-text" id="' + sid + '">Load this skill and follow its instructions:\n~/.claude/skills/ldag-episode-script/SKILL.md\n\nEpisode: ' + ep.id + ' -- ' + cleanTitle + '\nConcept: ' + ep.logline + '\n\nGive me the ElevenLabs narration lines for this episode ready to record. Confirm what you load before starting.</div>' +
+    '<button class="copy-btn" onclick="cp(\'' + sid + '\',this,\'COPY NARRATION STARTER\')">COPY NARRATION STARTER</button></div>' +
+    (opusPrompt
+      ? '<div class="step-lbl">Step 2 -- Visual brief for Opus Agent</div><div class="info-box">Paste directly into Opus Agent. No Claude needed.</div><div class="prompt-box"><div class="prompt-text" id="' + oid + '">' + esc(opusPrompt) + '</div><button class="copy-btn" onclick="cp(\'' + oid + '\',this,\'COPY OPUS PROMPT\')">COPY OPUS AGENT PROMPT</button></div>'
+      : '<div class="concept-notice">No Opus prompt yet -- open a Cowork session with the narration starter above to generate one.</div>') +
+    '<div style="padding:12px 0 0;"><button class="advance-btn" onclick="advanceCard2Ep(\'' + ep.id + '\')">DONE WITH THIS ONE -- ADVANCE STAGE &amp; SHOW NEXT</button></div>';
+}
+
+function advanceCard2Ep(epId) {
+  const cur = state[epId] || 'concept';
+  const idx = STAGES.indexOf(cur);
+  if (idx >= 0 && idx < STAGES.length - 1) {
+    jumpTo(epId, STAGES[idx + 1]);
+    renderCard2();
   }
 }
 
