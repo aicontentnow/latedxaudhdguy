@@ -404,6 +404,11 @@ body {
   text-transform: uppercase;
   margin-bottom: 6px;
 }
+.music-suno-section { margin-bottom: 10px; padding: 10px 12px; background: #0d0d0d; border: 1px solid #2a2a2a; border-radius: 4px; }
+.music-suno-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #888; text-transform: uppercase; margin-bottom: 6px; }
+.music-suno-text { font-size: 12px; color: #aaa; line-height: 1.55; white-space: pre-wrap; margin-bottom: 8px; }
+.music-suno-btn { background: #1a1a1a; border: 1px solid #444; color: #ccc; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; padding: 5px 10px; cursor: pointer; border-radius: 3px; transition: background 0.15s; }
+.music-suno-btn:hover { background: #2a2a2a; color: #fff; }
 .ep-music-prompt {
   font-size: 16px;
   color: #ddd;
@@ -869,7 +874,7 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
             <div class="action-num">4</div>
             <div>
               <div class="action-title">I need a new song</div>
-              <div class="action-desc">Create an original LDAG track for an episode. Style string + full lyrics + Suno seed, all copy-paste ready.</div>
+              <div class="action-desc">For episodes that already have songs (E01-E03), open the episode card and copy the three Suno prompts directly. Use this prompt only when building a brand new song for an episode not yet in the system.</div>
               <div class="tap-cta">TAP -- GET THE PROMPT</div>
             </div>
           </div>
@@ -1507,11 +1512,30 @@ function renderEpisodes() {
           </div>
         </div>
         <div class="ep-detail-section">
-          <div class="ep-detail-label">&#127926; Suno Music Prompt</div>
+          <div class="ep-detail-label">&#127926; Suno Music</div>
           <div class="ep-music-box">
             <div class="ep-music-era">${esc(ep.music.era)}</div>
-            <div class="ep-music-prompt">${esc(ep.music.prompt)}</div>
-            <button class="music-copy-btn" data-prompt="${esc(ep.music.prompt)}" onclick="cpThis(this,'COPY PROMPT')">COPY PROMPT</button>
+            ${(function(){
+              const mx = MUSIC_DATA[ep.id];
+              if (!mx) return `<div class="ep-music-prompt">${esc(ep.music.prompt)}</div><button class="music-copy-btn" data-prompt="${esc(ep.music.prompt)}" onclick="cpThis(this,'COPY PROMPT')">COPY PROMPT</button>`;
+              return `
+                <div class="music-suno-section">
+                  <div class="music-suno-label">Suno -- Style Field</div>
+                  <div class="music-suno-text">${esc(mx.style)}</div>
+                  <button class="music-suno-btn" data-prompt="${esc(mx.style)}" onclick="cpThis(this,'COPIED')">COPY STYLE</button>
+                </div>
+                <div class="music-suno-section">
+                  <div class="music-suno-label">Suno -- Lyric Seed (190 chars)</div>
+                  <div class="music-suno-text">${esc(mx.seed)}</div>
+                  <button class="music-suno-btn" data-prompt="${esc(mx.seed)}" onclick="cpThis(this,'COPIED')">COPY SEED</button>
+                </div>
+                ${mx.lyrics ? `<div class="music-suno-section">
+                  <div class="music-suno-label">Full Lyrics -- Our Version</div>
+                  <div class="music-suno-text">${esc(mx.lyrics)}</div>
+                  <button class="music-suno-btn" onclick="cpMusicExtra('${ep.id}','lyrics',this,'COPIED')">COPY LYRICS</button>
+                </div>` : '<div style="font-size:11px;color:#555;padding:4px 0;">Full lyrics not yet written for this episode.</div>'}
+              `;
+            })()}
           </div>
         </div>
         <div class="ep-detail-section ep-make-section">
@@ -1743,6 +1767,36 @@ function cpThis(btn, label) {
 }
 
 const EP_STARTERS = {};
+
+const MUSIC_DATA = {
+  'E01': {
+    style: '1980s synthwave, new wave, synth-pop, mid-tempo, pulsing synth bassline, gated reverb drums, analog pads, male lead vocal with restrained urgency, FM radio production, darkly warm, the moment before everything changes, controlled tension building to quiet release',
+    seed: 'The Quiet Storm: 50 years of knowing something was different, finally answered. The name doesn\'t fix it. The quiet storm was always there.',
+    lyrics: null
+  },
+  'E02': {
+    style: '1980s glam pop, power ballad intro into anthemic chorus, big reverb drums, sustained synth pads, electric guitar licks between phrases, male vocal with ragged honesty, wall of sound production, the track that plays on repeat inside a mind that can\'t stop it, emotionally heavy with FM radio polish',
+    seed: 'The Record: the voice that loops. There\'s something wrong with me. It\'s been playing since childhood. The diagnosis named the record -- it didn\'t stop it.',
+    lyrics: null
+  },
+  'E03': {
+    style: '1980s new wave, driving mid-tempo, urgent synth pulse, fretless bass, gated drum machine, male lead with clipped controlled delivery, anthemic pre-chorus that breaks into a call-and-response chant chorus, darkly clinical but emotionally urgent, FM radio production, sounds like being outrun by your own nervous system',
+    seed: 'The Threat: PDA -- a want becomes a must and everything turns to dust. Chorus hook: "It\'s the threat." The alarm goes off. The nervous system reads demand as danger. Fifty years of fear.',
+    lyrics: '[Verse 1]\nMy alarm goes off at seven / And my nervous system hears: attack\nA grocery list on the counter / And my body wants to fight back\nThere\'s an email that needs answering / But my brain has hit the floor\n\'Cause the moment anything\'s demanded / I don\'t want it anymore\n\n[Pre-Chorus]\nI know it doesn\'t make sense / I wanted this before you asked\nI know it doesn\'t make sense / But now it feels like I\'m trapped\n\n[Chorus]\nIt\'s the threat, it\'s the threat / Every "should" sets off the alarm\nIt\'s the threat, it\'s the threat / A grocery run reads like harm\nIt\'s the threat, it\'s the threat / When a want becomes a must\nEverything I ever wanted / Turns to nothing but dust\n\n[Verse 2]\nIt\'s not defiance, it\'s not lazy / It\'s not choosing to resist\nIt\'s an autonomic terror / From a nervous system that can\'t enlist\nWhen your brain was wired for danger / In a world with no real threat\nEvery little expectation / Is the hardest thing to get\n\n[Bridge]\nPDA is not a choice / It\'s not attitude or noise\nIt\'s a nervous system reading / Every single ask as poison\nAnd the moment it\'s demanded / All the wanting disappears\nWhat looks like stubborn refusal / Is fifty years of fear\n\n[Outro]\nI wanted this before you asked / I just couldn\'t do it on demand'
+  }
+};
+
+function cpMusicExtra(id, field, btn, label) {
+  const mx = MUSIC_DATA[id];
+  const text = mx && mx[field];
+  if (!text) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => markCopied(btn, label)).catch(() => { fallbackCopy(text); markCopied(btn, label); });
+  } else {
+    fallbackCopy(text);
+    markCopied(btn, label);
+  }
+}
 
 function cpEpStarter(epId, btn, label) {
   const text = EP_STARTERS[epId] || '';
