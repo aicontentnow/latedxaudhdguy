@@ -471,6 +471,10 @@ body {
 .ep-nav-btn { background:#1a1a1a; border:1px solid #2a2a2a; border-radius:6px; color:#FFCC00; padding:7px 16px; font-size:12px; font-weight:700; cursor:pointer; letter-spacing:0.5px; }
 .ep-nav-btn:hover { background:#222; border-color:#FFCC00; }
 .ep-nav-btn:disabled { color:#333; border-color:#1e1e1e; cursor:default; }
+.advance-btn { background:#0a0a0a; border:1px solid #FFCC00; border-radius:6px; color:#FFCC00; padding:12px 18px; font-size:12px; font-weight:900; cursor:pointer; letter-spacing:1px; width:100%; text-transform:uppercase; margin-bottom:8px; }
+.advance-btn:hover { background:#FFCC00; color:#000; }
+.advance-btn.at-end { border-color:#555; color:#555; }
+.advance-btn.at-end:hover { background:#1a1a1a; color:#555; cursor:default; }
 
 /* NOTIFICATION BELL */
 .notif-bell {
@@ -1559,6 +1563,11 @@ function renderEpisodes() {
           <div class="info-box" style="font-size:12px; margin-bottom:10px; color:#888;">Paste into a new Cowork chat to get narration lines ready to record.</div>
           <button class="ep-make-btn" onclick="cpEpStarter('${ep.id}',this,'COPY STARTER')">COPY STARTER</button>
         </div>
+        <div style="padding:8px 0 0;">
+          ${(SO[state[ep.id] || 'concept'] || 0) < STAGES.length - 1
+            ? `<button class="advance-btn" onclick="advanceAndNext('${ep.id}')">DONE WITH THIS ONE -- ADVANCE STAGE &amp; OPEN NEXT</button>`
+            : `<button class="advance-btn at-end" disabled>EPISODE COMPLETE (published)</button>`}
+        </div>
         <div class="ep-nav-row">
           <button class="ep-nav-btn" onclick="navigateEp('${ep.id}','prev')">&larr; Prev</button>
           <span style="color:#444;font-size:11px;font-weight:700;">${ep.id} / E25</span>
@@ -1825,6 +1834,18 @@ function copyOpusPrompt(epId, btn) {
   } else {
     fallbackCopy(prompt);
     markCopied(btn, 'COPIED!');
+  }
+}
+
+function advanceAndNext(epId) {
+  const cur = state[epId] || 'concept';
+  const idx = STAGES.indexOf(cur);
+  if (idx >= 0 && idx < STAGES.length - 1) {
+    const nextStage = STAGES[idx + 1];
+    jumpTo(epId, nextStage);
+    setTimeout(() => navigateEp(epId, 'next'), 200);
+  } else {
+    alert('Already at final stage: ' + cur);
   }
 }
 
