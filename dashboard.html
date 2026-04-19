@@ -864,6 +864,34 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           </div>
         </div>
 
+        <div class="action-card" id="card4">
+          <div class="action-header" onclick="toggleCard('card4')">
+            <div class="action-num">4</div>
+            <div>
+              <div class="action-title">I need a new song</div>
+              <div class="action-desc">Create an original LDAG track for an episode. Style string + full lyrics + Suno seed, all copy-paste ready.</div>
+              <div class="tap-cta">TAP -- GET THE PROMPT</div>
+            </div>
+          </div>
+          <div class="prompt-reveal">
+            <div class="step-lbl">Open a new Cowork chat and paste this</div>
+            <div class="info-box"><strong>How it works:</strong> Paste the prompt below. Fill in the episode title, concept, and any Suno-generated hook you already have. The skill outputs three blocks: (1) style string for Suno's Style field, (2) full lyrics for custom input or reference, (3) 190-char seed for Suno's prompt field. All copy-paste ready.</div>
+            <div class="prompt-box">
+              <div class="prompt-text" id="p4">Load this skill and follow its instructions exactly:
+~/.claude/skills/ldag-song-writer/SKILL.md
+
+Do not read any other files unless the skill explicitly directs you to.
+
+I need a song for this episode:
+Title: [EPISODE TITLE]
+Concept: [2-3 sentences on what the episode is about]
+Season: 1 (1980s)
+Existing hook (if any): [paste any Suno-generated lyrics here, or leave blank]</div>
+              <button class="copy-btn" onclick="cp('p4',this,'COPY THIS PROMPT')">COPY THIS PROMPT</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -920,6 +948,13 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           <div class="roadmap-title">ldag-production-design skill</div>
           <div class="roadmap-desc">Complete visual system reference for LDAG. Characters, objects, environments, color system, production pipeline (Weavy + Opus + CapCut), asset size specs. Self-contained -- no outside files needed at runtime.</div>
           <span class="roadmap-tag">~/.claude/skills/ldag-production-design/SKILL.md</span>
+        </div>
+
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Built 2026-04-18</div>
+          <div class="roadmap-title">ldag-song-writer skill</div>
+          <div class="roadmap-desc">Takes an episode title, concept, and season era. Outputs all three Suno production blocks in one pass: style string, full verse/bridge lyrics, and 190-char lyric seed. Embeds Season 1-4 style formulas, E01/E02/E03 reference examples, PDA neurology rules, and the hook-first principle.</div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-song-writer/SKILL.md -- use workflow card 4</span>
         </div>
 
         <div class="roadmap-card phase-soon">
@@ -1014,6 +1049,18 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
             <strong style="color:#ccc;">Built from:</strong> Discovery session -- character sheets, object renders, environment shots, 20 video frames
           </div>
           <span class="roadmap-tag">~/.claude/skills/ldag-production-design/SKILL.md</span>
+        </div>
+
+        <div class="roadmap-card phase-done">
+          <div class="roadmap-phase">Built 2026-04-18</div>
+          <div class="roadmap-title">ldag-song-writer</div>
+          <div class="roadmap-desc" style="line-height:1.7;">
+            <strong style="color:#ccc;">Input:</strong> Episode title + concept + season (defaults S1 = 1980s) + optional existing Suno hook<br>
+            <strong style="color:#ccc;">Output:</strong> Style string (Suno Style field) + full verse/bridge lyrics + 190-char Suno lyric seed<br>
+            <strong style="color:#ccc;">Trigger:</strong> "I need a song for [episode]" -- use workflow card 4<br>
+            <strong style="color:#ccc;">Key rule:</strong> 190-char seed is lyric direction only -- no style elements. PDA = can't, not won't.
+          </div>
+          <span class="roadmap-tag">~/.claude/skills/ldag-song-writer/SKILL.md</span>
         </div>
 
         <div class="roadmap-card phase-soon" style="border-left-color:#555;">
@@ -1154,6 +1201,32 @@ I'm Bodhi. I want to script an episode. Confirm what you've loaded, then let's p
 I'm Bodhi. LDAG project. I need brand assets. Tell me what you need from me to start.</div>
             </div>
             <button class="team-copy-btn" onclick="cpTeam('tp-proddesign', this)">COPY PROMPT</button>
+          </div>
+        </div>
+
+        <!-- SONG WRITER -->
+        <div class="team-card team-ready">
+          <div class="team-card-header">
+            <div class="team-role-row">
+              <div class="team-role-name">Song Writer</div>
+              <span class="team-status-badge badge-ready">READY</span>
+            </div>
+          </div>
+          <div class="team-when">When you need an original LDAG track for an episode. Tell it the title, concept, and any Suno hook you already have. It outputs style string + full lyrics + 190-char seed -- all copy-paste ready for Suno.</div>
+          <div class="team-prompt-area">
+            <div class="team-prompt-box">
+              <div class="team-prompt-text" id="tp-songwriter">Load this skill and follow its instructions exactly:
+~/.claude/skills/ldag-song-writer/SKILL.md
+
+Do not read any other files unless the skill explicitly directs you to.
+
+I need a song for this episode:
+Title: [EPISODE TITLE]
+Concept: [2-3 sentences on what the episode is about]
+Season: 1 (1980s)
+Existing hook (if any): [paste any Suno-generated lyrics here, or leave blank]</div>
+            </div>
+            <button class="team-copy-btn" onclick="cpTeam('tp-songwriter', this)">COPY PROMPT</button>
           </div>
         </div>
 
