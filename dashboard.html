@@ -1543,7 +1543,7 @@ function renderEpisodes() {
         </div>
         <div class="ep-detail-section ep-opus-section">
           <div class="ep-detail-label">&#127917; Opus Agent Prompt</div>
-          ${OPUS_PROMPTS[ep.id] ? `<div class="opus-prompt-text">${esc(OPUS_PROMPTS[ep.id])}</div><button class="opus-copy-btn" onclick="copyOpusPrompt('${ep.id}',this)">COPY OPUS PROMPT -- PASTE INTO OPUS AGENT</button>` : '<div class="concept-notice">No Opus prompt yet -- episode still at concept stage. Use Narration Seed below to open Claude and draft the prompt.</div>'}
+          ${OPUS_PROMPTS[ep.id] ? `<div class="opus-prompt-text">${esc(getVisualOnlyPrompt(ep.id))}</div><button class="opus-copy-btn" onclick="copyOpusPrompt('${ep.id}',this)">COPY OPUS PROMPT -- PASTE INTO OPUS AGENT</button>` : '<div class="concept-notice">No Opus prompt yet -- episode still at concept stage. Use Narration Seed below to open Claude and draft the prompt.</div>'}
         </div>
         <div class="ep-detail-section ep-make-section">
           <div class="ep-detail-label">&#127897; Narration Lines -- ElevenLabs</div>
@@ -1875,7 +1875,7 @@ function renderCard2() {
     return;
   }
   const stage = state[ep.id] || 'concept';
-  const opusPrompt = OPUS_PROMPTS[ep.id] || '';
+  const opusPrompt = getVisualOnlyPrompt(ep.id);
   const sid = 'c2s' + ep.id;
   const oid = 'c2o' + ep.id;
   const cleanTitle = ep.title.replace(/["""]/g,'').trim();
