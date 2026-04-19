@@ -1832,8 +1832,18 @@ const OPUS_PROMPTS = {
   'E25': `Create a scroll stopping video using this concept: The Volume.\n\nThe same dark room from The Record. Same wooden table. Same cracked vinyl spinning on the turntable. The needle rides the groove, skipping, looping the same distorted bars over and over. But the room has aged -- the album covers on the walls are worn at the edges, soft with years. A man in a green sweatsuit sits in an armchair across the room. He is not new to this. He knows every pop, every skip. His hand rests on the armrest, fingers relaxed, not gripping. The camera orbits slowly. On the wall nearest him, a volume dial -- large, analogue, mounted directly into the plaster as if it has always been there. The indicator is past 10. It sits at an unmarked position, somewhere between 10 and 11. He stands. He walks to the wall. He puts his hand on the dial. He turns it. Not off -- just back a quarter turn. The room does not go silent. The record still plays. The skip still sounds. But something has changed -- the walls of the room expand slightly, as if there is more air. He stands and listens for a moment. Then he walks to the door. Opens it. Light comes in. The record is still playing behind him. He steps through the door anyway. "The records don't stop. I don't think they're supposed to. But my experience is -- the volume can come down. The key is recognizing that they're playing and that that isn't you. It's not telling a story about who you are. It's not your identity. You can be more by doing less. That just landed for me. I hope it lands for you too."`
 };
 
+function getVisualOnlyPrompt(epId) {
+  // Opus Agent receives VISUAL DIRECTION ONLY -- no narration text.
+  // Narration is recorded separately and uploaded as audio to Opus.
+  // Including narration as text AND audio creates conflicts in Opus output.
+  let prompt = OPUS_PROMPTS[epId] || '';
+  const narration = NARRATION_LINES[epId];
+  if (narration) prompt = prompt.replace(narration, '').trim();
+  return prompt;
+}
+
 function copyOpusPrompt(epId, btn) {
-  const prompt = OPUS_PROMPTS[epId];
+  const prompt = getVisualOnlyPrompt(epId);
   if (!prompt) return;
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(prompt).then(() => markCopied(btn, 'COPIED!')).catch(() => { fallbackCopy(prompt); markCopied(btn, 'COPIED!'); });
