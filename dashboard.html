@@ -1492,7 +1492,7 @@ function renderEpisodes() {
     const clipBadge = `<div class="clip-status-badge clip-status-${clipStatus}">${clipStatus === 'found' ? 'IN YOUR FOOTAGE' : 'ADD TO NEXT SESSION'}</div>`;
     const noteHTML = ep.clip.note ? `<div class="clip-note">${esc(ep.clip.note)}</div>` : '';
     const cleanTitle = ep.title.replace(/["""]/g, '').replace(/--/g, '--').trim();
-    EP_STARTERS[ep.id] = `Load this skill and follow its instructions:\n~/.claude/skills/ldag-episode-script/SKILL.md\n\nEpisode: ${ep.id} -- ${cleanTitle}\nConcept: ${ep.logline}\n\nGive me the ElevenLabs narration lines for this episode ready to record. Confirm what you load before starting.`;
+    EP_STARTERS[ep.id] = NARRATION_LINES[ep.id] || `Load this skill and follow its instructions:\n~/.claude/skills/ldag-episode-script/SKILL.md\n\nEpisode: ${ep.id} -- ${cleanTitle}\nConcept: ${ep.logline}\n\nGive me the ElevenLabs narration lines for this episode ready to record. Confirm what you load before starting.`;
     card.innerHTML = `
       <div class="ep-top">
         <div class="ep-check ${done ? 'checked' : ''}" onclick="toggleDone('${ep.id}')">${done ? '&#10003;' : ''}</div>
@@ -1546,9 +1546,11 @@ function renderEpisodes() {
           ${OPUS_PROMPTS[ep.id] ? `<div class="opus-prompt-text">${esc(OPUS_PROMPTS[ep.id])}</div><button class="opus-copy-btn" onclick="copyOpusPrompt('${ep.id}',this)">COPY OPUS PROMPT -- PASTE INTO OPUS AGENT</button>` : '<div class="concept-notice">No Opus prompt yet -- episode still at concept stage. Use Narration Seed below to open Claude and draft the prompt.</div>'}
         </div>
         <div class="ep-detail-section ep-make-section">
-          <div class="ep-detail-label">&#9654; Narration Seed -- ElevenLabs Prep</div>
-          <div class="info-box" style="font-size:12px; margin-bottom:10px; color:#888;">Paste into a new Cowork chat to get narration lines ready to record.</div>
-          <button class="ep-make-btn" onclick="cpEpStarter('${ep.id}',this,'COPY STARTER')">COPY STARTER</button>
+          <div class="ep-detail-label">&#127897; Narration Lines -- ElevenLabs</div>
+          <div class="info-box" style="font-size:12px; margin-bottom:10px; color:#888;">Record these in your own voice. Paste into ElevenLabs with narration enhancement on.</div>
+          ${NARRATION_LINES[ep.id]
+            ? `<div class="opus-prompt-text">${esc(NARRATION_LINES[ep.id])}</div><button class="ep-make-btn" onclick="cpEpStarter('${ep.id}',this,'COPY NARRATION')">COPY NARRATION LINES</button>`
+            : `<div class="concept-notice">Narration lines not yet written -- episode needs scripting session.</div>`}
         </div>
         <div style="padding:8px 0 0;">
           ${(SO[state[ep.id] || 'concept'] || 0) < STAGES.length - 1
@@ -1783,6 +1785,23 @@ function cpThis(btn, label) {
   }
 }
 
+const NARRATION_LINES = {
+  'E01': `"They said I was smart but not applying myself. What they didn't know -- what I didn't know -- is that just sitting there was costing me everything I had."`,
+  'E02': `"This album has been playing on repeat my whole life. I used to listen to every word and believe what they were telling me. That there WAS something wrong with me -- that I was somehow broken -- and for the past 49 years I let that define me. But I'm learning to hear it differently now. That narrator doesn't stop. But I can hear it for what it is. It's not personal -- it's just the brain doing what brains do. It's just thought rising and falling and its loops are not 'me'. And recognizing that's the difference."`,
+  'E03': `"Nobody tells you that taking out the trash feels like a threat. Not a metaphor. An actual threat. Your brain registers it the same way it registers danger. And you know -- you KNOW -- it's just garbage cans. You know everyone else just does it. But the lift for this brain, for these two operating systems, is so much more than anyone can see. Part of what ended my marriage was this. Just: take out the trash. I know. I know. But I'm not gonna do it. I can't. And I couldn't explain why."`,
+  'E04': `"They tell you to push through. Grind it out. Discipline equals freedom. But my brain doesn't work like that. I'm standing in the ocean. Some days the water is stormy and I can't get on my board. I get tossed and turned. I can't force the wave. But when the water goes smooth -- when the wave comes -- I ride it all the way to shore. And I am unbelievably productive. The problem was never motivation. It was never laziness. It was always conditions."`,
+  'E05': `"My face does this thing when the overwhelm hits. Everything tightens. My eyes, my jaw, everything squints like it's trying to shut the world out. Three meetings back to back -- context switching, this product, that campaign, this technical thing -- and the battery just drains. And then I have to shut down. Not want to. Have to. Get under the blanket. Put on some shitty reality TV. And the whole time there's this voice going, you're lazy, you're not being productive. But I am hyper productive when the energy is there. Right now it's not. So I potato. And I'm learning that's okay."`,
+  'E06': `"I've got scattered memories of my dad in those type of situations. Scattered. But I remember this one. Every time I come to a ballpark, I remember this one. He cleared that fence like it was nothing. And for about ten seconds, I knew exactly where I stood with him."`,
+  'E07': `"You're too much. That's what they said. And they were right. I am too much. I've been wishing it away for 50 years. But my nine-year-old figured out his boundaries before I figured out mine. And I can't fault him for that. I won't."`,
+  'E08': `"I knew what needed to be done. I could see every single task. The laundry. The dishes. The bottles. I could name them all. But the distance between knowing and doing -- that gap -- nobody could see it. They just saw a guy on the couch who wouldn't get up. And I couldn't explain it. I still can't. Not really."`,
+  'E09': `"There's a comfort that comes from the trauma. Fifty years of listening to those records -- they're hard coded into your brain. You hear the loop start and part of you leans in. You know every word. It's familiar. It's yours. The struggle is real. But the suffering -- the suffering is the attachment. It's not about stopping the record. You can't stop it. It's about hearing it play and not believing it anymore. Release it. It comes back. Release it again. That's the practice. That's the whole thing."`,
+  'E10': `"Music was always my therapist. My catharsis. The way to let the tiger out of the cage. I just didn't understand what was feeding the tiger. I was so convinced this was my destiny -- saving the world through song. I'd spend the whole day before a show just worrying. Trying not to forget the lyrics, the chords. I don't read music. It's all just shapes on a neck. And then I'd get up there and pour everything out for people who weren't even listening. Every connection I made with anyone was through alcohol. Every single one. Three years sober now and I've had two dates. I lived right here. 260 Raymur. Trains and prostitutes. Someone broke in through the skylight and robbed me while I was sleeping with earplugs in. And I kept going. How did I keep going?"`,
+  'E11': `"My brain is this. A radar dish the size of a football field, pointed at everything, all the time. Pattern recognition. Systems thinking. Big picture. The anxieties. The worries. The excitement. All the opportunity. It's a hot goddamn cacophony. And it goes to eleven. Some people can turn the volume down. I've never found that dial. The invisible struggle isn't the stuff you can see. It's this. It's the noise that never stops. It's being the most sensitive instrument you can possibly imagine, and nobody knows you're even receiving."`,
+  'E23': `"That's what hyperfocus feels like. It's not discipline. It's not willpower. It's getting caught inside the barrel of a wave. I'm in that tunnel, going for it -- and I do so much in that time. It's real. And when I pop out the other side, I'm underwater. I'm getting tumbled around. What you see after isn't laziness. It's physics."`,
+  'E24': `"He had all these gifts. But he just couldn't find where to put them. That struck a chord with me. Because I'm 50. And I know that field. I've been standing in the middle of every road I ever tried. But it turns out, some of us just find our lane late. And finding it late -- that might actually be the better story."`,
+  'E25': `"The records don't stop. I don't think they're supposed to. But my experience is -- the volume can come down. The key is recognizing that they're playing and that that isn't you. It's not telling a story about who you are. It's not your identity. You can be more by doing less. That just landed for me. I hope it lands for you too."`
+};
+
 const OPUS_PROMPTS = {
   'E01': `Create a scroll stopping video using this concept: The Quiet Storm. A young boy, 11, sits alone at his Grade 6 school desk in a bright classroom in 1985. Every other student is settled, focused, calm. He is completely still on the outside. The camera slowly pushes through his skull to reveal pure internal chaos -- swirling thoughts, layered sounds, competing signals, nervous system overwhelmed. No one in the classroom notices anything. Cinematic, quiet tension. "They said I was smart but not applying myself. What they didn't know -- what I didn't know -- is that just sitting there was costing me everything I had."`,
 
@@ -1850,15 +1869,17 @@ function renderCard2() {
   const sid = 'c2s' + ep.id;
   const oid = 'c2o' + ep.id;
   const cleanTitle = ep.title.replace(/["""]/g,'').trim();
+  const narration = NARRATION_LINES[ep.id] || '';
   div.innerHTML =
     '<div class="priority-flag">CURRENT PRIORITY: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo; (' + stage + ')</div>' +
-    '<div class="step-lbl">Step 1 -- Narration lines for ElevenLabs</div>' +
-    '<div class="info-box">Paste this into a new Cowork session. Claude loads the episode-script skill and returns narration lines ready to record.</div>' +
-    '<div class="prompt-box"><div class="prompt-text" id="' + sid + '">Load this skill and follow its instructions:\n~/.claude/skills/ldag-episode-script/SKILL.md\n\nEpisode: ' + ep.id + ' -- ' + cleanTitle + '\nConcept: ' + ep.logline + '\n\nGive me the ElevenLabs narration lines for this episode ready to record. Confirm what you load before starting.</div>' +
-    '<button class="copy-btn" onclick="cp(\'' + sid + '\',this,\'COPY NARRATION STARTER\')">COPY NARRATION STARTER</button></div>' +
+    '<div class="step-lbl">Step 1 -- Record narration for ElevenLabs</div>' +
+    '<div class="info-box">Open ElevenLabs. Select the LDAG narrator voice. Read these lines in your own voice. Use narration enhancement. Export as M4A or WAV.</div>' +
+    (narration
+      ? '<div class="prompt-box"><div class="prompt-text" id="' + sid + '">' + esc(narration) + '</div><button class="copy-btn" onclick="cp(\'' + sid + '\',this,\'COPY NARRATION LINES\')">COPY NARRATION LINES</button></div>'
+      : '<div class="concept-notice">Narration lines not yet written for this episode.</div>') +
     (opusPrompt
       ? '<div class="step-lbl">Step 2 -- Visual brief for Opus Agent</div><div class="info-box">Paste directly into Opus Agent. No Claude needed.</div><div class="prompt-box"><div class="prompt-text" id="' + oid + '">' + esc(opusPrompt) + '</div><button class="copy-btn" onclick="cp(\'' + oid + '\',this,\'COPY OPUS PROMPT\')">COPY OPUS AGENT PROMPT</button></div>'
-      : '<div class="concept-notice">No Opus prompt yet -- open a Cowork session with the narration starter above to generate one.</div>') +
+      : '<div class="concept-notice">No Opus prompt yet for this episode -- scripting session needed.</div>') +
     '<div style="padding:12px 0 0;"><button class="advance-btn" onclick="advanceCard2Ep(\'' + ep.id + '\')">DONE WITH THIS ONE -- ADVANCE STAGE &amp; SHOW NEXT</button></div>';
 }
 
