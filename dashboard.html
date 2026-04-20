@@ -1878,8 +1878,10 @@ function renderCard2() {
   const opusPrompt = getVisualOnlyPrompt(ep.id);
   const sid = 'c2s' + ep.id;
   const oid = 'c2o' + ep.id;
+  const sud = 'c2u' + ep.id;
   const cleanTitle = ep.title.replace(/["""]/g,'').trim();
   const narration = NARRATION_LINES[ep.id] || '';
+  const mx = MUSIC_DATA[ep.id];
   div.innerHTML =
     '<div class="priority-flag">CURRENT PRIORITY: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo; (' + stage + ')</div>' +
     '<div class="step-lbl">Step 1 -- Record narration for ElevenLabs</div>' +
@@ -1890,6 +1892,9 @@ function renderCard2() {
     (opusPrompt
       ? '<div class="step-lbl">Step 2 -- Visual brief for Opus Agent</div><div class="info-box">Paste directly into Opus Agent. No Claude needed.</div><div class="prompt-box"><div class="prompt-text" id="' + oid + '">' + esc(opusPrompt) + '</div><button class="copy-btn" onclick="cp(\'' + oid + '\',this,\'COPY OPUS PROMPT\')">COPY OPUS AGENT PROMPT</button></div>'
       : '<div class="concept-notice">No Opus prompt yet for this episode -- scripting session needed.</div>') +
+    (mx && mx.seed
+      ? '<div class="step-lbl">Step 3 -- Generate music in Suno</div><div class="info-box">Open Suno. Paste the seed below into the Lyrics field. Paste the Style string (in the episode\'s Music tab) into the Style field. Generate.</div><div class="prompt-box"><div class="prompt-text" id="' + sud + '">' + esc(mx.seed) + '</div><button class="copy-btn" onclick="cp(\'' + sud + '\',this,\'COPY SUNO SEED\')">COPY SUNO SEED (LYRICS FIELD)</button></div>'
+      : '<div class="concept-notice">No Suno seed yet for this episode.</div>') +
     '<div style="padding:12px 0 0;"><button class="advance-btn" onclick="advanceCard2Ep(\'' + ep.id + '\')">DONE WITH THIS ONE -- ADVANCE STAGE &amp; SHOW NEXT</button></div>';
 }
 
@@ -1931,6 +1936,61 @@ const MUSIC_DATA = {
     style: '1980s new wave, driving mid-tempo, urgent synth pulse, fretless bass, gated drum machine, male lead with clipped controlled delivery, anthemic pre-chorus that breaks into a call-and-response chant chorus, darkly clinical but emotionally urgent, FM radio production, sounds like being outrun by your own nervous system',
     seed: 'The Threat: PDA -- a want becomes a must and everything turns to dust. Chorus hook: "It\'s the threat." The alarm goes off. The nervous system reads demand as danger. Fifty years of fear.',
     lyrics: '[Verse 1]\nMy alarm goes off at seven / And my nervous system hears: attack\nA grocery list on the counter / And my body wants to fight back\nThere\'s an email that needs answering / But my brain has hit the floor\n\'Cause the moment anything\'s demanded / I don\'t want it anymore\n\n[Pre-Chorus]\nI know it doesn\'t make sense / I wanted this before you asked\nI know it doesn\'t make sense / But now it feels like I\'m trapped\n\n[Chorus]\nIt\'s the threat, it\'s the threat / Every "should" sets off the alarm\nIt\'s the threat, it\'s the threat / A grocery run reads like harm\nIt\'s the threat, it\'s the threat / When a want becomes a must\nEverything I ever wanted / Turns to nothing but dust\n\n[Verse 2]\nIt\'s not defiance, it\'s not lazy / It\'s not choosing to resist\nIt\'s an autonomic terror / From a nervous system that can\'t enlist\nWhen your brain was wired for danger / In a world with no real threat\nEvery little expectation / Is the hardest thing to get\n\n[Bridge]\nPDA is not a choice / It\'s not attitude or noise\nIt\'s a nervous system reading / Every single ask as poison\nAnd the moment it\'s demanded / All the wanting disappears\nWhat looks like stubborn refusal / Is fifty years of fear\n\n[Outro]\nI wanted this before you asked / I just couldn\'t do it on demand'
+  },
+  'E04': {
+    style: '2020s cinematic ambient, patient and building, minimal acoustic guitar opening into swelling orchestral swell, male vocal with quiet certainty, breathing space between phrases, hopeful without being saccharine, the sound of waiting for the right conditions and finally catching the wave',
+    seed: 'The Wave: you can\'t force it. Productivity isn\'t discipline -- it\'s conditions. Stand in the ocean long enough and the wave comes. Then you ride it all the way to shore.',
+    lyrics: null
+  },
+  'E05': {
+    style: '2020s lo-fi hip hop, slow and heavy, weighted beats with muffled room tone, warm synth pad underneath, male vocal low in the mix like a confession, the sound of a battery at 1%, soft but honest, not defeated just depleted, weighted blanket energy',
+    seed: 'The Crash: three meetings, battery drained to zero. The blanket isn\'t laziness -- it\'s physics. The energy comes back. But right now it isn\'t here. So I potato.',
+    lyrics: null
+  },
+  'E06': {
+    style: '1983 heartland rock, mid-tempo, jangly acoustic rhythm, Telecaster lead with tube warmth, male vocal with restrained emotion, sparse production, the sound of standing at a chain-link fence watching other people\'s kids play, nostalgia cut with something unresolved',
+    seed: 'The Fence: scattered memories of my father. But this one stays. He cleared that fence like nothing. And for ten seconds I knew exactly where I stood with him.',
+    lyrics: null
+  },
+  'E07': {
+    style: 'late 1990s alternative rock, medium tempo, clean verse guitar into distorted chorus, male vocal with barely contained emotion, anthemic but intimate, the sound of fifty years of being told you\'re too much and finally refusing to wish it away',
+    seed: 'Too Much: they were right, I am too much. Spent fifty years wishing it away. My nine-year-old figured out his limits before I figured out mine. I won\'t fault him.',
+    lyrics: null
+  },
+  'E08': {
+    style: 'late 2000s indie rock, slow and heavy, plodding rhythm over sparse electric guitar, male vocal with hollow exhaustion, the gap between knowing and doing, bridge that opens slightly before returning to the weight, the sound of seeing every task and being unable to cross to any of them',
+    seed: 'The Breadwinner: I could name every task. The laundry. The dishes. The bottles. But the gap between knowing and doing -- nobody could see it. They just saw a man on the couch.',
+    lyrics: null
+  },
+  'E09': {
+    style: 'dark folk, sparse and circular, fingerpicked acoustic over a single sustained drone note, male vocal weathered and close-miked, minor key, meditative and unresolved, the sound of a record that keeps playing and finally learning not to believe it anymore',
+    seed: 'The Comfort: fifty years of the same loop. Part of you leans in. The practice isn\'t stopping the record. It\'s hearing it play, releasing it, watching it come back, and releasing it again.',
+    lyrics: null
+  },
+  'E10': {
+    style: 'late 1990s Canadian indie, sparse bar-room acoustic opening into distorted electric chorus, male vocal raw and spent, the sound of pouring everything out for people who aren\'t listening, anthemic in structure but hollow in delivery, production like a rehearsal space at 2am, three years sober',
+    seed: '260 Raymur: music was the catharsis. Trains and prostitutes. Every connection through alcohol. Three years sober, two dates. The tiger needed a cage I could build without drinking.',
+    lyrics: null
+  },
+  'E11': {
+    style: '2020s ambient electronic, sprawling and layered, dozens of signals arriving at equal volume, male vocal slowly emerging through the noise, builds to controlled chaos then resolves into near silence, the sound of being the most sensitive receiver in the room and nobody knowing it',
+    seed: 'The Radar Dish: pointed at everything, all the time. Pattern recognition. Systems thinking. Cacophony to eleven. Nobody knows you\'re even receiving. That\'s the invisible struggle.',
+    lyrics: null
+  },
+  'E23': {
+    style: '2020s synth-driven, propulsive and obsessive, driving pulse with no rest, male vocal locked in and urgent, the sound of hyperfocus -- tunnel vision, full momentum, no exit -- followed by sudden silence and then the sensation of being tumbled underwater, physics not laziness',
+    seed: 'The Tunnel: hyperfocus isn\'t discipline, it\'s physics. I\'m inside the barrel going for it. When I pop out the other side, I\'m underwater. What you see after the crash isn\'t laziness.',
+    lyrics: null
+  },
+  'E24': {
+    style: '1990s driving rock, medium-fast tempo, clean electric rhythm with occasional slide guitar lick, male vocal reflective and assured, the sound of standing in a field of unfinished roads and finally choosing one, wistful but not regretful, this is the better story',
+    seed: 'The Lane: a field of incomplete roads. All the gifts, nowhere to put them. Fifty years of standing in the middle of every road I ever tried. Finding your lane late is the better story.',
+    lyrics: null
+  },
+  'E25': {
+    style: '2020s indie orchestral, builds from single piano note to full layered arrangement, male vocal clear and direct, the sound of turning the volume down one notch after fifty years at eleven -- not quiet, just more than it was, be more by doing less',
+    seed: 'The Volume: the records don\'t stop. I don\'t think they\'re supposed to. But the volume can come down. You are not the diagnosis. You can be more by doing less.',
+    lyrics: null
   }
 };
 
