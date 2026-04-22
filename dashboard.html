@@ -680,6 +680,69 @@ body {
   background: #1e1e1e; color: #555; cursor: not-allowed; letter-spacing: 1px;
 }
 
+/* REVISION PANEL */
+.ep-revision-section {
+  border-top: 2px solid #2a0000;
+  padding-top: 16px;
+  margin-top: 12px;
+  background: #0d0000;
+  border-radius: 0 0 10px 10px;
+  padding: 16px;
+}
+.ep-revision-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #883333;
+  margin-bottom: 10px;
+}
+.revision-select {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.revision-type-btn {
+  background: #1a0000;
+  border: 2px solid #2a0000;
+  border-radius: 6px;
+  color: #774444;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.revision-type-btn:hover { border-color: #D21E1E; color: #ccc; }
+.revision-type-btn.rev-selected { border-color: #D21E1E; color: #fff; background: #220000; }
+.revision-textarea {
+  width: 100%;
+  background: #110000;
+  border: 2px solid #2a0000;
+  border-radius: 8px;
+  color: #ddd;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 90px;
+  margin-bottom: 10px;
+}
+.revision-textarea:focus { outline: none; border-color: #D21E1E; }
+.revision-textarea::placeholder { color: #443333; }
+.revision-send-btn {
+  display: block; width: 100%; padding: 14px;
+  background: #D21E1E; border: none; border-radius: 8px;
+  color: #fff; font-size: 16px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer; font-family: inherit;
+  transition: background 0.15s;
+}
+.revision-send-btn:hover { background: #E52525; }
+.revision-send-btn.copied { background: #39FF14; color: #000; }
+
 /* MOBILE */
 @media (max-width: 800px) {
   .sidebar { display: none; width: 0; border: none; }
@@ -1574,6 +1637,16 @@ function renderEpisodes() {
             ? `<button class="advance-btn" onclick="advanceAndNext('${ep.id}')">DONE WITH THIS ONE -- ADVANCE STAGE &amp; OPEN NEXT</button>`
             : `<button class="advance-btn at-end" disabled>EPISODE COMPLETE (published)</button>`}
         </div>
+        <div class="ep-revision-section">
+          <div class="ep-revision-label">&#9998; Send Revisions to Claude</div>
+          <div class="revision-select" id="revtype-${ep.id}">
+            <button class="revision-type-btn rev-selected" onclick="selectRevType('${ep.id}','narration',this)">Narration Script</button>
+            <button class="revision-type-btn" onclick="selectRevType('${ep.id}','opus',this)">Opus Prompt</button>
+            <button class="revision-type-btn" onclick="selectRevType('${ep.id}','suno',this)">Suno Seed</button>
+          </div>
+          <textarea class="revision-textarea" id="revnotes-${ep.id}" placeholder="What needs to change? Be specific. Example: needs more about the complicated relationship with my dad, not just the ADHD angle. Add the emotional texture. The song already has it."></textarea>
+          <button class="revision-send-btn" onclick="copyRevisionPrompt('${ep.id}',this)">SEND REVISIONS -- COPY PROMPT</button>
+        </div>
         <div class="ep-nav-row">
           <button class="ep-nav-btn" onclick="navigateEp('${ep.id}','prev')">&larr; Prev</button>
           <span style="color:#444;font-size:11px;font-weight:700;">${ep.id} / E25</span>
@@ -2286,6 +2359,129 @@ function cpTeam(id, btn) {
   } else {
     fallbackCopy(text);
     markCopied(btn, label);
+  }
+}
+
+/* ---- REVISION SYSTEM ---- */
+const revisionTypes = {}; // stores selected type per episode, defaults to 'narration'
+
+function selectRevType(epId, type, btn) {
+  revisionTypes[epId] = type;
+  const container = document.getElementById('revtype-' + epId);
+  if (container) container.querySelectorAll('.revision-type-btn').forEach(b => b.classList.remove('rev-selected'));
+  btn.classList.add('rev-selected');
+}
+
+function buildRevisionPrompt(epId, type, notes) {
+  const ep = episodes.find(e => e.id === epId);
+  if (!ep) return '';
+  const cleanTitle = ep.title.replace(/["""]/g,'').trim();
+
+  if (type === 'narration') {
+    const narration = NARRATION_LINES[epId] || '[No narration written yet for this episode]';
+    return `I need revisions to the ElevenLabs narration script for LDAG Episode ${epId}: "${cleanTitle}".
+
+LDAG is a micro-reality docuseries -- Late Diagnosed AuDHD Guy. Bodhi Valentine, 50, Vancouver BC, late-diagnosed AuDHD. First person, his voice, written to be read aloud with natural breathing pauses.
+
+Narration structure (non-negotiable, three parts):
+Part 1 -- Scene setup: specific era and place, sensory detail, grounded in a real moment from Bodhi's life
+Part 2 -- The core story moment: the specific thing that happened, the sensory detail that makes it real
+Part 3 -- The AuDHD / unmasking connection: why this belongs in this show, name the mechanism where possible
+
+Format rules: 200-500 words, no em dashes, no wrapping quote marks, multiple short paragraphs with breathing breaks, must work standalone as audio with no visual context.
+
+Episode context:
+Logline: ${ep.logline}
+Era: ${ep.era || 'See episode data'}
+
+Original narration script:
+---
+${narration}
+---
+
+My revision notes:
+${notes}
+
+Please rewrite the full narration script incorporating these notes. Keep what is working. Strengthen what is not. Follow all format rules above.`;
+
+  } else if (type === 'opus') {
+    const opusPrompt = getVisualOnlyPrompt(epId) || '[No Opus prompt written yet for this episode]';
+    return `I need revisions to the Opus Agent visual brief for LDAG Episode ${epId}: "${cleanTitle}".
+
+LDAG visual format rules:
+- Visual direction ONLY -- no narration text, no quoted speech, no first-person lines in the prompt
+- Narration is uploaded separately as audio to Opus -- do not include it here
+- Specific era and setting always (not "school" but "1985 elementary school classroom")
+- Specific character detail if Bodhi appears (not "a child" but "a skinny eleven-year-old boy with braces")
+- Four elements: setting, what we see, the internal truth nobody can see, camera direction
+- End at the camera direction -- no emotional summary, no narration, no quotes
+
+Episode context:
+Logline: ${ep.logline}
+Era: ${ep.era || 'See episode data'}
+
+Original Opus prompt:
+---
+${opusPrompt}
+---
+
+My revision notes:
+${notes}
+
+Please rewrite the visual brief incorporating these notes. End at the camera direction. Visual only.`;
+
+  } else if (type === 'suno') {
+    const mx = MUSIC_DATA[epId];
+    const seed = mx ? mx.seed : '[No Suno seed written yet]';
+    const style = mx ? mx.style : '[No style string yet]';
+    return `I need revisions to the Suno music data for LDAG Episode ${epId}: "${cleanTitle}".
+
+Suno seed rules: 190-character maximum, lyric direction only (no style descriptors), must name the specific AuDHD mechanism (PDA, executive dysfunction, hyperfocus, scattered memory, etc.) and connect it to a specific emotional moment from the episode. Hook-first -- the most emotionally loaded line goes first.
+
+Suno style string rules: sets the sonic world and production era, references the decade, key instruments, vocal style, and emotional register.
+
+Episode context:
+Logline: ${ep.logline}
+Era: ${ep.era || 'See episode data'}
+
+Current style string:
+---
+${style}
+---
+
+Current lyric seed (190 chars max):
+---
+${seed}
+---
+
+My revision notes:
+${notes}
+
+Please rewrite both the style string and the lyric seed incorporating these notes. Seed must stay under 190 characters. Output both as copy-paste ready blocks.`;
+  }
+  return '';
+}
+
+function copyRevisionPrompt(epId, btn) {
+  const type = revisionTypes[epId] || 'narration';
+  const ta = document.getElementById('revnotes-' + epId);
+  const notes = ta ? ta.value.trim() : '';
+  if (!notes) {
+    if (ta) {
+      ta.style.borderColor = '#D21E1E';
+      ta.focus();
+      ta.placeholder = 'Please describe what needs to change before sending...';
+      setTimeout(() => { ta.style.borderColor = ''; }, 2000);
+    }
+    return;
+  }
+  const prompt = buildRevisionPrompt(epId, type, notes);
+  if (!prompt) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(prompt).then(() => markCopied(btn, 'SEND REVISIONS -- COPY PROMPT')).catch(() => { fallbackCopy(prompt); markCopied(btn, 'SEND REVISIONS -- COPY PROMPT'); });
+  } else {
+    fallbackCopy(prompt);
+    markCopied(btn, 'SEND REVISIONS -- COPY PROMPT');
   }
 }
 
