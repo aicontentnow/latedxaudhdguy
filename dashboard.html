@@ -75,7 +75,7 @@ body {
 }
 .dot-done { background: #39FF14; }
 .dot-scripted { background: #FFCC00; }
-.dot-production { background: #FF6B35; }
+.dot-production { background: #9B6DFF; }
 .dot-concept { background: #333; }
 .dot-next { background: #FFCC00; box-shadow: 0 0 6px #FFCC00; }
 
@@ -128,7 +128,7 @@ body {
 .count-num { font-size: 40px; font-weight: 900; line-height: 1; display: block; }
 .count-lbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #555; margin-top: 4px; }
 .c-done .count-num { color: #39FF14; }
-.c-prod .count-num { color: #FF6B35; }
+.c-prod .count-num { color: #9B6DFF; }
 .c-ready .count-num { color: #FFCC00; }
 .c-concept .count-num { color: #444; }
 .c-moments .count-num { color: #888; }
@@ -284,8 +284,14 @@ body {
 }
 .s-pill.done-stage { color: #39FF14; }
 .s-pill.current-stage { color: #FFCC00; border-color: #2e2800; background: #141000; }
+.s-pill.current-stage-concept { color: #777; border-color: #333; background: #111; }
+.s-pill.current-stage-scripted { color: #FFCC00; border-color: #2e2800; background: #141000; }
+.s-pill.current-stage-intro-tagged { color: #FF6B35; border-color: #3a1a00; background: #150800; }
+.s-pill.current-stage-in-production { color: #9B6DFF; border-color: #2a1a4a; background: #0f0818; }
+.s-pill.current-stage-done { color: #39FF14; border-color: #1a3a00; background: #091400; }
+.s-pill.current-stage-published { color: #4A9EFF; border-color: #001828; background: #000c14; }
 .s-pill.pub-stage { color: #4A9EFF; }
-.s-pill:hover:not(.done-stage):not(.current-stage) { color: #aaa; border-color: #444; }
+.s-pill:hover:not(.done-stage):not(.current-stage):not([class*="current-stage-"]) { color: #aaa; border-color: #444; }
 .s-arrow { color: #444; font-size: 14px; align-self: center; padding: 0 2px; }
 
 /* ROADMAP */
@@ -794,7 +800,7 @@ body {
     <div class="counts-bar">
       <div class="count-block c-done"><span class="count-num" id="cnt-done">2</span><span class="count-lbl">Done</span></div>
       <div class="count-block c-prod"><span class="count-num" id="cnt-prod">0</span><span class="count-lbl">In Production</span></div>
-      <div class="count-block c-ready"><span class="count-num" id="cnt-ready">9</span><span class="count-lbl">Ready to Run</span></div>
+      <div class="count-block c-ready"><span class="count-num" id="cnt-ready">9</span><span class="count-lbl">Scripted</span></div>
       <div class="count-block c-concept"><span class="count-num" id="cnt-concept">11</span><span class="count-lbl">Concept</span></div>
       <div class="count-block c-moments"><span class="count-num">75</span><span class="count-lbl">Moments</span></div>
     </div>
@@ -909,7 +915,7 @@ Existing hook (if any): [paste any Suno-generated lyrics here, or leave blank]</
         <div class="section-label" style="margin:0;">All Episodes</div>
         <div class="filters">
           <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-          <button class="filter-btn" onclick="setFilter('ready',this)">Ready to Run</button>
+          <button class="filter-btn" onclick="setFilter('ready',this)">Scripted</button>
           <button class="filter-btn" onclick="setFilter('in-production',this)">In Production</button>
           <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
           <button class="filter-btn" onclick="setFilter('concept',this)">Concept</button>
@@ -1290,13 +1296,13 @@ const SO = { concept:0, scripted:1, 'intro-tagged':2, 'in-production':3, done:4,
 
 const episodes = [
   {
-    id:'E01', title:'S1E01 -- "The Quiet Storm"', logline:'Grade 6, 1985. Pure internal chaos. Nobody in the classroom notices anything.', def:'done', priority:false, s:1,
+    id:'E01', title:'S1E01 -- "The Quiet Storm"', logline:'Grade 6, 1985. Pure internal chaos. Nobody in the classroom notices anything.', def:'in-production', priority:false, s:1,
     era: '1985 -- Elementary school, mid-80s',
     clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: describe what a normal school day looked like from the outside vs what it felt like on the inside. The stillness, the compliance, the invisible storm.' },
     music: { era:'1985 -- stadium rock, mid-80s', prompt:'vintage, 1985, stadium hair metal, dueling guitars, building tension, C major key' }
   },
   {
-    id:'E02', title:'S1E02 -- "The Record"', logline:'1980s bedroom. Cracked vinyl. "There\'s something wrong with me."', def:'done', priority:false, s:1,
+    id:'E02', title:'S1E02 -- "The Record"', logline:'1980s bedroom. Cracked vinyl. "There\'s something wrong with me."', def:'in-production', priority:false, s:1,
     era: '1980s -- childhood bedroom',
     clip: { status:'found', location:'S01 -- Moment S01M03, early-mid section of the drive. NOTE: S01 video unusable (wrong camera settings) -- audio only from this session.', quote:'"There\'s just something wrong with me. That\'s the record that spins."', note:'Audio exists, no usable video from S01. Either use as narration over animation, or re-record to camera -- the line is already in your head, 10-15 seconds, flat delivery. The absence of drama IS the performance.' },
     music: { era:'Late 1980s -- slow glam ballad', prompt:'vintage, 1980s slow ballad, glam rock, guitars, synth, melancholic, minor key' }
@@ -1446,11 +1452,13 @@ let currentFilter = 'all';
 let currentTab = 'workflow';
 
 function initState() {
-  try { const h = window.location.hash.slice(1); if (h) state = JSON.parse(decodeURIComponent(h)); } catch(e) {}
+  try { const saved = localStorage.getItem('ldag_ep_state'); if (saved) state = JSON.parse(saved); } catch(e) {}
   episodes.forEach(ep => { if (!state[ep.id]) state[ep.id] = ep.def; });
 }
 
-function saveState() { window.location.replace('#' + encodeURIComponent(JSON.stringify(state))); }
+function saveState() {
+  try { localStorage.setItem('ldag_ep_state', JSON.stringify(state)); } catch(e) {}
+}
 
 const isDone = s => s === 'done' || s === 'published';
 const isReady = s => s === 'scripted' || s === 'intro-tagged';
@@ -1478,7 +1486,7 @@ function renderEpisodes() {
     const pillsHTML = STAGES.map((s, i) => {
       let cls = '';
       if (SO[s] < stageOrder || (done && SO[s] <= SO['done'])) cls = 'done-stage';
-      else if (s === status) cls = 'current-stage';
+      else if (s === status) cls = 'current-stage-' + s;
       else if (s === 'published' && status === 'published') cls = 'pub-stage';
       const check = cls === 'done-stage' || cls === 'pub-stage' ? '&#10003;' : '&#9711;';
       const arrow = i < STAGES.length - 1 ? '<span class="s-arrow">&#8250;</span>' : '';
@@ -1791,7 +1799,13 @@ const NARRATION_LINES = {
   'E03': `"Nobody tells you that taking out the trash feels like a threat. Not a metaphor. An actual threat. Your brain registers it the same way it registers danger. And you know -- you KNOW -- it's just garbage cans. You know everyone else just does it. But the lift for this brain, for these two operating systems, is so much more than anyone can see. Part of what ended my marriage was this. Just: take out the trash. I know. I know. But I'm not gonna do it. I can't. And I couldn't explain why."`,
   'E04': `"They tell you to push through. Grind it out. Discipline equals freedom. But my brain doesn't work like that. I'm standing in the ocean. Some days the water is stormy and I can't get on my board. I get tossed and turned. I can't force the wave. But when the water goes smooth -- when the wave comes -- I ride it all the way to shore. And I am unbelievably productive. The problem was never motivation. It was never laziness. It was always conditions."`,
   'E05': `"My face does this thing when the overwhelm hits. Everything tightens. My eyes, my jaw, everything squints like it's trying to shut the world out. Three meetings back to back -- context switching, this product, that campaign, this technical thing -- and the battery just drains. And then I have to shut down. Not want to. Have to. Get under the blanket. Put on some shitty reality TV. And the whole time there's this voice going, you're lazy, you're not being productive. But I am hyper productive when the energy is there. Right now it's not. So I potato. And I'm learning that's okay."`,
-  'E06': `"I've got scattered memories of my dad in those type of situations. Scattered. But I remember this one. Every time I come to a ballpark, I remember this one. He cleared that fence like it was nothing. And for about ten seconds, I knew exactly where I stood with him."`,
+  'E06': `Little league. 1983. I was eight, maybe nine. I bunted -- that's what I could do, that's my whole contribution to the game. And the catcher's throw hits me square in the back. I go down. And before anyone else has even stood up, my dad is over the fence. One hand on the rail, both feet clear. He's kneeling next to me before I've even hit the ground. His hand on my back. And I looked up at his face.
+
+That's the memory. That's the whole thing.
+
+I've got scattered memories of my dad. That's just -- that's how my memory works. Fragments. Edges. Nothing that connects into a story. But this one I've got. Every time I come to a ballpark. I can still feel the impact. Still see him coming over that fence like it weighed nothing. He cleared it like it was nothing. And for about ten seconds, I knew exactly where I stood with him.
+
+That's it. Ten seconds out of a whole childhood. And I still carry it everywhere I go.`,
   'E07': `"You're too much. That's what they said. And they were right. I am too much. I've been wishing it away for 50 years. But my nine-year-old figured out his boundaries before I figured out mine. And I can't fault him for that. I won't."`,
   'E08': `"I knew what needed to be done. I could see every single task. The laundry. The dishes. The bottles. I could name them all. But the distance between knowing and doing -- that gap -- nobody could see it. They just saw a guy on the couch who wouldn't get up. And I couldn't explain it. I still can't. Not really."`,
   'E09': `"There's a comfort that comes from the trauma. Fifty years of listening to those records -- they're hard coded into your brain. You hear the loop start and part of you leans in. You know every word. It's familiar. It's yours. The struggle is real. But the suffering -- the suffering is the attachment. It's not about stopping the record. You can't stop it. It's about hearing it play and not believing it anymore. Release it. It comes back. Release it again. That's the practice. That's the whole thing."`,
