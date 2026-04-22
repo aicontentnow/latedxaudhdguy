@@ -1014,6 +1014,13 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
           <span class="roadmap-tag">Requires Supabase backend first</span>
         </div>
 
+        <div class="roadmap-card phase-later">
+          <div class="roadmap-phase">Future -- Card 2 improvement</div>
+          <div class="roadmap-title">Card 2: "Run another episode" option</div>
+          <div class="roadmap-desc">Right now Card 2 always shows the single highest-priority episode needing work. The future version lets you queue multiple episodes -- tap "Do Another" to cycle to the next one without advancing the current one. Useful when you have energy to batch multiple narration recordings or Suno generations in one session.</div>
+          <span class="roadmap-tag">Noted 2026-04-22 -- no dependencies, medium complexity</span>
+        </div>
+
       </div>
     </div>
 
@@ -2051,8 +2058,9 @@ function renderCard2() {
   const div = document.getElementById('card2-content');
   if (!div) return;
 
-  // Find priority episode first, then earliest actionable stage
-  const actionable = ['scripted','narration','animation','music','post-production'];
+  // Card 2 only covers creation steps: scripted, narration, animation, music
+  // post-production lives inside the episode detail panel -- not here
+  const actionable = ['scripted','narration','animation','music'];
   const sorted = [...episodes].sort((a,b) => {
     const aPri = (a.priority && actionable.includes(state[a.id])) ? 0 : 1;
     const bPri = (b.priority && actionable.includes(state[b.id])) ? 0 : 1;
@@ -2062,14 +2070,17 @@ function renderCard2() {
   const ep = sorted.find(e => actionable.includes(state[e.id] || 'concept'));
 
   if (!ep) {
-    div.innerHTML = '<div class="priority-flag" style="color:#555;font-size:13px;">ALL SCRIPTED EPISODES ARE ACTIVE OR DONE. Check the Episodes tab.</div>';
+    div.innerHTML = '<div class="priority-flag" style="color:#555;font-size:13px;">No episodes need creation work right now. Episodes in Post-Production or later: check individual episode cards in the Episodes tab.</div>';
     return;
   }
 
   const stage = state[ep.id] || 'concept';
   const cleanTitle = ep.title.replace(/["""]/g,'').trim();
-  const stageNum = { scripted:1, narration:2, animation:3, music:4, 'post-production':5 };
+  const stageNum = { scripted:1, narration:2, animation:3, music:4 };
   const num = stageNum[stage] || '?';
+  const advanceLabel = stage === 'music'
+    ? 'MUSIC DONE -- SEND TO POST-PRODUCTION'
+    : 'STEP COMPLETE -- ADVANCE STAGE &amp; SHOW NEXT';
   let stageHTML = '';
 
   if (stage === 'scripted') {
@@ -2103,20 +2114,15 @@ function renderCard2() {
         : '<div class="concept-notice">No Suno data for this episode. Open Card 4 to generate a song via the skill.</div>');
   } else if (stage === 'music') {
     stageHTML =
-      '<div class="step-lbl">Step 4 of 5: Assemble in CapCut</div>' +
-      '<div class="info-box">You have all four assets. Open CapCut and assemble the episode. Then tap STEP COMPLETE below.</div>' +
+      '<div class="step-lbl">Step 4 of 4: Assemble in CapCut</div>' +
+      '<div class="info-box">You have all four assets. Open CapCut and assemble the episode. When assembled and exported, tap the button below. The episode moves to Post-Production where you can do final QA from the episode card.</div>' +
       '<div class="prompt-box"><div class="prompt-text">Assembly checklist:\n1. Intro clip (10-30 sec real footage)\n2. ElevenLabs narration audio at 0dB\n3. Opus Agent animation underneath narration\n4. Suno music bed at -12dB throughout\n5. Title card at end (episode ID + show name)\n6. Export 9:16 vertical, 1080x1920, H.264</div></div>';
-  } else if (stage === 'post-production') {
-    stageHTML =
-      '<div class="step-lbl">Step 5 of 5: Final QA and export</div>' +
-      '<div class="info-box">Check every box. When all pass, export the final file and upload to platforms. Then tap STEP COMPLETE below.</div>' +
-      '<div class="prompt-box"><div class="prompt-text">Pre-post checklist:\n1. Audio levels: narration 0dB, music -12dB, no peaking\n2. Intro clip cuts cleanly to animation\n3. Title card visible at end\n4. Total length 60-180 seconds\n5. Export 9:16 vertical, 1080x1920\n6. Caption written (logline + hashtags)</div></div>';
   }
 
   div.innerHTML =
-    '<div class="priority-flag">STEP ' + num + ' OF 5: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo; (' + SL[stage] + ')</div>' +
+    '<div class="priority-flag">STEP ' + num + ' OF 4: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo; (' + SL[stage] + ')</div>' +
     stageHTML +
-    '<div style="padding:12px 0 0;"><button class="advance-btn" onclick="advanceCard2Ep(\'' + ep.id + '\')">STEP COMPLETE -- ADVANCE STAGE &amp; SHOW NEXT</button></div>';
+    '<div style="padding:12px 0 0;"><button class="advance-btn" onclick="advanceCard2Ep(\'' + ep.id + '\')">' + advanceLabel + '</button></div>';
 }
 
 function renderCard4() {
