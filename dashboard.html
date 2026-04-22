@@ -75,7 +75,10 @@ body {
 }
 .dot-done { background: #39FF14; }
 .dot-scripted { background: #FFCC00; }
-.dot-production { background: #9B6DFF; }
+.dot-narration { background: #FF9F1C; }
+.dot-animation { background: #9B6DFF; }
+.dot-music { background: #00C9A7; }
+.dot-postprod { background: #FF6B35; }
 .dot-concept { background: #333; }
 .dot-next { background: #FFCC00; box-shadow: 0 0 6px #FFCC00; }
 
@@ -240,12 +243,14 @@ body {
 .ep-card.priority { background: #141000; border-color: #2e2800; border-left-color: #FFCC00 !important; }
 .ep-card.done-state { opacity: 0.5; }
 .ep-card.hidden { display: none; }
-.ep-card[data-status="concept"]       { border-left-color: #333; }
-.ep-card[data-status="scripted"]      { border-left-color: #FFCC00; }
-.ep-card[data-status="intro-tagged"]  { border-left-color: #FF6B35; }
-.ep-card[data-status="in-production"] { border-left-color: #9B6DFF; }
-.ep-card[data-status="done"]          { border-left-color: #39FF14; }
-.ep-card[data-status="published"]     { border-left-color: #4A9EFF; }
+.ep-card[data-status="concept"]         { border-left-color: #333; }
+.ep-card[data-status="scripted"]        { border-left-color: #FFCC00; }
+.ep-card[data-status="narration"]       { border-left-color: #FF9F1C; }
+.ep-card[data-status="animation"]       { border-left-color: #9B6DFF; }
+.ep-card[data-status="music"]           { border-left-color: #00C9A7; }
+.ep-card[data-status="post-production"] { border-left-color: #FF6B35; }
+.ep-card[data-status="done"]            { border-left-color: #39FF14; }
+.ep-card[data-status="published"]       { border-left-color: #4A9EFF; }
 
 .ep-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
 .ep-check {
@@ -263,13 +268,15 @@ body {
   display: inline-block; font-size: 12px; font-weight: 800;
   letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 4px;
 }
-.b-concept      { color: #666; background: #1e1e1e; }
-.b-scripted     { color: #000; background: #FFCC00; }
-.b-intro-tagged { color: #000; background: #FF6B35; }
-.b-in-production{ color: #fff; background: #7B4DFF; }
-.b-done         { color: #000; background: #39FF14; }
-.b-published    { color: #fff; background: #4A9EFF; }
-.b-next         { color: #000; background: #FFCC00; }
+.b-concept          { color: #666; background: #1e1e1e; }
+.b-scripted         { color: #000; background: #FFCC00; }
+.b-narration        { color: #000; background: #FF9F1C; }
+.b-animation        { color: #fff; background: #7B4DFF; }
+.b-music            { color: #000; background: #00C9A7; }
+.b-post-production  { color: #fff; background: #FF6B35; }
+.b-done             { color: #000; background: #39FF14; }
+.b-published        { color: #fff; background: #4A9EFF; }
+.b-next             { color: #000; background: #FFCC00; }
 
 .ep-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.3; }
 .ep-card.done-state .ep-title { text-decoration: line-through; color: #666; }
@@ -284,12 +291,14 @@ body {
 }
 .s-pill.done-stage { color: #39FF14; }
 .s-pill.current-stage { color: #FFCC00; border-color: #2e2800; background: #141000; }
-.s-pill.current-stage-concept { color: #777; border-color: #333; background: #111; }
-.s-pill.current-stage-scripted { color: #FFCC00; border-color: #2e2800; background: #141000; }
-.s-pill.current-stage-intro-tagged { color: #FF6B35; border-color: #3a1a00; background: #150800; }
-.s-pill.current-stage-in-production { color: #9B6DFF; border-color: #2a1a4a; background: #0f0818; }
-.s-pill.current-stage-done { color: #39FF14; border-color: #1a3a00; background: #091400; }
-.s-pill.current-stage-published { color: #4A9EFF; border-color: #001828; background: #000c14; }
+.s-pill.current-stage-concept        { color: #777;    border-color: #333;    background: #111; }
+.s-pill.current-stage-scripted       { color: #FFCC00; border-color: #2e2800; background: #141000; }
+.s-pill.current-stage-narration      { color: #FF9F1C; border-color: #3a2000; background: #150a00; }
+.s-pill.current-stage-animation      { color: #9B6DFF; border-color: #2a1a4a; background: #0f0818; }
+.s-pill.current-stage-music          { color: #00C9A7; border-color: #003a2e; background: #001a15; }
+.s-pill.current-stage-post-production{ color: #FF6B35; border-color: #3a1a00; background: #150800; }
+.s-pill.current-stage-done           { color: #39FF14; border-color: #1a3a00; background: #091400; }
+.s-pill.current-stage-published      { color: #4A9EFF; border-color: #001828; background: #000c14; }
 .s-pill.pub-stage { color: #4A9EFF; }
 .s-pill:hover:not(.done-stage):not(.current-stage):not([class*="current-stage-"]) { color: #aaa; border-color: #444; }
 .s-arrow { color: #444; font-size: 14px; align-self: center; padding: 0 2px; }
@@ -883,26 +892,11 @@ I want to script a new episode. Look at the MOMENTS_DB for strong unused moments
             <div class="action-num">4</div>
             <div>
               <div class="action-title">I need a new song</div>
-              <div class="action-desc">For episodes that already have songs (E01-E03), open the episode card and copy the three Suno prompts directly. Use this prompt only when building a brand new song for an episode not yet in the system.</div>
+              <div class="action-desc">Shows Suno style and seed for the next episode at the Animation stage. When animation is done, advance that episode to Music -- this card updates automatically.</div>
               <div class="tap-cta">TAP -- GET THE PROMPT</div>
             </div>
           </div>
-          <div class="prompt-reveal">
-            <div class="step-lbl">Open a new Cowork chat and paste this</div>
-            <div class="info-box"><strong>How it works:</strong> Paste the prompt below. Fill in the episode title, concept, and any Suno-generated hook you already have. The skill outputs three blocks: (1) style string for Suno's Style field, (2) full lyrics for custom input or reference, (3) 190-char seed for Suno's prompt field. All copy-paste ready.</div>
-            <div class="prompt-box">
-              <div class="prompt-text" id="p4">Load this skill and follow its instructions exactly:
-~/.claude/skills/ldag-song-writer/SKILL.md
-
-Do not read any other files unless the skill explicitly directs you to.
-
-I need a song for this episode:
-Title: [EPISODE TITLE]
-Concept: [2-3 sentences on what the episode is about]
-Season: 1 (1980s)
-Existing hook (if any): [paste any Suno-generated lyrics here, or leave blank]</div>
-              <button class="copy-btn" onclick="cp('p4',this,'COPY THIS PROMPT')">COPY THIS PROMPT</button>
-            </div>
+          <div class="prompt-reveal" id="card4-content">
           </div>
         </div>
 
@@ -915,8 +909,8 @@ Existing hook (if any): [paste any Suno-generated lyrics here, or leave blank]</
         <div class="section-label" style="margin:0;">All Episodes</div>
         <div class="filters">
           <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-          <button class="filter-btn" onclick="setFilter('ready',this)">Scripted</button>
-          <button class="filter-btn" onclick="setFilter('in-production',this)">In Production</button>
+          <button class="filter-btn" onclick="setFilter('scripted',this)">Scripted</button>
+          <button class="filter-btn" onclick="setFilter('active',this)">Active</button>
           <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
           <button class="filter-btn" onclick="setFilter('concept',this)">Concept</button>
         </div>
@@ -1282,7 +1276,7 @@ That document contains the full brief and starter prompt for this session. Follo
     </div>
 
     <div class="bottom-bar">
-      <div class="bottom-note">Check circle = done. Click any stage pill to change status. Saves to URL automatically.</div>
+      <div class="bottom-note">Check circle = done. Click any stage pill to set status. Saves automatically.</div>
       <button class="state-btn" id="stateBtn" onclick="saveAndCopy()">Copy Shareable URL</button>
     </div>
 
@@ -1290,19 +1284,19 @@ That document contains the full brief and starter prompt for this session. Follo
 </div>
 
 <script>
-const STAGES = ['concept','scripted','intro-tagged','in-production','done','published'];
-const SL = { concept:'Concept', scripted:'Scripted', 'intro-tagged':'Intro Tagged', 'in-production':'In Production', done:'Done', published:'Published' };
-const SO = { concept:0, scripted:1, 'intro-tagged':2, 'in-production':3, done:4, published:5 };
+const STAGES = ['concept','scripted','narration','animation','music','post-production','done','published'];
+const SL = { concept:'Concept', scripted:'Scripted', narration:'Narration', animation:'Animation', music:'Music', 'post-production':'Post-Prod', done:'Done', published:'Published' };
+const SO = { concept:0, scripted:1, narration:2, animation:3, music:4, 'post-production':5, done:6, published:7 };
 
 const episodes = [
   {
-    id:'E01', title:'S1E01 -- "The Quiet Storm"', logline:'Grade 6, 1985. Pure internal chaos. Nobody in the classroom notices anything.', def:'in-production', priority:false, s:1,
+    id:'E01', title:'S1E01 -- "The Quiet Storm"', logline:'Grade 6, 1985. Pure internal chaos. Nobody in the classroom notices anything.', def:'done', priority:false, s:1,
     era: '1985 -- Elementary school, mid-80s',
     clip: { status:'needed', location:'Not in S01-S03 footage yet', quote:'Brain dump agenda: describe what a normal school day looked like from the outside vs what it felt like on the inside. The stillness, the compliance, the invisible storm.' },
     music: { era:'1985 -- stadium rock, mid-80s', prompt:'vintage, 1985, stadium hair metal, dueling guitars, building tension, C major key' }
   },
   {
-    id:'E02', title:'S1E02 -- "The Record"', logline:'1980s bedroom. Cracked vinyl. "There\'s something wrong with me."', def:'in-production', priority:false, s:1,
+    id:'E02', title:'S1E02 -- "The Record"', logline:'1980s bedroom. Cracked vinyl. "There\'s something wrong with me."', def:'done', priority:false, s:1,
     era: '1980s -- childhood bedroom',
     clip: { status:'found', location:'S01 -- Moment S01M03, early-mid section of the drive. NOTE: S01 video unusable (wrong camera settings) -- audio only from this session.', quote:'"There\'s just something wrong with me. That\'s the record that spins."', note:'Audio exists, no usable video from S01. Either use as narration over animation, or re-record to camera -- the line is already in your head, 10-15 seconds, flat delivery. The absence of drama IS the performance.' },
     music: { era:'Late 1980s -- slow glam ballad', prompt:'vintage, 1980s slow ballad, glam rock, guitars, synth, melancholic, minor key' }
@@ -1451,8 +1445,15 @@ let state = {};
 let currentFilter = 'all';
 let currentTab = 'workflow';
 
+// Stage migration map -- old name -> new name
+const STAGE_MIGRATE = { 'intro-tagged': 'narration', 'in-production': 'animation' };
+
 function initState() {
   try { const saved = localStorage.getItem('ldag_ep_state'); if (saved) state = JSON.parse(saved); } catch(e) {}
+  // Migrate old stage names to new granular stages
+  Object.keys(state).forEach(id => {
+    if (STAGE_MIGRATE[state[id]]) state[id] = STAGE_MIGRATE[state[id]];
+  });
   episodes.forEach(ep => { if (!state[ep.id]) state[ep.id] = ep.def; });
 }
 
@@ -1461,7 +1462,8 @@ function saveState() {
 }
 
 const isDone = s => s === 'done' || s === 'published';
-const isReady = s => s === 'scripted' || s === 'intro-tagged';
+const isReady = s => s === 'scripted';
+const isActive = s => ['narration','animation','music','post-production'].includes(s);
 
 function renderAll() {
   renderEpisodes();
@@ -1493,7 +1495,7 @@ function renderEpisodes() {
       return `<button class="s-pill ${cls}" onclick="jumpTo('${ep.id}','${s}')">${check} ${SL[s]}</button>${arrow}`;
     }).join('');
 
-    let badgeCls = 'b-' + status.replace('intro-tagged','intro-tagged');
+    let badgeCls = 'b-' + status;
     let badgeText = isUp ? 'UP NEXT' : SL[status] || status;
 
     const clipStatus = ep.clip.status || 'found';
@@ -1505,7 +1507,7 @@ function renderEpisodes() {
       <div class="ep-top">
         <div class="ep-check ${done ? 'checked' : ''}" onclick="toggleDone('${ep.id}')">${done ? '&#10003;' : ''}</div>
         <div class="ep-main">
-          <div class="ep-badge-row"><span class="ep-badge b-${status.replace('intro-tagged','intro-tagged')} ${isUp ? 'b-next' : ''}">${badgeText}</span></div>
+          <div class="ep-badge-row"><span class="ep-badge b-${status} ${isUp ? 'b-next' : ''}">${badgeText}</span></div>
           <div class="ep-title">${ep.title}</div>
           <div class="ep-logline">${ep.logline}</div>
         </div>
@@ -1582,7 +1584,12 @@ function renderSidebar() {
     const status = state[ep.id];
     const done = isDone(status);
     const isUp = ep.priority && status === 'scripted';
-    const dotClass = done ? 'dot-done' : isUp ? 'dot-next' : isReady(status) ? 'dot-scripted' : status === 'in-production' ? 'dot-production' : 'dot-concept';
+    const dotClass = done ? 'dot-done' : isUp ? 'dot-next' :
+      status === 'narration' ? 'dot-narration' :
+      status === 'animation' ? 'dot-animation' :
+      status === 'music' ? 'dot-music' :
+      status === 'post-production' ? 'dot-postprod' :
+      isReady(status) ? 'dot-scripted' : 'dot-concept';
     const item = document.createElement('div');
     item.className = 'sidebar-nav-item' + (done ? ' done-ep' : '');
     item.onclick = () => { switchTab('episodes'); setTimeout(() => { const el = document.getElementById('ep-' + ep.id); if (el) el.scrollIntoView({ behavior:'smooth', block:'center' }); }, 100); };
@@ -1592,14 +1599,14 @@ function renderSidebar() {
 }
 
 function jumpTo(id, stage) { state[id] = stage; saveState(); renderAll(); }
-function toggleDone(id) { state[id] = isDone(state[id]) ? 'in-production' : 'done'; saveState(); renderAll(); }
+function toggleDone(id) { state[id] = isDone(state[id]) ? 'post-production' : 'done'; saveState(); renderAll(); }
 
 function updateCounts() {
   let done=0, prod=0, ready=0, concept=0;
   episodes.forEach(ep => {
     const s = state[ep.id];
     if (isDone(s)) done++;
-    else if (s === 'in-production') prod++;
+    else if (isActive(s)) prod++;
     else if (isReady(s)) ready++;
     else if (s === 'concept') concept++;
   });
@@ -1620,8 +1627,8 @@ function applyFilter() {
   document.querySelectorAll('.ep-card').forEach(card => {
     const s = card.dataset.status;
     let show = true;
-    if (currentFilter === 'ready') show = isReady(s);
-    else if (currentFilter === 'in-production') show = s === 'in-production';
+    if (currentFilter === 'scripted') show = isReady(s);
+    else if (currentFilter === 'active') show = isActive(s);
     else if (currentFilter === 'done') show = isDone(s);
     else if (currentFilter === 'concept') show = s === 'concept';
     card.classList.toggle('hidden', !show);
@@ -1730,7 +1737,11 @@ function toggleCard(id) {
   const c = document.getElementById(id);
   const open = c.classList.contains('open');
   document.querySelectorAll('.action-card').forEach(x => x.classList.remove('open'));
-  if (!open) { c.classList.add('open'); if (id === 'card2') renderCard2(); }
+  if (!open) {
+    c.classList.add('open');
+    if (id === 'card2') renderCard2();
+    if (id === 'card4') renderCard4();
+  }
 }
 
 function fallbackCopy(text) {
@@ -2039,34 +2050,108 @@ function advanceAndNext(epId) {
 function renderCard2() {
   const div = document.getElementById('card2-content');
   if (!div) return;
-  const actionable = ['scripted', 'intro-tagged', 'in-production'];
-  const ep = episodes.find(e => actionable.includes(state[e.id] || 'concept'));
+
+  // Find priority episode first, then earliest actionable stage
+  const actionable = ['scripted','narration','animation','music','post-production'];
+  const sorted = [...episodes].sort((a,b) => {
+    const aPri = (a.priority && actionable.includes(state[a.id])) ? 0 : 1;
+    const bPri = (b.priority && actionable.includes(state[b.id])) ? 0 : 1;
+    if (aPri !== bPri) return aPri - bPri;
+    return SO[state[a.id]||'concept'] - SO[state[b.id]||'concept'];
+  });
+  const ep = sorted.find(e => actionable.includes(state[e.id] || 'concept'));
+
   if (!ep) {
-    div.innerHTML = '<div class="priority-flag" style="color:#555;font-size:13px;">ALL SCRIPTED EPISODES ARE IN PRODUCTION OR DONE -- CHECK EPISODES TAB</div>';
+    div.innerHTML = '<div class="priority-flag" style="color:#555;font-size:13px;">ALL SCRIPTED EPISODES ARE ACTIVE OR DONE. Check the Episodes tab.</div>';
     return;
   }
+
   const stage = state[ep.id] || 'concept';
-  const opusPrompt = getVisualOnlyPrompt(ep.id);
-  const sid = 'c2s' + ep.id;
-  const oid = 'c2o' + ep.id;
-  const sud = 'c2u' + ep.id;
   const cleanTitle = ep.title.replace(/["""]/g,'').trim();
-  const narration = NARRATION_LINES[ep.id] || '';
-  const mx = MUSIC_DATA[ep.id];
+  const stageNum = { scripted:1, narration:2, animation:3, music:4, 'post-production':5 };
+  const num = stageNum[stage] || '?';
+  let stageHTML = '';
+
+  if (stage === 'scripted') {
+    const narration = NARRATION_LINES[ep.id] || '';
+    const sid = 'c2s' + ep.id;
+    stageHTML =
+      '<div class="step-lbl">Step 1 of 5: Record narration for ElevenLabs</div>' +
+      '<div class="info-box">Open ElevenLabs. Select the LDAG narrator voice. Read these lines in your own voice. Use narration enhancement. Export M4A or WAV. Then tap STEP COMPLETE below.</div>' +
+      (narration
+        ? '<div class="prompt-box"><div class="prompt-text" id="' + sid + '">' + esc(narration) + '</div><button class="copy-btn" onclick="cp(\'' + sid + '\',this,\'COPY NARRATION LINES\')">COPY NARRATION LINES</button></div>'
+        : '<div class="concept-notice">Narration lines not yet written. Use Card 3 to script this episode first.</div>');
+  } else if (stage === 'narration') {
+    const opusPrompt = getVisualOnlyPrompt(ep.id);
+    const oid = 'c2o' + ep.id;
+    stageHTML =
+      '<div class="step-lbl">Step 2 of 5: Visual brief for Opus Agent</div>' +
+      '<div class="info-box">Paste into Opus Agent. Upload your ElevenLabs narration audio as the second input. Opus generates the animation. Then tap STEP COMPLETE below.</div>' +
+      (opusPrompt
+        ? '<div class="prompt-box"><div class="prompt-text" id="' + oid + '">' + esc(opusPrompt) + '</div><button class="copy-btn" onclick="cp(\'' + oid + '\',this,\'COPY OPUS PROMPT\')">COPY OPUS AGENT PROMPT</button></div>'
+        : '<div class="concept-notice">No Opus prompt yet. Use Card 3 to script this episode first.</div>');
+  } else if (stage === 'animation') {
+    const mx = MUSIC_DATA[ep.id];
+    const std = 'c2st' + ep.id;
+    const sud = 'c2su' + ep.id;
+    stageHTML =
+      '<div class="step-lbl">Step 3 of 5: Generate music in Suno</div>' +
+      '<div class="info-box">Open Suno. Paste Style into the Style field. Paste the Seed into the Lyrics field. Generate and download. Then tap STEP COMPLETE below.</div>' +
+      (mx
+        ? '<div class="prompt-box"><div class="step-lbl" style="margin-top:0; margin-bottom:6px;">Style Field</div><div class="prompt-text" id="' + std + '">' + esc(mx.style) + '</div><button class="copy-btn" onclick="cp(\'' + std + '\',this,\'COPY STYLE\')">COPY STYLE FIELD</button></div>' +
+          '<div class="prompt-box"><div class="step-lbl" style="margin-top:0; margin-bottom:6px;">Lyrics Seed (190 chars)</div><div class="prompt-text" id="' + sud + '">' + esc(mx.seed) + '</div><button class="copy-btn" onclick="cp(\'' + sud + '\',this,\'COPY SEED\')">COPY SUNO SEED</button></div>'
+        : '<div class="concept-notice">No Suno data for this episode. Open Card 4 to generate a song via the skill.</div>');
+  } else if (stage === 'music') {
+    stageHTML =
+      '<div class="step-lbl">Step 4 of 5: Assemble in CapCut</div>' +
+      '<div class="info-box">You have all four assets. Open CapCut and assemble the episode. Then tap STEP COMPLETE below.</div>' +
+      '<div class="prompt-box"><div class="prompt-text">Assembly checklist:\n1. Intro clip (10-30 sec real footage)\n2. ElevenLabs narration audio at 0dB\n3. Opus Agent animation underneath narration\n4. Suno music bed at -12dB throughout\n5. Title card at end (episode ID + show name)\n6. Export 9:16 vertical, 1080x1920, H.264</div></div>';
+  } else if (stage === 'post-production') {
+    stageHTML =
+      '<div class="step-lbl">Step 5 of 5: Final QA and export</div>' +
+      '<div class="info-box">Check every box. When all pass, export the final file and upload to platforms. Then tap STEP COMPLETE below.</div>' +
+      '<div class="prompt-box"><div class="prompt-text">Pre-post checklist:\n1. Audio levels: narration 0dB, music -12dB, no peaking\n2. Intro clip cuts cleanly to animation\n3. Title card visible at end\n4. Total length 60-180 seconds\n5. Export 9:16 vertical, 1080x1920\n6. Caption written (logline + hashtags)</div></div>';
+  }
+
   div.innerHTML =
-    '<div class="priority-flag">CURRENT PRIORITY: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo; (' + stage + ')</div>' +
-    '<div class="step-lbl">Step 1 -- Record narration for ElevenLabs</div>' +
-    '<div class="info-box">Open ElevenLabs. Select the LDAG narrator voice. Read these lines in your own voice. Use narration enhancement. Export as M4A or WAV.</div>' +
-    (narration
-      ? '<div class="prompt-box"><div class="prompt-text" id="' + sid + '">' + esc(narration) + '</div><button class="copy-btn" onclick="cp(\'' + sid + '\',this,\'COPY NARRATION LINES\')">COPY NARRATION LINES</button></div>'
-      : '<div class="concept-notice">Narration lines not yet written for this episode.</div>') +
-    (opusPrompt
-      ? '<div class="step-lbl">Step 2 -- Visual brief for Opus Agent</div><div class="info-box">Paste directly into Opus Agent. No Claude needed.</div><div class="prompt-box"><div class="prompt-text" id="' + oid + '">' + esc(opusPrompt) + '</div><button class="copy-btn" onclick="cp(\'' + oid + '\',this,\'COPY OPUS PROMPT\')">COPY OPUS AGENT PROMPT</button></div>'
-      : '<div class="concept-notice">No Opus prompt yet for this episode -- scripting session needed.</div>') +
-    (mx && mx.seed
-      ? '<div class="step-lbl">Step 3 -- Generate music in Suno</div><div class="info-box">Open Suno. Paste the seed below into the Lyrics field. Paste the Style string (in the episode\'s Music tab) into the Style field. Generate.</div><div class="prompt-box"><div class="prompt-text" id="' + sud + '">' + esc(mx.seed) + '</div><button class="copy-btn" onclick="cp(\'' + sud + '\',this,\'COPY SUNO SEED\')">COPY SUNO SEED (LYRICS FIELD)</button></div>'
-      : '<div class="concept-notice">No Suno seed yet for this episode.</div>') +
-    '<div style="padding:12px 0 0;"><button class="advance-btn" onclick="advanceCard2Ep(\'' + ep.id + '\')">DONE WITH THIS ONE -- ADVANCE STAGE &amp; SHOW NEXT</button></div>';
+    '<div class="priority-flag">STEP ' + num + ' OF 5: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo; (' + SL[stage] + ')</div>' +
+    stageHTML +
+    '<div style="padding:12px 0 0;"><button class="advance-btn" onclick="advanceCard2Ep(\'' + ep.id + '\')">STEP COMPLETE -- ADVANCE STAGE &amp; SHOW NEXT</button></div>';
+}
+
+function renderCard4() {
+  const div = document.getElementById('card4-content');
+  if (!div) return;
+  // Find next episode needing music (at animation stage -- Opus done, Suno next)
+  const ep = episodes.find(e => state[e.id] === 'animation');
+  const mx = ep ? MUSIC_DATA[ep.id] : null;
+  const cleanTitle = ep ? ep.title.replace(/["""]/g,'').trim() : '';
+  let html = '';
+
+  if (ep && mx) {
+    const std = 'c4st' + ep.id;
+    const sud = 'c4su' + ep.id;
+    html =
+      '<div class="priority-flag">NEXT SONG: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo;</div>' +
+      '<div class="info-box">Animation is done for this episode. Open Suno. Paste Style into the Style field, Seed into the Lyrics field. Generate and download. Then advance this episode to Music stage.</div>' +
+      '<div class="prompt-box"><div class="step-lbl" style="margin-top:0; margin-bottom:6px;">Style Field</div><div class="prompt-text" id="' + std + '">' + esc(mx.style) + '</div><button class="copy-btn" onclick="cp(\'' + std + '\',this,\'COPY STYLE\')">COPY STYLE FIELD</button></div>' +
+      '<div class="prompt-box"><div class="step-lbl" style="margin-top:0; margin-bottom:6px;">Lyrics Seed (190 chars)</div><div class="prompt-text" id="' + sud + '">' + esc(mx.seed) + '</div><button class="copy-btn" onclick="cp(\'' + sud + '\',this,\'COPY SEED\')">COPY SUNO SEED</button></div>';
+  } else if (ep && !mx) {
+    // Episode at animation stage but no MUSIC_DATA -- use song-writer skill
+    const pid = 'c4p' + ep.id;
+    const skillPrompt = 'Load this skill and follow its instructions exactly:\n~/.claude/skills/ldag-song-writer/SKILL.md\n\nEpisode: ' + ep.id + ' -- ' + cleanTitle + '\nConcept: ' + ep.logline + '\nSeason: 1 (1980s)\nExisting hook (if any): [leave blank or paste]';
+    html =
+      '<div class="priority-flag">NEXT SONG: &ldquo;' + cleanTitle.toUpperCase() + '&rdquo;</div>' +
+      '<div class="info-box">No Suno data embedded for this episode yet. Use the ldag-song-writer skill to generate style, lyrics, and seed. Paste the prompt below into a new Cowork chat.</div>' +
+      '<div class="prompt-box"><div class="prompt-text" id="' + pid + '">' + esc(skillPrompt) + '</div><button class="copy-btn" onclick="cp(\'' + pid + '\',this,\'COPY PROMPT\')">COPY SKILL PROMPT</button></div>';
+  } else {
+    // No episode at animation stage
+    html =
+      '<div class="info-box">No episodes are currently at the Animation stage. Advance an episode through Narration and Animation first, then return here for the Suno prompts.</div>' +
+      '<div class="step-lbl" style="margin-top:16px;">Or build a song for a new episode using the skill:</div>' +
+      '<div class="prompt-box"><div class="prompt-text" id="p4sk">Load this skill and follow its instructions exactly:\n~/.claude/skills/ldag-song-writer/SKILL.md\n\nI need a song for this episode:\nTitle: [EPISODE TITLE]\nConcept: [2-3 sentences on what the episode is about]\nSeason: 1 (1980s)\nExisting hook (if any): [paste any Suno-generated lyrics here, or leave blank]</div><button class="copy-btn" onclick="cp(\'p4sk\',this,\'COPY THIS PROMPT\')">COPY THIS PROMPT</button></div>';
+  }
+  div.innerHTML = html;
 }
 
 function advanceCard2Ep(epId) {
