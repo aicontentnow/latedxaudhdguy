@@ -2146,13 +2146,31 @@ function renderCard2() {
   // Card 2 only covers creation steps: scripted, narration, animation, music
   // post-production lives inside the episode detail panel -- not here
   const actionable = ['scripted','narration','animation','music'];
-  const sorted = [...episodes].sort((a,b) => {
-    const aPri = (a.priority && actionable.includes(state[a.id])) ? 0 : 1;
-    const bPri = (b.priority && actionable.includes(state[b.id])) ? 0 : 1;
-    if (aPri !== bPri) return aPri - bPri;
-    return SO[state[a.id]||'concept'] - SO[state[b.id]||'concept'];
-  });
-  const ep = sorted.find(e => actionable.includes(state[e.id] || 'concept'));
+
+  let ep = null;
+
+  // PIN MECHANISM: stay on the active episode through all 4 steps
+  // Only release the pin when the episode exits actionable stages (moves to post-production)
+  if (card2ActiveEpId) {
+    const pinned = episodes.find(e => e.id === card2ActiveEpId);
+    if (pinned && actionable.includes(state[pinned.id] || 'concept')) {
+      ep = pinned;
+    } else {
+      card2ActiveEpId = null; // episode moved to post-production -- release pin
+    }
+  }
+
+  // No pin or pin released: find best episode by sort and auto-pin it
+  if (!ep) {
+    const sorted = [...episodes].sort((a,b) => {
+      const aPri = (a.priority && actionable.includes(state[a.id])) ? 0 : 1;
+      const bPri = (b.priority && actionable.includes(state[b.id])) ? 0 : 1;
+      if (aPri !== bPri) return aPri - bPri;
+      return SO[state[a.id]||'concept'] - SO[state[b.id]||'concept'];
+    });
+    ep = sorted.find(e => actionable.includes(state[e.id] || 'concept'));
+    if (ep) card2ActiveEpId = ep.id; // auto-pin
+  }
 
   if (!ep) {
     div.innerHTML = '<div class="priority-flag" style="color:#555;font-size:13px;">No episodes need creation work right now. Episodes in Post-Production or later: check individual episode cards in the Episodes tab.</div>';
@@ -2165,14 +2183,14 @@ function renderCard2() {
   const num = stageNum[stage] || '?';
   const advanceLabel = stage === 'music'
     ? 'MUSIC DONE -- SEND TO POST-PRODUCTION'
-    : 'STEP COMPLETE -- ADVANCE STAGE &amp; SHOW NEXT';
+    : 'STEP COMPLETE -- ADVANCE TO NEXT STEP';
   let stageHTML = '';
 
   if (stage === 'scripted') {
     const narration = NARRATION_LINES[ep.id] || '';
     const sid = 'c2s' + ep.id;
     stageHTML =
-      '<div class="step-lbl">Step 1 of 5: Record narration for ElevenLabs</div>' +
+      '<div class="step-lbl">Step 1 of 4: Record narration for ElevenLabs</div>' +
       '<div class="info-box">Open ElevenLabs. Select the LDAG narrator voice. Read these lines in your own voice. Use narration enhancement. Export M4A or WAV. Then tap STEP COMPLETE below.</div>' +
       (narration
         ? '<div class="prompt-box"><div class="prompt-text" id="' + sid + '">' + esc(narration) + '</div><button class="copy-btn" onclick="cp(\'' + sid + '\',this,\'COPY NARRATION LINES\')">COPY NARRATION LINES</button></div>'
@@ -2181,7 +2199,7 @@ function renderCard2() {
     const opusPrompt = getVisualOnlyPrompt(ep.id);
     const oid = 'c2o' + ep.id;
     stageHTML =
-      '<div class="step-lbl">Step 2 of 5: Visual brief for Opus Agent</div>' +
+      '<div class="step-lbl">Step 2 of 4: Visual brief for Opus Agent</div>' +
       '<div class="info-box">Paste into Opus Agent. Upload your ElevenLabs narration audio as the second input. Opus generates the animation. Then tap STEP COMPLETE below.</div>' +
       (opusPrompt
         ? '<div class="prompt-box"><div class="prompt-text" id="' + oid + '">' + esc(opusPrompt) + '</div><button class="copy-btn" onclick="cp(\'' + oid + '\',this,\'COPY OPUS PROMPT\')">COPY OPUS AGENT PROMPT</button></div>'
@@ -2191,7 +2209,7 @@ function renderCard2() {
     const std = 'c2st' + ep.id;
     const sud = 'c2su' + ep.id;
     stageHTML =
-      '<div class="step-lbl">Step 3 of 5: Generate music in Suno</div>' +
+      '<div class="step-lbl">Step 3 of 4: Generate music in Suno</div>' +
       '<div class="info-box">Open Suno. Paste Style into the Style field. Paste the Seed into the Lyrics field. Generate and download. Then tap STEP COMPLETE below.</div>' +
       (mx
         ? '<div class="prompt-box"><div class="step-lbl" style="margin-top:0; margin-bottom:6px;">Style Field</div><div class="prompt-text" id="' + std + '">' + esc(mx.style) + '</div><button class="copy-btn" onclick="cp(\'' + std + '\',this,\'COPY STYLE\')">COPY STYLE FIELD</button></div>' +
@@ -2249,8 +2267,8 @@ function advanceCard2Ep(epId) {
   const cur = state[epId] || 'concept';
   const idx = STAGES.indexOf(cur);
   if (idx >= 0 && idx < STAGES.length - 1) {
-    jumpTo(epId, STAGES[idx + 1]);
-    renderCard2();
+    card2ActiveEpId = epId; // pin BEFORE advancing so renderCard2 stays on this episode
+    jumpTo(epId, STAGES[idx + 1]); // jumpTo calls renderAll which calls renderCard2
   }
 }
 
@@ -2376,6 +2394,7 @@ function cpTeam(id, btn) {
 
 /* ---- REVISION SYSTEM ---- */
 const revisionTypes = {}; // stores selected type per episode, defaults to 'narration'
+let card2ActiveEpId = null; // pins Card 2 to the episode being worked on -- cleared when episode exits actionable stages
 
 function selectRevType(epId, type, btn) {
   revisionTypes[epId] = type;
