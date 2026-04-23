@@ -2268,7 +2268,8 @@ function advanceCard2Ep(epId) {
   const idx = STAGES.indexOf(cur);
   if (idx >= 0 && idx < STAGES.length - 1) {
     card2ActiveEpId = epId; // pin BEFORE advancing so renderCard2 stays on this episode
-    jumpTo(epId, STAGES[idx + 1]); // jumpTo calls renderAll which calls renderCard2
+    jumpTo(epId, STAGES[idx + 1]); // updates state, saves, calls renderAll (episodes/sidebar/counts)
+    renderCard2(); // renderAll does NOT call renderCard2 -- must call explicitly
   }
 }
 
