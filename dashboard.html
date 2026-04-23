@@ -2107,12 +2107,17 @@ const OPUS_PROMPTS = {
 };
 
 function getVisualOnlyPrompt(epId) {
-  // Opus Agent receives VISUAL DIRECTION ONLY -- no narration text.
+  // Opus Agent receives VISUAL DIRECTION ONLY.
+  // No narration text, no quoted dialogue, no "voice" lines.
   // Narration is recorded separately and uploaded as audio to Opus.
-  // Including narration as text AND audio creates conflicts in Opus output.
   let prompt = OPUS_PROMPTS[epId] || '';
-  const narration = NARRATION_LINES[epId];
-  if (narration) prompt = prompt.replace(narration, '').trim();
+  // Strip any quoted block at the end of the prompt that is 40+ characters.
+  // All OPUS_PROMPTS contain narration quotes at the end -- this removes them.
+  // Short in-line quotes (album labels, sign text etc) are preserved as they are under 40 chars.
+  prompt = prompt.replace(/\s+"[^"]{40,}"[\s.]*$/, '').trim();
+  // Also strip any remaining standalone quoted line anywhere in the prompt
+  // (catches edge cases where narration appears mid-prompt)
+  prompt = prompt.replace(/\s*"[^"]{80,}"\s*/g, ' ').trim();
   return prompt;
 }
 
