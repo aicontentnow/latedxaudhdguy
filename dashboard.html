@@ -2108,16 +2108,35 @@ const OPUS_PROMPTS = {
 
 function getVisualOnlyPrompt(epId) {
   // Opus Agent receives VISUAL DIRECTION ONLY.
-  // No narration text, no quoted dialogue, no "voice" lines.
-  // Narration is recorded separately and uploaded as audio to Opus.
+  // No narration, no dialogue, no character voice lines of any kind.
+  // Narration audio is uploaded separately to Opus -- text duplication breaks the output.
   let prompt = OPUS_PROMPTS[epId] || '';
-  // Strip any quoted block at the end of the prompt that is 40+ characters.
-  // All OPUS_PROMPTS contain narration quotes at the end -- this removes them.
-  // Short in-line quotes (album labels, sign text etc) are preserved as they are under 40 chars.
-  prompt = prompt.replace(/\s+"[^"]{40,}"[\s.]*$/, '').trim();
-  // Also strip any remaining standalone quoted line anywhere in the prompt
-  // (catches edge cases where narration appears mid-prompt)
-  prompt = prompt.replace(/\s*"[^"]{80,}"\s*/g, ' ').trim();
+
+  // Strategy: narration quotes always appear as the LAST quoted block in the prompt.
+  // Find the last closing quote character (straight or curly) in the string.
+  // Walk backward to its opening quote. If the block is 42+ chars it is narration -- strip it.
+  // This handles straight quotes (") and curly/smart quotes (\u201c \u201d).
+  const CLOSE_QUOTES = ['"', '\u201d', '\u2019'];
+  const OPEN_QUOTES  = ['"', '\u201c', '\u2018'];
+
+  let lastClose = -1;
+  for (let i = prompt.length - 1; i >= 0; i--) {
+    if (CLOSE_QUOTES.includes(prompt[i])) { lastClose = i; break; }
+  }
+
+  if (lastClose > 0) {
+    let openPos = -1;
+    for (let i = lastClose - 1; i >= 0; i--) {
+      if (OPEN_QUOTES.includes(prompt[i])) {
+        if (lastClose - i > 42) openPos = i; // only strip if block is long enough to be narration
+        break;
+      }
+    }
+    if (openPos >= 0) {
+      prompt = prompt.substring(0, openPos).trim();
+    }
+  }
+
   return prompt;
 }
 
